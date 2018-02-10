@@ -10,6 +10,7 @@ namespace MotionProfileMapper
     class Points
     {
         private List<Point> pts = new List<Point>();
+        private List<double> defVelMap = new List<double>();
 
         public float x(int idx)
         {
@@ -18,7 +19,7 @@ namespace MotionProfileMapper
         public List<float> x()
         {
             List<float> r = new List<float>();
-            foreach(Point p in pts)
+            foreach (Point p in pts)
             {
                 r.Add(p.X);
             }
@@ -49,7 +50,7 @@ namespace MotionProfileMapper
 
         public void add(float[] x, float[] y)
         {
-            for (int i = 0; i <= x.Length-1; i++)
+            for (int i = 0; i <= x.Length - 1; i++)
             {
                 pts.Add(new Point((int)x[i], (int)y[i]));
             }
@@ -58,6 +59,44 @@ namespace MotionProfileMapper
         public void clear()
         {
             pts.Clear();
+        }
+
+        public float length()
+        {
+            return (float)length(0, pts.Count() - 1);
+        }
+
+        public float length(int startPt, int endPt)
+        {
+            float eSplineLength = 0;
+            if (endPt > pts.Count() - 1)
+            {
+                endPt = pts.Count() - 1;
+            }
+            if (startPt < 0)
+            {
+                startPt = 0;
+            }
+            for (int i = startPt; i < endPt; i++)
+            {
+                eSplineLength = eSplineLength + (float)Math.Sqrt(Math.Pow((pts[i + 1].X - pts[i].X), 2) +
+                    Math.Pow((pts[i + 1].Y - pts[i].Y), 2));
+            }
+            return eSplineLength;
+        }
+
+        public double seqAngle(int fX, int fY, int sX, int sY, int tX, int tY)
+        {
+            // a^2 = b^2 + c^2 - 2(a)(b)cos(A)
+            // A = arccos( (a^2-b^2-c^2) )
+            //             -------------
+            //               -2(b)(c)
+            double a2 = Math.Pow(tX - sX, 2) + Math.Pow(tY - sY, 2);  // these aren't squared because
+            double b2 = Math.Pow(tX - fX, 2) + Math.Pow(tY - fY, 2);  // they cancel with the distance formule
+            double c2 = Math.Pow(sX - fX, 2) + Math.Pow(sY - fY, 2);  // square roots
+            double tempA = (a2 - b2 - c2) / (-2 * Math.Sqrt(b2) * Math.Sqrt(c2));
+            double angle = Math.Acos(tempA);
+            return angle;
         }
     }
 
@@ -70,40 +109,39 @@ namespace MotionProfileMapper
         public Points rightTrack = new Points();
 
         public int trackwidth = 600;
-        public int resolution = 1000;
+        public int resolution = 100;
 
         public void Create()
         {
             float[] xs, ys;
 
-            int eSplineLength = resolution;
-            foreach (Point p in controlPoints.points())
+            int eSplineLength = (int)controlPoints.length();
+
+            if(eSplineLength > 0)
             {
-                eSplineLength = eSplineLength + (int)Math.Sqrt(p.X * p.X + p.Y * p.Y);
-            }
+                //clear out the previous point
+                spline.clear();
+                rightTrack.clear();
+                leftTrack.clear();
 
-            //clear out the previous point
-            spline.clear();
-            rightTrack.clear();
-            leftTrack.clear();
+                //Create spline for center of the bot
+                TestMySpline.CubicSpline.FitParametric(controlPoints.x().ToArray(), controlPoints.y().ToArray(), eSplineLength / resolution, out xs, out ys);
+                spline.add(xs, ys);
 
-            //Create spline for center of the bot
-            TestMySpline.CubicSpline.FitParametric(controlPoints.x().ToArray(), controlPoints.y().ToArray(), eSplineLength/resolution, out xs, out ys);
-            spline.add(xs, ys);
+                //calculate the tangent to the line for the left and right track
+                for (int i = 1; i < spline.points().Count; i++)
+                {
+                    float x = spline.x(i) - spline.x(i - 1);
+                    float y = spline.y(i) - spline.y(i - 1);
 
-            //calculate the tangent to the line for the left and right track
-            for (int i = 1; i < spline.points().Count; i++)
-            {
-                float x = spline.x(i) - spline.x(i-1);
-                float y = spline.y(i) - spline.y(i-1);
+                    double z = -Math.Sqrt(x * x + y * y);
+                    int my = -(int)(trackwidth / 2 / z * x);
+                    int mx = (int)(trackwidth / 2 / z * y);
 
-                double z = -Math.Sqrt( x*x + y*y);
-                int my = -(int)(trackwidth/2 / z * x);
-                int mx = (int)(trackwidth/2 / z * y);
-
-                //Create track points 
-                rightTrack.add(new Point((int)(spline.x(i) + mx), (int)(spline.y(i) + my)));
-                leftTrack.add(new Point((int)(spline.x(i) - mx), (int)(spline.y(i) - my)));
+                    //Create track points 
+                    rightTrack.add(new Point((int)(spline.x(i) + mx), (int)(spline.y(i) + my)));
+                    leftTrack.add(new Point((int)(spline.x(i) - mx), (int)(spline.y(i) - my)));
+                }
             }
             
         }
