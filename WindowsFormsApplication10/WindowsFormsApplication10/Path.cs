@@ -9,8 +9,13 @@ namespace MotionProfileMapper
 {
     class Points
     {
-        private List<Point> pts = new List<Point>();
-        private List<double> defVelMap = new List<double>();
+        public List<Point> pts = new List<Point>();
+        public List<double> defVelMap = new List<double>();
+
+        public Points()
+        {
+            fillVel();
+        }
 
         public float x(int idx)
         {
@@ -98,6 +103,25 @@ namespace MotionProfileMapper
             double angle = Math.Acos(tempA);
             return angle;
         }
+
+        public void fillVel()
+        {  //5400mms
+            int size10 = pts.Count() / 10;
+            int middle = pts.Count() - (2 * size10);
+            double jumpSize = 5400 / size10;
+            for(int i = 1; i <= size10; i++)
+            {
+                defVelMap[i - 1] = i * jumpSize;
+            }
+            for(int i = 0; i < middle; i++)
+            {
+                defVelMap[size10 + i] = 5400;
+            }
+            for(int i = 1; i <= size10; i++)
+            {
+                defVelMap[size10 + middle + i - 1] = (5400 - i * jumpSize);
+            }
+        }
     }
 
 
@@ -144,6 +168,50 @@ namespace MotionProfileMapper
                 }
             }
             
+        }
+
+        public void write()
+        {
+            using (System.IO.StreamWriter writetext = new System.IO.StreamWriter("test.java"))
+            {
+                writetext.WriteLine("package org.usfirst.frc.team3539.robot.profiles;");
+                writetext.WriteLine("public class <> {");
+                writetext.WriteLine("   public static final int kNumPoints = " + leftTrack.pts.Count() + ";");
+                writetext.WriteLine("   public static double PointsL[][] = new double[][] {");
+                for(int i = 0; i < leftTrack.pts.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        writetext.WriteLine("       0, 0, 10");
+                    }
+                    else if (i == leftTrack.pts.Count() - 1)
+                    {
+                        writetext.WriteLine("       {" + leftTrack.length(i - 1, i) + leftTrack.defVelMap[i] + "10}};");
+                    }
+                    else
+                    {
+                        writetext.WriteLine("       {" + leftTrack.length(i-1, i) + leftTrack.defVelMap[i] + "10},");
+                    }
+                }
+                writetext.WriteLine("");
+                writetext.WriteLine("   public static double PointsR[][] = new double[][] {");
+                for (int i = 0; i < rightTrack.pts.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        writetext.WriteLine("       0, 0, 10");
+                    }
+                    else if (i == rightTrack.pts.Count() - 1)
+                    {
+                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + rightTrack.defVelMap[i] + "10}};");
+                    }
+                    else
+                    {
+                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + rightTrack.defVelMap[i] + "10},");
+                    }
+                }
+                writetext.WriteLine("}");
+            }
         }
     }
 }
