@@ -10,11 +10,17 @@ namespace MotionProfileMapper
     class Points
     {
         public List<Point> pts = new List<Point>();
-        public double[] defVelMap;
+        public double[] defVelMap; // default
+        public double[] velMap; // not used yet
+        public int[] defTimeMap; // default (matched with defVelMap)
+        public int[] timeMap; // not used yet (matched with velMap)
+
+        public double[] distancesBtPts; // from [index-1] to [index], so first is always zero
 
         public Points()
         {
             //fillVel();
+            fillDistances();
         }
 
         public float x(int idx)
@@ -104,7 +110,7 @@ namespace MotionProfileMapper
             return angle;
         }
 
-        public void fillVel()
+        public void fillDefVel()
         {  //5400mms
             defVelMap = new double[pts.Count()];
             int size10 = pts.Count() / 10;
@@ -121,6 +127,44 @@ namespace MotionProfileMapper
             for(int i = 1; i <= size10; i++)
             {
                 defVelMap[size10 + middle + i - 1] = (5400 - i * jumpSize);
+            }
+        }
+
+        public void fillDistances()
+        {
+            defTimeMap = new int[pts.Count()];
+            for(int i = 0; i < pts.Count(); i++)
+            {
+                if(i == 0)
+                {
+                    distancesBtPts[i] = 0;
+                }
+                else
+                {
+                    distancesBtPts[i] = length(i-1, i);
+                }
+            }
+        }
+
+        public void fillDefTime() // always run after fillDefVel, mm / mm/s
+        {
+            for(int i = 0; i < pts.Count(); i++)
+            {
+                if(i == 0)
+                {
+                    defTimeMap[i] = 0;
+                }
+                else
+                {
+                    if (defVelMap[i] == 0)
+                    {
+                        defTimeMap[i] = 0;
+                    }
+                    else
+                    {
+                        defTimeMap[i] = (int)(distancesBtPts[i] / defVelMap[i]);
+                    }
+                }
             }
         }
     }
@@ -174,8 +218,10 @@ namespace MotionProfileMapper
 
         public void write(String fileName)
         {
-            leftTrack.fillVel();
-            rightTrack.fillVel();
+            leftTrack.fillDefVel();
+            rightTrack.fillDefVel();
+            leftTrack.fillDefTime();
+            rightTrack.fillDefTime();
 
             using (System.IO.StreamWriter writetext = new System.IO.StreamWriter(fileName))
             {
@@ -183,7 +229,7 @@ namespace MotionProfileMapper
                 writetext.WriteLine("public class test {");
                 writetext.WriteLine("   public static final int kNumPoints = " + leftTrack.pts.Count() + ";");
                 writetext.WriteLine("   public static double PointsL[][] = new double[][] {");
-                for(int i = 0; i < leftTrack.pts.Count(); i++)
+                for(int i = 0; i < leftTrack.pts.Count(); i++) //CONVERT LENGTH FINDING TO PREMADE ARRAY, SUBSTITUTE TIME VALUES TO REAL TIMES (todo)
                 {
                     if (i == 0)
                     {
