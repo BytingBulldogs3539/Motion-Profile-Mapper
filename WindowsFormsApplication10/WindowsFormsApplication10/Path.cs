@@ -10,11 +10,11 @@ namespace MotionProfileMapper
     class Points
     {
         public List<Point> pts = new List<Point>();
-        public List<double> defVelMap = new List<double>();
+        public double[] defVelMap;
 
         public Points()
         {
-            fillVel();
+            //fillVel();
         }
 
         public float x(int idx)
@@ -106,6 +106,7 @@ namespace MotionProfileMapper
 
         public void fillVel()
         {  //5400mms
+            defVelMap = new double[pts.Count()];
             int size10 = pts.Count() / 10;
             int middle = pts.Count() - (2 * size10);
             double jumpSize = 5400 / size10;
@@ -167,11 +168,15 @@ namespace MotionProfileMapper
                     leftTrack.add(new Point((int)(spline.x(i) - mx), (int)(spline.y(i) - my)));
                 }
             }
-            
+            write();
+
         }
 
         public void write()
         {
+            leftTrack.fillVel();
+            rightTrack.fillVel();
+
             using (System.IO.StreamWriter writetext = new System.IO.StreamWriter("test.java"))
             {
                 writetext.WriteLine("package org.usfirst.frc.team3539.robot.profiles;");
