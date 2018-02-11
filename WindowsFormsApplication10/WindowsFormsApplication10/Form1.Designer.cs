@@ -53,10 +53,10 @@
             // 
             this.ApplyButton.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.ApplyButton.Enabled = false;
-            this.ApplyButton.Location = new System.Drawing.Point(0, 982);
-            this.ApplyButton.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.ApplyButton.Location = new System.Drawing.Point(0, 634);
+            this.ApplyButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.ApplyButton.Name = "ApplyButton";
-            this.ApplyButton.Size = new System.Drawing.Size(2025, 55);
+            this.ApplyButton.Size = new System.Drawing.Size(1082, 35);
             this.ApplyButton.TabIndex = 1;
             this.ApplyButton.Text = "Apply";
             this.ApplyButton.UseVisualStyleBackColor = true;
@@ -68,10 +68,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(867, 57);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.pictureBox1.Location = new System.Drawing.Point(488, 37);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(1141, 908);
+            this.pictureBox1.Size = new System.Drawing.Size(643, 587);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 3;
             this.pictureBox1.TabStop = false;
@@ -86,13 +86,13 @@
             this.controlPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.X,
             this.Y});
-            this.controlPoints.Location = new System.Drawing.Point(32, 57);
-            this.controlPoints.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.controlPoints.Location = new System.Drawing.Point(18, 37);
+            this.controlPoints.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.controlPoints.Name = "controlPoints";
             this.controlPoints.RowHeadersWidth = 20;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(379, 910);
+            this.controlPoints.Size = new System.Drawing.Size(213, 587);
             this.controlPoints.TabIndex = 4;
             this.controlPoints.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.controlPoints_RowsAdded);
             this.controlPoints.MouseClick += new System.Windows.Forms.MouseEventHandler(this.controlPoints_MouseClick);
@@ -117,12 +117,12 @@
             this.SplineOutput.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.dataGridViewTextBoxColumn1,
             this.dataGridViewTextBoxColumn2});
-            this.SplineOutput.Location = new System.Drawing.Point(427, 57);
-            this.SplineOutput.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.SplineOutput.Location = new System.Drawing.Point(240, 37);
+            this.SplineOutput.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SplineOutput.Name = "SplineOutput";
             this.SplineOutput.RowHeadersWidth = 20;
             this.SplineOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.SplineOutput.Size = new System.Drawing.Size(424, 910);
+            this.SplineOutput.Size = new System.Drawing.Size(238, 587);
             this.SplineOutput.TabIndex = 4;
             // 
             // dataGridViewTextBoxColumn1
@@ -140,29 +140,29 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(32, 21);
-            this.label2.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label2.Location = new System.Drawing.Point(18, 14);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(107, 32);
+            this.label2.Size = new System.Drawing.Size(60, 20);
             this.label2.TabIndex = 0;
             this.label2.Text = "Control";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(421, 21);
-            this.label3.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label3.Location = new System.Drawing.Point(237, 14);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(101, 32);
+            this.label3.Size = new System.Drawing.Size(58, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Output";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(285, 0);
-            this.button2.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.button2.Location = new System.Drawing.Point(160, 0);
+            this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(125, 52);
+            this.button2.Size = new System.Drawing.Size(70, 34);
             this.button2.TabIndex = 5;
             this.button2.Text = "Save";
             this.button2.UseVisualStyleBackColor = true;
@@ -174,10 +174,10 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(725, 0);
-            this.button3.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.button3.Location = new System.Drawing.Point(408, 0);
+            this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(125, 52);
+            this.button3.Size = new System.Drawing.Size(70, 34);
             this.button3.TabIndex = 5;
             this.button3.Text = "Save";
             this.button3.UseVisualStyleBackColor = true;
@@ -185,10 +185,10 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(155, 0);
-            this.button4.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.button4.Location = new System.Drawing.Point(87, 0);
+            this.button4.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(125, 52);
+            this.button4.Size = new System.Drawing.Size(70, 34);
             this.button4.TabIndex = 5;
             this.button4.Text = "Load";
             this.button4.UseVisualStyleBackColor = true;
@@ -196,9 +196,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(2025, 1037);
+            this.ClientSize = new System.Drawing.Size(1082, 669);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button2);
@@ -209,7 +209,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "3539 Motion Profile Mapper";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -168,16 +168,16 @@ namespace MotionProfileMapper
                     leftTrack.add(new Point((int)(spline.x(i) - mx), (int)(spline.y(i) - my)));
                 }
             }
-            write();
+            //write();
 
         }
 
-        public void write()
+        public void write(String fileName)
         {
             leftTrack.fillVel();
             rightTrack.fillVel();
 
-            using (System.IO.StreamWriter writetext = new System.IO.StreamWriter("test.java"))
+            using (System.IO.StreamWriter writetext = new System.IO.StreamWriter(fileName))
             {
                 writetext.WriteLine("package org.usfirst.frc.team3539.robot.profiles;");
                 writetext.WriteLine("public class test {");

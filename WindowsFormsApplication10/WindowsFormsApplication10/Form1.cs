@@ -19,6 +19,7 @@ namespace MotionProfileMapper
         int padding = 1;
         private float scale = 1;
         int dr = 1;
+        private Path robotPath;
 
         public Form1()
         {
@@ -175,7 +176,7 @@ namespace MotionProfileMapper
             dr = (int)(1.5 * scale);
 
             //create a new path class to calculate the robot path
-            Path p = new Path();
+            robotPath = new Path();
 
             //gather up the control points from the list
             if (controlPoints.Rows.Count > 1)
@@ -185,22 +186,22 @@ namespace MotionProfileMapper
                     if (row.Cells[0].Value != null)
                     {
                         //add the control points to the path and draw them on the bitmap
-                        p.controlPoints.add(new Point(int.Parse(row.Cells[0].Value.ToString()),int.Parse(row.Cells[1].Value.ToString())));
+                        robotPath.controlPoints.add(new Point(int.Parse(row.Cells[0].Value.ToString()),int.Parse(row.Cells[1].Value.ToString())));
                         g.FillEllipse(Brushes.Red, new Rectangle(int.Parse(row.Cells[1].Value.ToString()) - dr * 2, int.Parse(row.Cells[0].Value.ToString()) - dr * 2, dr * 4, dr * 4));
                     }
                 }
 
                 //create the path. Add other path parameters if needed before calling create.
-                p.Create();
+                robotPath.Create();
 
                 //clear out any old sline calculations and add in the new ones while drawing them on the bitmap. 
                 SplineOutput.Rows.Clear();
-                for (int i = 0; i < p.spline.points().Count-1; i++)
+                for (int i = 0; i < robotPath.spline.points().Count-1; i++)
                 {
-                    SplineOutput.Rows.Add(p.spline.x(i), p.spline.y(i));
-                    g.FillEllipse(Brushes.Aqua, new Rectangle((int)p.spline.y(i) - dr, (int)p.spline.x(i) - dr, dr * 2, dr * 2));
-                    g.FillEllipse(Brushes.Blue, new Rectangle((int)p.rightTrack.y(i) - dr, (int)p.rightTrack.x(i) - dr, dr * 2, dr * 2));
-                    g.FillEllipse(Brushes.Blue, new Rectangle((int)p.leftTrack.y(i) - dr, (int)p.leftTrack.x(i) - dr, dr * 2, dr * 2));
+                    SplineOutput.Rows.Add(robotPath.spline.x(i), robotPath.spline.y(i));
+                    g.FillEllipse(Brushes.Aqua, new Rectangle((int)robotPath.spline.y(i) - dr, (int)robotPath.spline.x(i) - dr, dr * 2, dr * 2));
+                    g.FillEllipse(Brushes.Blue, new Rectangle((int)robotPath.rightTrack.y(i) - dr, (int)robotPath.rightTrack.x(i) - dr, dr * 2, dr * 2));
+                    g.FillEllipse(Brushes.Blue, new Rectangle((int)robotPath.leftTrack.y(i) - dr, (int)robotPath.leftTrack.x(i) - dr, dr * 2, dr * 2));
                 }
             }
 
@@ -253,6 +254,13 @@ namespace MotionProfileMapper
             DialogResult results = saveFileDialog1.ShowDialog();
             if (results == DialogResult.OK )
             {
+                if (robotPath.controlPoints.length() > 0)
+                {
+                    String fileName = saveFileDialog1.FileName;
+                    robotPath.write(fileName);
+                }
+
+                /*  VanCode
                 using (var writer = new System.IO.StreamWriter(saveFileDialog1.FileName))
                 {
                     foreach(DataGridViewRow row in SplineOutput.Rows )
@@ -263,7 +271,7 @@ namespace MotionProfileMapper
                         }
                     }
                 }
-
+                */
             }
         }
 
