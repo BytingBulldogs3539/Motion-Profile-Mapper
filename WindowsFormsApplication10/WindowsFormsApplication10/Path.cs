@@ -187,15 +187,15 @@ namespace MotionProfileMapper
                 {
                     if (i == 0)
                     {
-                        writetext.WriteLine("       0, 0, 10");
+                        writetext.WriteLine("       {0, 0, 10},");
                     }
                     else if (i == leftTrack.pts.Count() - 1)
                     {
-                        writetext.WriteLine("       {" + leftTrack.length(i - 1, i) + leftTrack.defVelMap[i] + "10}};");
+                        writetext.WriteLine("       {" + leftTrack.length(i - 1, i) + ", " + leftTrack.defVelMap[i] + ", " + "10}};");
                     }
                     else
                     {
-                        writetext.WriteLine("       {" + leftTrack.length(i-1, i) + leftTrack.defVelMap[i] + "10},");
+                        writetext.WriteLine("       {" + leftTrack.length(i-1, i) + ", " + leftTrack.defVelMap[i] + ", " + "10},");
                     }
                 }
                 writetext.WriteLine("");
@@ -204,15 +204,15 @@ namespace MotionProfileMapper
                 {
                     if (i == 0)
                     {
-                        writetext.WriteLine("       0, 0, 10");
+                        writetext.WriteLine("       {0, 0, 10},");
                     }
                     else if (i == rightTrack.pts.Count() - 1)
                     {
-                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + rightTrack.defVelMap[i] + "10}};");
+                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + ", " + rightTrack.defVelMap[i] + ", " + "10}};");
                     }
                     else
                     {
-                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + rightTrack.defVelMap[i] + "10},");
+                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + ", " + rightTrack.defVelMap[i] + ", " + "10},");
                     }
                 }
                 writetext.WriteLine("}");
