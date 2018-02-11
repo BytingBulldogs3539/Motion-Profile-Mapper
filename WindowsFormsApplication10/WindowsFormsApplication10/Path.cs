@@ -175,7 +175,7 @@ namespace MotionProfileMapper
             using (System.IO.StreamWriter writetext = new System.IO.StreamWriter("test.java"))
             {
                 writetext.WriteLine("package org.usfirst.frc.team3539.robot.profiles;");
-                writetext.WriteLine("public class <> {");
+                writetext.WriteLine("public class test {");
                 writetext.WriteLine("   public static final int kNumPoints = " + leftTrack.pts.Count() + ";");
                 writetext.WriteLine("   public static double PointsL[][] = new double[][] {");
                 for(int i = 0; i < leftTrack.pts.Count(); i++)
