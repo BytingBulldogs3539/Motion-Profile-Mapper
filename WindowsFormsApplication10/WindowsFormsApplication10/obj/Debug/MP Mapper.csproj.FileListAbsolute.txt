@@ -20,3 +20,15 @@ C:\Users\stork\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\
 C:\Users\stork\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MotionProfileMapper.Form1.resources
 C:\Users\stork\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\WindowsFormsApplication10.Properties.Resources.resources
 C:\Users\stork\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MP Mapper.csproj.GenerateResource.Cache
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\bin\Debug\FieldPoints.txt
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\bin\Debug\Path1.txt
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\bin\Debug\WindowsFormsApplication10.exe.config
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\bin\Debug\WindowsFormsApplication10.exe
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\bin\Debug\WindowsFormsApplication10.pdb
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MP Mapper.csprojResolveAssemblyReference.cache
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MotionProfileMapper.Form1.resources
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\WindowsFormsApplication10.Properties.Resources.resources
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MP Mapper.csproj.GenerateResource.Cache
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\MP Mapper.csproj.CoreCompileInputs.cache
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\WindowsFormsApplication10.exe
+C:\Users\3539\Documents\GitHub\Motion-Profile-Mapper\WindowsFormsApplication10\WindowsFormsApplication10\obj\Debug\WindowsFormsApplication10.pdb
