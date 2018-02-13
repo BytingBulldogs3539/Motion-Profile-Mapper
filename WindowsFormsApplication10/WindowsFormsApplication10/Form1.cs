@@ -260,7 +260,7 @@ namespace MotionProfileMapper
                     robotPath.write(fileName);
                 }
 
-                /*  VanCode
+                /*  VanCode (no longer needed, kept here because why not)
                 using (var writer = new System.IO.StreamWriter(saveFileDialog1.FileName))
                 {
                     foreach(DataGridViewRow row in SplineOutput.Rows )

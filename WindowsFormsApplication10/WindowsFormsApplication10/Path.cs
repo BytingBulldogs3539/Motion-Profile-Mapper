@@ -19,8 +19,8 @@ namespace MotionProfileMapper
 
         public Points()
         {
-            //fillVel();
-            fillDistances();
+            //fillVel(); // dont do this
+            fillDistances(); // should make a zero length array, to be filled later by write() in Path class
         }
 
         public float x(int idx)
@@ -132,7 +132,7 @@ namespace MotionProfileMapper
 
         public void fillDistances()
         {
-            defTimeMap = new int[pts.Count()];
+            distancesBtPts = new double[pts.Count()];
             for(int i = 0; i < pts.Count(); i++)
             {
                 if(i == 0)
@@ -146,8 +146,9 @@ namespace MotionProfileMapper
             }
         }
 
-        public void fillDefTime() // always run after fillDefVel, mm / mm/s
+        public void fillDefTime() // always run after fillDefVel() and distance bt points, mm / mm/s
         {
+            defTimeMap = new int[pts.Count()];
             for(int i = 0; i < pts.Count(); i++)
             {
                 if(i == 0)
@@ -162,7 +163,7 @@ namespace MotionProfileMapper
                     }
                     else
                     {
-                        defTimeMap[i] = (int)(distancesBtPts[i] / defVelMap[i]);
+                        defTimeMap[i] = (int) ( (distancesBtPts[i] / defVelMap[i]) * 1000 );
                     }
                 }
             }
@@ -218,6 +219,8 @@ namespace MotionProfileMapper
 
         public void write(String fileName)
         {
+            leftTrack.fillDistances();
+            rightTrack.fillDistances();
             leftTrack.fillDefVel();
             rightTrack.fillDefVel();
             leftTrack.fillDefTime();
@@ -229,7 +232,8 @@ namespace MotionProfileMapper
                 writetext.WriteLine("public class test {");
                 writetext.WriteLine("   public static final int kNumPoints = " + leftTrack.pts.Count() + ";");
                 writetext.WriteLine("   public static double PointsL[][] = new double[][] {");
-                for(int i = 0; i < leftTrack.pts.Count(); i++) //CONVERT LENGTH FINDING TO PREMADE ARRAY, SUBSTITUTE TIME VALUES TO REAL TIMES (todo)
+
+                for (int i = 0; i < leftTrack.pts.Count(); i++) //CONVERT LENGTH FINDING TO PREMADE ARRAY, SUBSTITUTE TIME VALUES TO REAL TIMES (todo)
                 {
                     if (i == 0)
                     {
@@ -237,11 +241,11 @@ namespace MotionProfileMapper
                     }
                     else if (i == leftTrack.pts.Count() - 1)
                     {
-                        writetext.WriteLine("       {" + leftTrack.length(i - 1, i) + ", " + leftTrack.defVelMap[i] + ", " + "10}};");
+                        writetext.WriteLine("       {" + leftTrack.distancesBtPts[i] + ", " + leftTrack.defVelMap[i] + ", " + leftTrack.defTimeMap[i] + "}};");
                     }
                     else
                     {
-                        writetext.WriteLine("       {" + leftTrack.length(i-1, i) + ", " + leftTrack.defVelMap[i] + ", " + "10},");
+                        writetext.WriteLine("       {" + leftTrack.distancesBtPts[i] + ", " + leftTrack.defVelMap[i] + ", " + leftTrack.defTimeMap[i] + "},");
                     }
                 }
                 writetext.WriteLine("");
@@ -254,13 +258,14 @@ namespace MotionProfileMapper
                     }
                     else if (i == rightTrack.pts.Count() - 1)
                     {
-                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + ", " + rightTrack.defVelMap[i] + ", " + "10}};");
+                        writetext.WriteLine("       {" + rightTrack.distancesBtPts[i] + ", " + rightTrack.defVelMap[i] + ", " + rightTrack.defTimeMap[i] + "}};");
                     }
                     else
                     {
-                        writetext.WriteLine("       {" + rightTrack.length(i - 1, i) + ", " + rightTrack.defVelMap[i] + ", " + "10},");
+                        writetext.WriteLine("       {" + rightTrack.distancesBtPts[i] + ", " + rightTrack.defVelMap[i] + ", " + rightTrack.defTimeMap[i] + "},");
                     }
                 }
+
                 writetext.WriteLine("}");
             }
         }
