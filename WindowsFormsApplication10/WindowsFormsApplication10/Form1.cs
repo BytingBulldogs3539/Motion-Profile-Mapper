@@ -257,7 +257,7 @@ namespace MotionProfileMapper
                 if (robotPath.controlPoints.length() > 0)
                 {
                     String fileName = saveFileDialog1.FileName;
-                    robotPath.write(fileName);
+                    robotPath.writeGen(fileName);
                 }
 
                 /*  VanCode (no longer needed, kept here because why not)
@@ -281,15 +281,10 @@ namespace MotionProfileMapper
             DialogResult results = saveFileDialog1.ShowDialog();
             if (results == DialogResult.OK)
             {
-                using (var writer = new System.IO.StreamWriter(saveFileDialog1.FileName))
+                if (robotPath.controlPoints.length() > 0)
                 {
-                    foreach (DataGridViewRow row in controlPoints.Rows)
-                    {
-                        if (row.Cells[0].Value != null)
-                        {
-                            writer.WriteLine(string.Concat(row.Cells[0].Value.ToString(), ",", row.Cells[1].Value.ToString()));
-                        }
-                    }
+                    String fileName = saveFileDialog1.FileName;
+                    robotPath.writeCon(fileName);
                 }
             }
         }

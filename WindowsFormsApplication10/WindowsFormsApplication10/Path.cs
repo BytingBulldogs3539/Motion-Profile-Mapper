@@ -179,7 +179,7 @@ namespace MotionProfileMapper
         public Points rightTrack = new Points();
 
         public int trackwidth = 600;
-        public int resolution = 100;
+        public int resolution = 30;
 
         public void Create()
         {
@@ -217,7 +217,7 @@ namespace MotionProfileMapper
 
         }
 
-        public void write(String fileName)
+        public void writeGen(String fileName)
         {
             leftTrack.fillDistances();
             rightTrack.fillDistances();
@@ -267,6 +267,21 @@ namespace MotionProfileMapper
                 }
 
                 writetext.WriteLine("}");
+            }
+        }
+
+        public void writeCon(String fileName)
+        {
+            using (System.IO.StreamWriter writetext = new System.IO.StreamWriter(fileName))
+            {
+                writetext.WriteLine(fileName);
+
+                for (int i = 0; i < controlPoints.pts.Count(); i++)
+                {
+                    writetext.WriteLine(controlPoints.x(i));
+                    writetext.WriteLine(controlPoints.y(i));
+                }
+
             }
         }
     }
