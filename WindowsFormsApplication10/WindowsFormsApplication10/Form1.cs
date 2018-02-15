@@ -134,7 +134,8 @@ namespace MotionProfileMapper
             Pen bluePen = new Pen(Color.Red , 10);
 
             //create the drawing bitmap
-            Bitmap b = new Bitmap(fieldWidth + padding*2, fieldWidth + padding*2);
+            Bitmap b = new Bitmap(8000, 8000);
+            //Bitmap b = new Bitmap( (int) (fieldWidth + padding*2), (int) (fieldWidth + padding*2));  //just a 32 bit test
             
             //draw the grid on the bitmap
             drawGrid(b, 50);
@@ -232,15 +233,32 @@ namespace MotionProfileMapper
             {
                 using (var reader = new System.IO.StreamReader(openFileDialog1.FileName))
                 {
+                    int i = 0;
+                    int x = 0;
+                    int y = 0;
+
                     controlPoints.Rows.Clear();
                     while (!reader.EndOfStream)
                     {
-                        string line = reader.ReadLine();
+                        i++;
+
+                        if(i % 2 == 1)
+                        {
+                            x = int.Parse(reader.ReadLine());
+                        }
+                        else if(i % 2 == 0)
+                        {
+                            y = int.Parse(reader.ReadLine());
+                            controlPoints.Rows.Add(x, y);
+                        }
+                        
+                        /*
                         if (!line.StartsWith("'"))
                         {
                             List<string> l = line.Split(',').ToList<string>();
                             controlPoints.Rows.Add(int.Parse(l[0]), int.Parse(l[1]));
                         }
+                        */
                     }
                 }
                 
