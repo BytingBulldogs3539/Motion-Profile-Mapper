@@ -1,25 +1,25 @@
-﻿4929,0,533,30			'Power Ups
-4099,4500,30,4000		'Power strip
+﻿4802,0,533,30			'Power Ups
+3972,-500,30,4000		'Power strip
 
 
-2165,3556,3899,1422		'Switch Base
-2222,3594,914,1346,0	'Switch target right
-5102,3594,914,1346,0	'Switch target left
+2038,3022,3924,1422		'Switch Base
+2095,3060,914,1346,0	'Switch target right
+4975,3060,914,1346,0	'Switch target left
 
-2470,6832,3289,1397		'Scale Platform
-1829,8077,4572,152		'Scale
-1829,7620,914,609,0		'Scale target right
-5487,7620,914,609,0		'Scale target left
+2343,-229,3289,1397		'Scale Platform
+1702,-229,4572,152		'Scale
+1702,-229,914,609,0		'Scale target right
+5360,-229,914,609,0		'Scale target left
 
-2222,5000,330,300,1		'block 1
-2935,5000,330,300,1		'block 2
-3648,5000,330,300,1		'block 3
-4361,5000,330,300,1		'block 4
-5074,5000,330,300,1		'block 5
-5734,5000,330,300,1		'block 6
+2095,2700,330,300,1		'block 1
+2808,2700,330,300,1		'block 2
+3521,2700,330,300,1		'block 3
+4234,2700,330,300,1		'block 4
+4947,2700,330,300,1		'block 5
+5607,2700,330,300,1		'block 6
 
-3543,2500,1143,1066,1		'stack of 10 blocks
+3416,4434,1143,1066,1		'stack of 10 blocks
 
-1219,0,711,838,2		'likely right side starting
-3760,0,711,838,2		'likely middle starting
-6299,0,711,838,2		'likely left side starting
+1092,7162,711,838,2		'likely right side starting
+3633,7162,711,838,2		'likely middle starting
+6172,7162,711,838,2		'likely left side starting
