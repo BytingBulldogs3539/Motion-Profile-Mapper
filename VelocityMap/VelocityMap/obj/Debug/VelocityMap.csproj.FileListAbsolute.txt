@@ -1,0 +1,40 @@
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojResolveAssemblyReference.cache
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Form1.resources
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Properties.Resources.resources
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.Cache
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
+c:\users\tvancamp\documents\visual studio 2012\Projects\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojResolveAssemblyReference.cache
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Form1.resources
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Properties.Resources.resources
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.Cache
+C:\Users\stork\Desktop\VelocityMap\VelocityMap\bin\Debug\FieldPoints.txt
+E:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
+E:\vmap2\VelocityMap\VelocityMap\bin\Debug\FieldPoints.txt
+E:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
+E:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojResolveAssemblyReference.cache
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Form1.resources
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Properties.Resources.resources
+E:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.Cache
+G:\vmap2\VelocityMap\VelocityMap\bin\Debug\FieldPoints.txt
+G:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
+G:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
+G:\vmap2\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojResolveAssemblyReference.cache
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Form1.resources
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Properties.Resources.resources
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.Cache
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.CoreCompileInputs.cache
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
+G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
