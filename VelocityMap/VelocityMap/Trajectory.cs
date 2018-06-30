@@ -67,6 +67,15 @@ namespace MotionProfile
 
             return values.ToArray<float>();
         }
+        public float[] getHeadingProfile()
+        {
+            List<float> headings = new List<float>();
+            foreach (Path p in this)
+            {
+                headings.AddRange(p.getHeadingProfile());
+            }
+            return headings.ToArray<float>();
+        }
 
         public List<float> getOffsetVelocityProfile(int offset)
         {

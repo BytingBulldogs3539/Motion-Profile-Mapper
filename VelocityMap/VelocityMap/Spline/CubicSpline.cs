@@ -56,8 +56,8 @@ namespace MotionProfile.Spline
         private float[] b;
 
         // Save the original x and y for Eval
-        private float[] xOrig;
-        private float[] yOrig;
+        public float[] xOrig;
+        public float[] yOrig;
 
         #endregion
 
@@ -430,12 +430,18 @@ namespace MotionProfile.Spline
         public CubicSpline xSpline;
         public CubicSpline ySpline;
 
+        public float[] getxs, getys, getx, gety;
+
         public float[] distance;
+
+        public float totaldist;
 
         public ParametricSpline(float[] x, float[] y, int nOutputPoints, out float[] xs, out float[] ys,
             float firstDx = Single.NaN, float firstDy = Single.NaN, float lastDx = Single.NaN, float lastDy = Single.NaN)
         {
             // Compute distances
+            getx = x;
+            gety = y;
             int n = x.Length;
             float[] dists = new float[n]; // cumulative distance
             dists[0] = 0;
@@ -481,6 +487,10 @@ namespace MotionProfile.Spline
                 totalDist += dist;
                 distance[i] = totalDist;
             }
+            getxs = xs;
+            getys = ys;
+            totaldist = totalDist;
+            
         }
 
         public System.Drawing.PointF Eval(float x, bool debug = false)

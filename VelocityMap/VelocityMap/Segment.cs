@@ -18,14 +18,15 @@ namespace MotionProfile
         public PointF A;
         public PointF B;
         public double length = 0;
+        public double dx, dy;
 
         public Segment(PointF a, PointF b)
         {
             A = a;
             B = b;
 
-            double dx = b.X - a.X;
-            double dy = b.Y - a.Y;
+            dx = b.X - a.X;
+            dy = b.Y - a.Y;
             length = Math.Sqrt(dx * dx + dy * dy);
         }
         public PointF perp(float offset)

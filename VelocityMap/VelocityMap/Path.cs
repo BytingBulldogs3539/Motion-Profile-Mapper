@@ -28,6 +28,7 @@ namespace MotionProfile
         private float[] distance;
         private float[] velocity;
         private float[] time;
+        public float[] heading;
 
         public float[] xs, ys;
 
@@ -42,7 +43,6 @@ namespace MotionProfile
                 controlPointsX.Add(p.X);
                 controlPointsY.Add(p.Y);
             }
-
             path = new Spline.ParametricSpline(controlPointsX.ToArray(), controlPointsY.ToArray(), resolution, out xs, out ys);
             velocityMap.setLength(path.distance.Last());
 
@@ -95,7 +95,10 @@ namespace MotionProfile
                 addControlPoint(x[i], y[i]);
             }
         }
-
+        public void createHeadingMap()
+        {
+            // I created and then deleted this for a really good reason.  -Devon
+        }
         public List<float> getOffsetVelocityProfile2(float offset)
         {
             if (!direction)
@@ -228,9 +231,11 @@ namespace MotionProfile
             List<float> vel = new List<float>();
             List<float> dist = new List<float>();
             List<float> t = new List<float>();
+            List<float> head = new List<float>();
             vel.Add(0);
             t.Add(0);
             dist.Add(0);
+            head.Add(0);
 
             while (dist.Last()  < path.distance.Last())
             {
@@ -244,20 +249,58 @@ namespace MotionProfile
             this.velocity = vel.ToArray();
             this.distance = dist.ToArray();
             this.time = t.ToArray();
+            this.heading = head.ToArray();
 
         }
         public float[] getTimeProfile()
         {
             return this.time;
-
         }
         public float[] getDistanceProfile()
         {
             return this.distance;
         }
+        public float[] getHeadingProfile()
+        {
+            return this.heading;
+        }
         public float[] getVelocityProfile()
         {
             return this.velocity;
+        }
+
+        public float findAngle(PointF point1, PointF point2)
+        {
+            float ang = 0;
+            float chx = point2.X - point1.X;
+            float chy = point2.Y - point1.Y;
+            if(chx > 0)
+            {
+                if(chy > 0)
+                {
+                    // positive x, positive y, 90 - ang
+                    ang = (float) (90 - (Math.Atan(chy / chx)));
+                }
+                else
+                {
+                    // positive x, negative y, 90 + ang
+                    ang = (float)(90 + (Math.Atan(chy / chx)));
+                }
+            }
+            else
+            {
+                if(chy > 0)
+                {
+                    // negative x, positive y, 270 + ang
+                    ang = (float)(270 + (Math.Atan(chy / chx)));
+                }
+                else
+                {
+                    // negative x, negative y, 270 - ang
+                    ang = (float)(270 - (Math.Atan(chy / chx)));
+                }
+            }
+            return ang;
         }
     }
 }
