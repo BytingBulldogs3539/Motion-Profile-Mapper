@@ -656,10 +656,39 @@ namespace VelocityMap
                     cd.NoiseReduction(int.Parse(smoothness.Text));
 
                     float[] angles = new float[TEMPXLIST.Count - 2]; // -2 because of the odd thing where its always 2 over the kpoints
-                    for(int i = 0; i < (TEMPXLIST.Count - 2); i++)
+                    float[] anglesafter = new float[TEMPXLIST.Count - 2]; // -2 because of the odd thing where its always 2 over the kpoints
+                    for (int i = 0; i < (TEMPXLIST.Count - 2); i++)
                     {
                         angles[i] = findAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
                     }
+
+                    //Bound all half circle
+                    for(int i  = 1; i< angles.Length; i++)
+                    {
+                            float angle_degrees = angles[i];
+                            while (angle_degrees >= 180.0) angle_degrees -= 360;
+                            while (angle_degrees < -180.0) angle_degrees += 360;
+
+
+                            angles[i] = angle_degrees;
+                    }
+                    //Find Difference
+                    for(int i = 0; i < angles.Length-1; i++)
+                    {
+
+                        float help = 0;
+                        if (i>1)
+                        {
+                            help = anglesafter[i - 1];
+                        }
+                        
+
+                        anglesafter[i] = angles[i] - angles[i + 1]+help;
+
+
+                    }
+                    angles = anglesafter;
+
                     for (int i =0; i < l.Length ;i++)
                     {
                         line.Clear();
@@ -788,6 +817,54 @@ namespace VelocityMap
                 }
             }
             
+        }
+
+        static float Delta_Bearing(float b1, float b2)
+        {
+            /*
+			 * Optimal solution
+			 *
+			decimal d = 0;
+ 
+			d = (b2-b1)%360;
+ 
+			if(d>180)
+				d -= 360;
+			else if(d<-180)
+				d += 360;
+ 
+			return d;
+			 *
+			 * 
+			 */
+
+
+            //
+            //
+            //
+            float d = 0;
+
+            // Convert bearing to W.C.B
+            if (b1 < 0)
+                b1 += 360;
+            if (b2 < 0)
+                b2 += 360;
+
+            ///Calculate delta bearing
+            //and
+            //Convert result value to Q.B.
+            d = (b2 - b1) % 360;
+
+            if (d > 180)
+                d -= 360;
+            else if (d < -180)
+                d += 360;
+
+            return d;
+
+            //
+            //
+            //
         }
 
         private void Load_Click(object sender, EventArgs e)

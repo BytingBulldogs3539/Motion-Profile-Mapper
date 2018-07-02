@@ -41,3 +41,14 @@ C:\Users\Devon\Desktop\vmap4\VelocityMap\VelocityMap\obj\Release\VelocityMap.csp
 C:\Users\Devon\Desktop\vmap4\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.CoreCompileInputs.cache
 C:\Users\Devon\Desktop\vmap4\VelocityMap\VelocityMap\obj\Release\VelocityMap.exe
 C:\Users\Devon\Desktop\vmap4\VelocityMap\VelocityMap\obj\Release\VelocityMap.pdb
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\FieldPoints.txt
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe.config
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.pdb
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.csprojResolveAssemblyReference.cache
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.Form1.resources
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.Properties.Resources.resources
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.GenerateResource.cache
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.CoreCompileInputs.cache
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.exe
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.pdb
