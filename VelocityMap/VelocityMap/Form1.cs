@@ -19,8 +19,8 @@ namespace VelocityMap
         int padding = 1;
         private Bitmap baseFieldImage;
         private MotionProfile.Trajectory paths;
-        public List<float> TEMPXLIST = new List<float>();
-        public List<float> TEMPYLIST = new List<float>(); // if these work then it's a christmas miracle
+        public List<float> TEMPXLIST = new List<float>(); // if these temp lists work then it's a christmas miracle
+        public List<float> TEMPYLIST = new List<float>(); // well I'll be, it's christmas in july.
 
         private double CONVERT = 180.0 / Math.PI;
 
@@ -615,7 +615,7 @@ namespace VelocityMap
                 using (var writer = new System.IO.StreamWriter(path + ".java"))
                 {
                     string file = path.Split('\\').Last();
-                    writer.WriteLine("package org.usfirst.frc.team3539.robot.profiles;");
+                    writer.WriteLine("package Profiles;");
                     writer.WriteLine("public class " + file);
                     writer.WriteLine("{");
 
@@ -660,11 +660,31 @@ namespace VelocityMap
                     cd.NoiseReduction(int.Parse(smoothness.Text));
 
                     float[] angles = new float[TEMPXLIST.Count - 2]; // -2 because of the odd thing where its always 2 over the kpoints
-                    for(int i = 0; i < (TEMPXLIST.Count - 2); i++)
+                    /*
+                    for(int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
                     {
-                        if (i == 0) angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
+                        if (i == 0)
+                        {
+                            angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
+                            if (angles[0] > 355.0) angles[0] = 0; // remember this is before the negative inversion
+                        }
                         else angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
                     }
+                    */
+                    float startAngle = findStartAngle(TEMPXLIST[1], TEMPXLIST[0], TEMPYLIST[1], TEMPYLIST[0]);
+                    for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
+                    {
+                        if (i == 0)
+                        {
+                            angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
+                        }
+                        else angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
+                    }
+                    for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // part of the last for. kinda. you know what i mean.
+                    {
+                        angles[i] = (angles[i] - startAngle);
+                    }
+
                     for (int i =0; i < l.Length ;i++)
                     {
                         line.Clear();
@@ -675,14 +695,15 @@ namespace VelocityMap
 
                             line.Add("      {" + cd.Take(i).Sum() / dConvert );
                             line.Add((c[i] / dConvert * 60).ToString());
-                            line.Add(paths[0].velocityMap.time * 1000 + ", " + angles[i] + "},");
+                            line.Add(paths[0].velocityMap.time * 1000 + ", " + -angles[i] + "},");
                             left.Add(string.Join(",", line));
 
-                        }else
+                        }
+                        else
                         {
                             line.Add("      {" + cd.Take(i).Sum().ToString());
                             line.Add(c[i].ToString());
-                            line.Add(paths[0].velocityMap.time * 1000 + ", " + angles[i] + "},");
+                            line.Add(paths[0].velocityMap.time * 1000 + ", " + -angles[i] + "},");
                             left.Add(string.Join(",", line));
 
                         }
@@ -693,7 +714,7 @@ namespace VelocityMap
 
                             line.Add("      {" + cd.Take(i).Sum() / dConvert);
                             line.Add((c[i] / dConvert * 60).ToString());
-                            line.Add(paths[0].velocityMap.time * 1000 + ", " + angles[i] + "},");
+                            line.Add(paths[0].velocityMap.time * 1000 + ", " + -angles[i] + "},");
                             right.Add(string.Join(",", line));
 
                         }
@@ -701,7 +722,7 @@ namespace VelocityMap
                         {
                             line.Add("      {" + cd.Take(i).Sum().ToString());
                             line.Add(c[i].ToString());
-                            line.Add(paths[0].velocityMap.time * 1000 + ", " + angles[i] + "},");
+                            line.Add(paths[0].velocityMap.time * 1000 + ", " + -angles[i] + "},");
                             right.Add(string.Join(",", line));
                         }
                     }
@@ -770,6 +791,7 @@ namespace VelocityMap
             if (angleChange < -300) angleChange += 360;
             return (prevAngle + angleChange);
         }
+
         public float findStartAngle(double x2, double x1, double y2, double y1)
         {
             float ang = 0;
