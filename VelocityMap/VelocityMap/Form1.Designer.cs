@@ -47,10 +47,6 @@
             this.VelocityPlot = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.controlPoints = new System.Windows.Forms.DataGridView();
-            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.maxV = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.maxVelocity = new System.Windows.Forms.TextBox();
@@ -82,6 +78,9 @@
             this.smoothness = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.degrees = new System.Windows.Forms.TextBox();
+            this.x = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Direction = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -101,7 +100,7 @@
             this.tabControl1.Controls.Add(this.Field);
             this.tabControl1.Controls.Add(this.Data);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tabControl1.Location = new System.Drawing.Point(575, 0);
+            this.tabControl1.Location = new System.Drawing.Point(577, 0);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -144,7 +143,7 @@
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(1021, 935);
+            this.Data.Size = new System.Drawing.Size(1025, 935);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -164,7 +163,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
-            this.splitContainer1.Size = new System.Drawing.Size(1019, 933);
+            this.splitContainer1.Size = new System.Drawing.Size(1023, 933);
             this.splitContainer1.SplitterDistance = 456;
             this.splitContainer1.TabIndex = 3;
             // 
@@ -178,7 +177,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.DistancePlot.Series.Add(series2);
-            this.DistancePlot.Size = new System.Drawing.Size(1019, 235);
+            this.DistancePlot.Size = new System.Drawing.Size(1023, 235);
             this.DistancePlot.TabIndex = 2;
             this.DistancePlot.Text = "chart2";
             // 
@@ -193,7 +192,7 @@
             series3.ChartArea = "ChartArea1";
             series3.Name = "Series1";
             this.VelocityPlot.Series.Add(series3);
-            this.VelocityPlot.Size = new System.Drawing.Size(1019, 198);
+            this.VelocityPlot.Size = new System.Drawing.Size(1023, 198);
             this.VelocityPlot.TabIndex = 1;
             this.VelocityPlot.Text = "chart2";
             // 
@@ -215,10 +214,9 @@
             this.controlPoints.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.x,
             this.y,
-            this.Direction,
-            this.maxV});
+            this.Direction});
             this.controlPoints.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnKeystroke;
-            this.controlPoints.Location = new System.Drawing.Point(5, 274);
+            this.controlPoints.Location = new System.Drawing.Point(19, 272);
             this.controlPoints.Margin = new System.Windows.Forms.Padding(1);
             this.controlPoints.MultiSelect = false;
             this.controlPoints.Name = "controlPoints";
@@ -227,52 +225,15 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(334, 689);
+            this.controlPoints.Size = new System.Drawing.Size(237, 689);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
             this.controlPoints.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.controlPoints_CellValidating);
             // 
-            // x
-            // 
-            dataGridViewCellStyle1.Format = "N0";
-            dataGridViewCellStyle1.NullValue = null;
-            this.x.DefaultCellStyle = dataGridViewCellStyle1;
-            this.x.Frozen = true;
-            this.x.HeaderText = "X";
-            this.x.Name = "x";
-            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.x.Width = 58;
-            // 
-            // y
-            // 
-            dataGridViewCellStyle2.Format = "N0";
-            dataGridViewCellStyle2.NullValue = null;
-            this.y.DefaultCellStyle = dataGridViewCellStyle2;
-            this.y.Frozen = true;
-            this.y.HeaderText = "Y";
-            this.y.Name = "y";
-            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.y.Width = 58;
-            // 
-            // Direction
-            // 
-            this.Direction.Frozen = true;
-            this.Direction.HeaderText = "Vel (+/-)";
-            this.Direction.MaxInputLength = 1;
-            this.Direction.Name = "Direction";
-            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // maxV
-            // 
-            this.maxV.Frozen = true;
-            this.maxV.HeaderText = "Max Vel";
-            this.maxV.Name = "maxV";
-            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(7, 227);
+            this.button1.Location = new System.Drawing.Point(21, 225);
             this.button1.Margin = new System.Windows.Forms.Padding(1);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(86, 21);
@@ -283,7 +244,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(5, 185);
+            this.button2.Location = new System.Drawing.Point(19, 183);
             this.button2.Margin = new System.Windows.Forms.Padding(1);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(190, 34);
@@ -294,7 +255,7 @@
             // 
             // maxVelocity
             // 
-            this.maxVelocity.Location = new System.Drawing.Point(124, 19);
+            this.maxVelocity.Location = new System.Drawing.Point(179, 17);
             this.maxVelocity.Margin = new System.Windows.Forms.Padding(1);
             this.maxVelocity.Name = "maxVelocity";
             this.maxVelocity.Size = new System.Drawing.Size(71, 20);
@@ -304,7 +265,7 @@
             // 
             // timeSample
             // 
-            this.timeSample.Location = new System.Drawing.Point(124, 37);
+            this.timeSample.Location = new System.Drawing.Point(179, 35);
             this.timeSample.Margin = new System.Windows.Forms.Padding(1);
             this.timeSample.Name = "timeSample";
             this.timeSample.Size = new System.Drawing.Size(71, 20);
@@ -314,7 +275,7 @@
             // 
             // trackWidth
             // 
-            this.trackWidth.Location = new System.Drawing.Point(124, 56);
+            this.trackWidth.Location = new System.Drawing.Point(179, 54);
             this.trackWidth.Margin = new System.Windows.Forms.Padding(1);
             this.trackWidth.Name = "trackWidth";
             this.trackWidth.Size = new System.Drawing.Size(71, 20);
@@ -324,7 +285,7 @@
             // 
             // AccelRate
             // 
-            this.AccelRate.Location = new System.Drawing.Point(124, 75);
+            this.AccelRate.Location = new System.Drawing.Point(179, 73);
             this.AccelRate.Margin = new System.Windows.Forms.Padding(1);
             this.AccelRate.Name = "AccelRate";
             this.AccelRate.Size = new System.Drawing.Size(71, 20);
@@ -335,7 +296,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 19);
+            this.label1.Location = new System.Drawing.Point(18, 17);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(67, 13);
@@ -345,7 +306,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 37);
+            this.label2.Location = new System.Drawing.Point(18, 35);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
@@ -355,7 +316,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(4, 56);
+            this.label3.Location = new System.Drawing.Point(18, 54);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(66, 13);
@@ -365,7 +326,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(4, 75);
+            this.label4.Location = new System.Drawing.Point(18, 73);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(86, 13);
@@ -375,7 +336,7 @@
             // checkBox1
             // 
             this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(39, 314);
+            this.checkBox1.Location = new System.Drawing.Point(53, 312);
             this.checkBox1.Margin = new System.Windows.Forms.Padding(1);
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(104, 17);
@@ -386,7 +347,7 @@
             // 
             // ClearCP
             // 
-            this.ClearCP.Location = new System.Drawing.Point(253, 250);
+            this.ClearCP.Location = new System.Drawing.Point(164, 248);
             this.ClearCP.Margin = new System.Windows.Forms.Padding(1);
             this.ClearCP.Name = "ClearCP";
             this.ClearCP.Size = new System.Drawing.Size(86, 21);
@@ -400,7 +361,7 @@
             this.CTRE.AutoSize = true;
             this.CTRE.Checked = true;
             this.CTRE.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.CTRE.Location = new System.Drawing.Point(7, 163);
+            this.CTRE.Location = new System.Drawing.Point(21, 161);
             this.CTRE.Margin = new System.Windows.Forms.Padding(1);
             this.CTRE.Name = "CTRE";
             this.CTRE.Size = new System.Drawing.Size(88, 17);
@@ -411,7 +372,7 @@
             // 
             // wheel
             // 
-            this.wheel.Location = new System.Drawing.Point(150, 161);
+            this.wheel.Location = new System.Drawing.Point(205, 159);
             this.wheel.Margin = new System.Windows.Forms.Padding(1);
             this.wheel.Name = "wheel";
             this.wheel.Size = new System.Drawing.Size(45, 20);
@@ -422,7 +383,7 @@
             // tolerence
             // 
             this.tolerence.Enabled = false;
-            this.tolerence.Location = new System.Drawing.Point(124, 333);
+            this.tolerence.Location = new System.Drawing.Point(138, 331);
             this.tolerence.Margin = new System.Windows.Forms.Padding(1);
             this.tolerence.Name = "tolerence";
             this.tolerence.Size = new System.Drawing.Size(71, 20);
@@ -434,7 +395,7 @@
             // offset
             // 
             this.offset.Enabled = false;
-            this.offset.Location = new System.Drawing.Point(124, 352);
+            this.offset.Location = new System.Drawing.Point(138, 350);
             this.offset.Margin = new System.Windows.Forms.Padding(1);
             this.offset.Name = "offset";
             this.offset.Size = new System.Drawing.Size(71, 20);
@@ -445,7 +406,7 @@
             // 
             // cpLoad
             // 
-            this.cpLoad.Location = new System.Drawing.Point(253, 227);
+            this.cpLoad.Location = new System.Drawing.Point(164, 225);
             this.cpLoad.Margin = new System.Windows.Forms.Padding(1);
             this.cpLoad.Name = "cpLoad";
             this.cpLoad.Size = new System.Drawing.Size(86, 21);
@@ -458,7 +419,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Enabled = false;
-            this.label5.Location = new System.Drawing.Point(4, 335);
+            this.label5.Location = new System.Drawing.Point(18, 333);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(75, 13);
@@ -470,7 +431,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Enabled = false;
-            this.label6.Location = new System.Drawing.Point(4, 354);
+            this.label6.Location = new System.Drawing.Point(18, 352);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(73, 13);
@@ -480,7 +441,7 @@
             // 
             // isntaVel
             // 
-            this.isntaVel.Location = new System.Drawing.Point(44, 374);
+            this.isntaVel.Location = new System.Drawing.Point(58, 372);
             this.isntaVel.Margin = new System.Windows.Forms.Padding(1);
             this.isntaVel.Name = "isntaVel";
             this.isntaVel.Size = new System.Drawing.Size(99, 21);
@@ -491,7 +452,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(7, 250);
+            this.button3.Location = new System.Drawing.Point(21, 248);
             this.button3.Margin = new System.Windows.Forms.Padding(1);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(86, 21);
@@ -525,7 +486,7 @@
             // 
             // SpeedLimit
             // 
-            this.SpeedLimit.Location = new System.Drawing.Point(124, 94);
+            this.SpeedLimit.Location = new System.Drawing.Point(179, 92);
             this.SpeedLimit.Margin = new System.Windows.Forms.Padding(1);
             this.SpeedLimit.Name = "SpeedLimit";
             this.SpeedLimit.Size = new System.Drawing.Size(71, 20);
@@ -536,7 +497,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(4, 94);
+            this.label7.Location = new System.Drawing.Point(18, 92);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(95, 13);
@@ -546,7 +507,7 @@
             // CalCheck
             // 
             this.CalCheck.AutoSize = true;
-            this.CalCheck.Location = new System.Drawing.Point(7, 141);
+            this.CalCheck.Location = new System.Drawing.Point(21, 139);
             this.CalCheck.Margin = new System.Windows.Forms.Padding(1);
             this.CalCheck.Name = "CalCheck";
             this.CalCheck.Size = new System.Drawing.Size(75, 17);
@@ -557,7 +518,7 @@
             // 
             // smoothness
             // 
-            this.smoothness.Location = new System.Drawing.Point(150, 117);
+            this.smoothness.Location = new System.Drawing.Point(205, 115);
             this.smoothness.Margin = new System.Windows.Forms.Padding(1);
             this.smoothness.Name = "smoothness";
             this.smoothness.Size = new System.Drawing.Size(45, 20);
@@ -569,7 +530,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(4, 120);
+            this.label8.Location = new System.Drawing.Point(18, 118);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(57, 13);
@@ -578,7 +539,7 @@
             // 
             // degrees
             // 
-            this.degrees.Location = new System.Drawing.Point(150, 140);
+            this.degrees.Location = new System.Drawing.Point(205, 138);
             this.degrees.Margin = new System.Windows.Forms.Padding(1);
             this.degrees.Name = "degrees";
             this.degrees.Size = new System.Drawing.Size(45, 20);
@@ -587,11 +548,42 @@
             this.degrees.Text = "90";
             this.degrees.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // x
+            // 
+            dataGridViewCellStyle1.Format = "N0";
+            dataGridViewCellStyle1.NullValue = null;
+            this.x.DefaultCellStyle = dataGridViewCellStyle1;
+            this.x.Frozen = true;
+            this.x.HeaderText = "X";
+            this.x.Name = "x";
+            this.x.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.x.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.x.Width = 58;
+            // 
+            // y
+            // 
+            dataGridViewCellStyle2.Format = "N0";
+            dataGridViewCellStyle2.NullValue = null;
+            this.y.DefaultCellStyle = dataGridViewCellStyle2;
+            this.y.Frozen = true;
+            this.y.HeaderText = "Y";
+            this.y.Name = "y";
+            this.y.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.y.Width = 58;
+            // 
+            // Direction
+            // 
+            this.Direction.Frozen = true;
+            this.Direction.HeaderText = "Vel (+/-)";
+            this.Direction.MaxInputLength = 1;
+            this.Direction.Name = "Direction";
+            this.Direction.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1604, 961);
+            this.ClientSize = new System.Drawing.Size(1606, 961);
             this.Controls.Add(this.smoothness);
             this.Controls.Add(this.degrees);
             this.Controls.Add(this.offset);
@@ -691,7 +683,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn maxV;
     }
 }
 
