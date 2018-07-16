@@ -67,7 +67,6 @@ namespace MotionProfile
                 
                 return spline.Eval(d, false).First();
 
-
             }
             else if (distance > this._distance - _rampDistance)
             {

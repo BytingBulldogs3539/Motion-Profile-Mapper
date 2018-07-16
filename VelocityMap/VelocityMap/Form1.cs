@@ -21,6 +21,7 @@ namespace VelocityMap
         private MotionProfile.Trajectory paths;
         public List<float> TEMPXLIST = new List<float>(); // if these temp lists work then it's a christmas miracle
         public List<float> TEMPYLIST = new List<float>(); // well I'll be, it's christmas in july.
+        public List<Boolean> TEMPforwardLIST = new List<Boolean>(); // List shows the direction of the corrosponding x and y lists.
 
         private double CONVERT = 180.0 / Math.PI;
 
@@ -34,7 +35,7 @@ namespace VelocityMap
         {
             loadFieldPoints();
             SetupMainField();
-            SetupPlots();
+            SetupPlots(); 
 
             DistancePlot.Dock = DockStyle.Fill;
             VelocityPlot.Dock = DockStyle.Fill;
@@ -255,7 +256,7 @@ namespace VelocityMap
 
             c.Series["cp"].Points.AddXY(x, y);
 
-            controlPoints.Rows.Add((int)x, (int)y, "+");
+            controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+")].Selected = true;
         }
 
         private void mainField_MouseDown(object sender, MouseEventArgs e)
@@ -295,7 +296,10 @@ namespace VelocityMap
                                     row.Cells[0].Value = dx;
                                     row.Cells[1].Value = dy;
 
+                                    row.Selected = true;
+
                                     rowIndex = row.Index;
+
 
                                 }
                             }
@@ -323,6 +327,7 @@ namespace VelocityMap
                     dp.YValues[0] = dy;
                     controlPoints.Rows[rowIndex].Cells[0].Value = dx;
                     controlPoints.Rows[rowIndex].Cells[1].Value = dy;
+                    
                     c.Invalidate();
                 }
 
@@ -481,12 +486,26 @@ namespace VelocityMap
                 {
                     lastrow = row;
                     mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
-                    if(path.controlPoints.Count == 0)
+                    if (path.controlPoints.Count == 0)
+                    {
                         if (row.Cells[2].Value.ToString() == "-")
+                            path.direction = true;
+                        if (row.Cells[2].Value.ToString() == "+")
                             path.direction = false;
+                    }
+
 
                     if (row.Cells[2].Value.ToString() == "-")
+                    {
                         mainField.Series["cp"].Points.Last().Color = Color.Red;
+                        path.direction = true;
+                    }
+
+                    if (row.Cells[2].Value.ToString() == "+")
+                    {
+                        path.direction = false;
+                    }
+
 
                     path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
@@ -495,7 +514,10 @@ namespace VelocityMap
                         if (row.Cells[2].Value.ToString() == "+")
                             path.direction = false;
 
-                        if(path.controlPoints.Count >=2)
+                        if (row.Cells[2].Value.ToString() == "-")
+                            path.direction = true;
+
+                        if (path.controlPoints.Count >= 2)
                             paths.Add(path);
 
                         path = CreateNewPath();
@@ -511,6 +533,9 @@ namespace VelocityMap
 
             if (lastrow != null && lastrow.Cells[2].Value.ToString() != "+")
                 path.direction = false;
+
+            if (lastrow != null && lastrow.Cells[2].Value.ToString() != "-")
+                path.direction = true;
 
             if (path.controlPoints.Count >= 2)
                 paths.Add(path);
@@ -584,27 +609,40 @@ namespace VelocityMap
 
             TEMPXLIST.Clear();
             TEMPYLIST.Clear();
+            TEMPforwardLIST.Clear();
 
-            foreach (PointF p in paths.BuildPath())
+            foreach (Point p in paths.BuildPath())
             {
-                mainField.Series["path"].Points.AddXY(p.Y, p.X);
-                TEMPXLIST.Add(p.X);
-                TEMPYLIST.Add(p.Y);
+                foreach (PointF p1 in p.point)
+                {
+                    mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
+                    TEMPXLIST.Add(p1.X);
+                    TEMPYLIST.Add(p1.Y);
+                    TEMPforwardLIST.Add(p.direction);
+                }
             }
 
-            foreach (PointF p in paths.BuildPath(trackwidth))
+            foreach (Point p in paths.BuildPath(trackwidth))
             {
-                mainField.Series["left"].Points.AddXY(p.Y, p.X);
+                foreach (PointF p1 in p.point)
+                {
+                    mainField.Series["left"].Points.AddXY(p1.Y, p1.X);
+                }
             }
 
-            foreach (PointF p in paths.BuildPath(-trackwidth))
+
+            foreach (Point p in paths.BuildPath(-trackwidth))
             {
-                mainField.Series["right"].Points.AddXY(p.Y, p.X);
+                foreach (PointF p1 in p.point)
+                {
+                    mainField.Series["right"].Points.AddXY(p1.Y, p1.X);
+                }
             }
         }
 
         private void Save_Click(object sender, EventArgs e)
         {
+            Apply_Click(null, null);
             folderBrowserDialog1.SelectedPath = Application.StartupPath;
             DialogResult results = folderBrowserDialog1.ShowDialog();
             if (results == DialogResult.OK)
@@ -674,16 +712,33 @@ namespace VelocityMap
                     float startAngle = findStartAngle(TEMPXLIST[1], TEMPXLIST[0], TEMPYLIST[1], TEMPYLIST[0]);
                     for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
                     {
+
+                        Boolean forward = TEMPforwardLIST[i];
+                        int add = 0;
+                        if (!forward)
+                        {
+                            add = -180;
+                            Debug.Print("ADD -180");
+                        }
+
                         if (i == 0)
                         {
                             angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
                         }
-                        else angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
+                        else
+                        {
+                            Debug.Print(add.ToString());
+                            angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
+                            angles[i] = angles[i] + add;
+                        }
                     }
                     for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // part of the last for. kinda. you know what i mean.
                     {
                         angles[i] = (angles[i] - startAngle);
                     }
+
+
+
 
                     for (int i =0; i < l.Length ;i++)
                     {
@@ -892,9 +947,6 @@ namespace VelocityMap
                             if (l[0] != "settings")
                             {
                                 if (l.Count() == 3)
-                                    if (tempflip.Checked)
-                                        controlPoints.Rows.Add(float.Parse(l[1]), float.Parse(l[0]), l[2]);
-                                    else
                                         controlPoints.Rows.Add(float.Parse(l[0]), float.Parse(l[1]), l[2]);
                             }
                             else
@@ -953,5 +1005,11 @@ namespace VelocityMap
         {
 
         }
+
+        private void controlPoints_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VelocityMap;
 
 namespace MotionProfile
 {
@@ -132,22 +133,31 @@ namespace MotionProfile
             }
         }
    
-        public List<System.Drawing.PointF> BuildPath(int offset = 0)
+        public List<Point> BuildPath(int offset = 0)
         {
 
-            List<System.Drawing.PointF> values = new List<System.Drawing.PointF>();
+            List<Point> values = new List<Point>();
             foreach (Path p in this)
             {
                 if (offset != 0)
                 {
                     if (!p.direction)
                         offset = -offset;
-                    values.AddRange(p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>());
+                    Point p2 = new Point();
+                    p2.point = p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
+                    p2.direction = p.direction;
+                    values.Add(p2);
+                    
                     if (!p.direction)
                         offset = -offset;
                 }
                 else
-                    values.AddRange(p.buildPath().ToArray<System.Drawing.PointF>());
+                {
+                    Point p3 = new Point();
+                    p3.point = p.buildPath().ToArray<System.Drawing.PointF>();
+                    p3.direction = p.direction;
+                    values.Add(p3);
+                }
                
             }
             return values;

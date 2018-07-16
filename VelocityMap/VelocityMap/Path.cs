@@ -125,6 +125,7 @@ namespace MotionProfile
         {
             if (!direction)
                 offset = -offset;
+
             PointF[] array = buildOffsetPoints(offset).ToArray();
             List<float> ret = new List<float>();
             
