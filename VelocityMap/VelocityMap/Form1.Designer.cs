@@ -247,7 +247,7 @@
             this.button2.Location = new System.Drawing.Point(19, 183);
             this.button2.Margin = new System.Windows.Forms.Padding(1);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(190, 34);
+            this.button2.Size = new System.Drawing.Size(231, 34);
             this.button2.TabIndex = 3;
             this.button2.Text = "Apply";
             this.button2.UseVisualStyleBackColor = true;
