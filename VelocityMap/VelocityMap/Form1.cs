@@ -35,7 +35,7 @@ namespace VelocityMap
         {
             loadFieldPoints();
             SetupMainField();
-            SetupPlots(); 
+            SetupPlots();
 
             DistancePlot.Dock = DockStyle.Fill;
             VelocityPlot.Dock = DockStyle.Fill;
@@ -44,12 +44,12 @@ namespace VelocityMap
 
             this.WindowState = FormWindowState.Maximized;
         }
- 
+
         private void SetupMainField()
         {
             baseFieldImage = buildField();
 
-            Image b = new Bitmap(baseFieldImage,1000, 1000);
+            Image b = new Bitmap(baseFieldImage, 1000, 1000);
             b.RotateFlip(RotateFlipType.Rotate180FlipNone);
             NamedImage backImage = new NamedImage("Background", b);
 
@@ -135,7 +135,7 @@ namespace VelocityMap
 
         private void ClearChart(Chart chart)
         {
-            foreach(Series s in chart.Series)
+            foreach (Series s in chart.Series)
             {
                 s.Points.Clear();
             }
@@ -145,7 +145,7 @@ namespace VelocityMap
         }
         private void Form1_Resize(object sender, EventArgs e)
         {
-          //  this.Width = this.Height+200-30;
+            //  this.Width = this.Height+200-30;
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
@@ -159,7 +159,7 @@ namespace VelocityMap
                 this.WindowState = FormWindowState.Normal;
                 this.Height = Screen.PrimaryScreen.WorkingArea.Height;
                 this.Width = h + 550 - 30;
-                this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) /2;
+                this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
 
             }
         }
@@ -199,7 +199,7 @@ namespace VelocityMap
             Bitmap b = new Bitmap(fieldWidth + padding * 2, fieldWidth + padding * 2);
 
             //draw the grid on the bitmap
-         //   b = drawGrid(pictureBox1.Width, pictureBox1.Height, b, 50, true);
+            //   b = drawGrid(pictureBox1.Width, pictureBox1.Height, b, 50, true);
 
 
             //draw the field size on the bitmap
@@ -242,21 +242,44 @@ namespace VelocityMap
 
         private void mainField_MouseClick(object sender, MouseEventArgs e)
         {
-            if (dp != null)
+            if (e.Button == MouseButtons.Left)
             {
-                dp = null;
-                Apply_Click(null, null);
-                return;
+                if (dp != null)
+                {
+                    dp = null;
+                    Apply_Click(null, null);
+                    return;
+                }
+                Chart c = (Chart)sender;
+
+                double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+
+
+                c.Series["cp"].Points.AddXY(x, y);
+
+                controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+")].Selected = true;
             }
-            Chart c = (Chart)sender;
+            if (e.Button == MouseButtons.Right)
+            {
+                if (dp != null)
+                {
+                    dp = null;
+                    Apply_Click(null, null);
+                    return;
+                }
+                Chart c = (Chart)sender;
 
-            double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
-            double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
+                double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
+                double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
+                
+                c.Series["cp"].Points.AddXY(x, y);
+                mainField.Series["cp"].Points.Last().Color = Color.Red;
 
-            c.Series["cp"].Points.AddXY(x, y);
+                controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "-")].Selected = true;
+            }
 
-            controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+")].Selected = true;
         }
 
         private void mainField_MouseDown(object sender, MouseEventArgs e)
@@ -327,7 +350,7 @@ namespace VelocityMap
                     dp.YValues[0] = dy;
                     controlPoints.Rows[rowIndex].Cells[0].Value = dx;
                     controlPoints.Rows[rowIndex].Cells[1].Value = dy;
-                    
+
                     c.Invalidate();
                 }
 
@@ -340,8 +363,8 @@ namespace VelocityMap
 
         #region ControlPoints
         private int rowIndex;
-        DataPoint dp; 
-        
+        DataPoint dp;
+
         private void Invert_Click(object sender, EventArgs e)
         {
             foreach (DataGridViewRow row in controlPoints.Rows)
@@ -351,7 +374,7 @@ namespace VelocityMap
             }
             Apply_Click(sender, e);
         }
-       
+
         private void controlPoints_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
         {
 
@@ -364,16 +387,17 @@ namespace VelocityMap
                 if (controlPoints.CurrentCell.Value.ToString() == "+" || controlPoints.CurrentCell.Value.ToString() == "-")
                 {
                 }
-                else { 
+                else
+                {
                     controlPoints.CurrentCell.Value = "+";
-                   // controlPoints.BeginEdit(true);
+                    // controlPoints.BeginEdit(true);
                 }
             }
         }
 
         private void controlPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-     
+
             if (e.Button == MouseButtons.Right)
             {
                 this.controlPoints.Rows[e.RowIndex].Selected = true;
@@ -386,7 +410,7 @@ namespace VelocityMap
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if(controlPoints.Rows[rowIndex].Cells[0].Value != null)
+            if (controlPoints.Rows[rowIndex].Cells[0].Value != null)
                 controlPoints.Rows.RemoveAt(rowIndex);
             ReloadControlPoints();
 
@@ -414,7 +438,7 @@ namespace VelocityMap
         {
             controlPoints.Rows.Insert(rowIndex);
         }
-        
+
         #endregion
 
         #region Utility Functions
@@ -450,7 +474,7 @@ namespace VelocityMap
                 }
             }
         }
-        
+
         private MotionProfile.Path CreateNewPath()
         {
             MotionProfile.Path path = new MotionProfile.Path();
@@ -459,21 +483,21 @@ namespace VelocityMap
             path.velocityMap.FL1 = int.Parse(AccelRate.Text);
             path.velocityMap.time = float.Parse(timeSample.Text) / 1000;
             path.tolerence = float.Parse(tolerence.Text);
-          //  path.mindifference = float.Parse(Calibration.Text);
+            //  path.mindifference = float.Parse(Calibration.Text);
             path.velocityMap.instVelocity = isntaVel.Checked;
             path.speedLimit = float.Parse(SpeedLimit.Text);
-            path.calibration = CalCheck.Checked;
+            path.calibration = TurnCheck.Checked;
 
             return path;
         }
 
         #endregion
-        private void Apply_Click (object sender, EventArgs e)
+        private void Apply_Click(object sender, EventArgs e)
         {
             MotionProfile.Path path = CreateNewPath();
 
             int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-            
+
             ClearChart(mainField);
 
             paths = new MotionProfile.Trajectory();
@@ -548,34 +572,64 @@ namespace VelocityMap
             ClearChart(VelocityPlot);
             ClearChart(DistancePlot);
 
-            float[] t,d,v,l,r ,ld ,rd, c, cd;
+            float[] t, d, v, l, r, ld, rd, c, cd;
 
-            t = paths.getTimeProfile();
-            d = paths.getDistanceProfile();
-            v = paths.getVelocityProfile();
-            l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-            ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
-            c = paths.getOffsetVelocityProfile(0).ToArray();
-            cd = paths.getOffsetDistanceProfile(0).ToArray();
 
-            l.NoiseReduction(int.Parse(smoothness.Text));
 
-            if (CalCheck.Checked)
+            if (TurnCheck.Checked)
             {
-                foreach (MotionProfile.Path p in paths)
-                    p.direction =  !p.direction;
+                if (int.Parse(degrees.Text)>0)
+                {
+                    foreach (MotionProfile.Path p in paths)
+                        p.direction = !p.direction;
+                }
+                
+                t = paths.getTimeProfile();
+                d = paths.getDistanceProfile();
+                v = paths.getVelocityProfile();
+                l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+                ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
+                c = paths.getOffsetVelocityProfile(0).ToArray();
+                cd = paths.getOffsetDistanceProfile(0).ToArray();
+
+                l.NoiseReduction(int.Parse(smoothness.Text));
+
+                if (int.Parse(degrees.Text) > 0)
+                {
+                    foreach (MotionProfile.Path p in paths)
+                        p.direction = !p.direction;
+                }
+
+                if (int.Parse(degrees.Text) < 0)
+                {
+                    foreach (MotionProfile.Path p in paths)
+                        p.direction = !p.direction;
+                }
+
                 r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                 rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
+                if (int.Parse(degrees.Text) < 0)
+                {
+                    foreach (MotionProfile.Path p in paths)
+                        p.direction = !p.direction;
+                }
 
-                foreach (MotionProfile.Path p in paths)
-                    p.direction = !p.direction;
             }
             else
             {
+                t = paths.getTimeProfile();
+                d = paths.getDistanceProfile();
+                v = paths.getVelocityProfile();
+                l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+                ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
+                c = paths.getOffsetVelocityProfile(0).ToArray();
+                cd = paths.getOffsetDistanceProfile(0).ToArray();
+
+                l.NoiseReduction(int.Parse(smoothness.Text));
                 r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                 rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
             }
-           
+
             r.NoiseReduction(int.Parse(smoothness.Text));
             rd.NoiseReduction(int.Parse(smoothness.Text));
             l.NoiseReduction(int.Parse(smoothness.Text));
@@ -602,7 +656,7 @@ namespace VelocityMap
                 VelocityPlot.Series["right"].Points.AddXY(d[i], r[i]);
 
             }
-           
+
             mainField.Series["path"].Points.Clear();
             mainField.Series["left"].Points.Clear();
             mainField.Series["right"].Points.Clear();
@@ -647,7 +701,7 @@ namespace VelocityMap
             DialogResult results = folderBrowserDialog1.ShowDialog();
             if (results == DialogResult.OK)
             {
-                String[] p = folderBrowserDialog1.SelectedPath.Split ('\\');
+                String[] p = folderBrowserDialog1.SelectedPath.Split('\\');
                 string path = folderBrowserDialog1.SelectedPath + "\\" + p[p.Length - 1];
 
                 using (var writer = new System.IO.StreamWriter(path + ".java"))
@@ -658,10 +712,10 @@ namespace VelocityMap
                     writer.WriteLine("{");
 
                     List<string> left = new List<string>();
-                    List<string> right =  new List<string>();
+                    List<string> right = new List<string>();
                     List<string> center = new List<string>();
-           
-                    List<string>  line = new List<string>();
+
+                    List<string> line = new List<string>();
                     int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
                     float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
@@ -673,7 +727,9 @@ namespace VelocityMap
                     float[] c = paths.getOffsetVelocityProfile(0).ToArray();
                     List<float> cd = paths.getOffsetDistanceProfile(0);
 
-                    if (CalCheck.Checked)
+                    float[] angles = new float[TEMPXLIST.Count - 2];
+
+                    if (TurnCheck.Checked)
                     {
                         foreach (MotionProfile.Path ph in paths)
                             ph.direction = !ph.direction;
@@ -683,11 +739,76 @@ namespace VelocityMap
 
                         foreach (MotionProfile.Path ph in paths)
                             ph.direction = !ph.direction;
+
+
+                        float targetangle = int.Parse(degrees.Text); //Change
+
+
+                        float angle = 0;
+
+                        for (int i = 0; i < (TEMPXLIST.Count - 2); i++)
+                        {
+                            Debug.Print(i.ToString());
+                            if (i == 0 || i == 1)
+                                angles[i] = 0;
+                            else
+                            {
+                                angle += fpstodps(c[i - 1]);
+                                angles[i] = angle;
+
+                            }
+                            //targetangle / ((TEMPXLIST.Count - 2) - (i +1));
+                        }
+
+
+
+
+
                     }
                     else
                     {
                         r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                         rd = paths.getOffsetDistanceProfile(-trackwidth);
+
+                        // -2 because of the odd thing where its always 2 over the kpoints
+                        /*
+                        for(int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
+                        {
+                            if (i == 0)
+                            {
+                                angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
+                                if (angles[0] > 355.0) angles[0] = 0; // remember this is before the negative inversion
+                            }
+                            else angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
+                        }
+                        */
+                        float startAngle = findStartAngle(TEMPXLIST[1], TEMPXLIST[0], TEMPYLIST[1], TEMPYLIST[0]);
+                        for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
+                        {
+
+                            Boolean forward = TEMPforwardLIST[i];
+                            int add = 0;
+                            if (!forward)
+                            {
+                                add = -180;
+                                Debug.Print("ADD -180");
+                            }
+
+                            if (i == 0)
+                            {
+                                angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
+                            }
+                            else
+                            {
+                                Debug.Print(add.ToString());
+                                angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
+                                angles[i] = angles[i] + add;
+                            }
+                        }
+                        for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // part of the last for. kinda. you know what i mean.
+                        {
+                            angles[i] = (angles[i] - startAngle);
+                        }
                     }
 
                     r.NoiseReduction(int.Parse(smoothness.Text));
@@ -697,58 +818,19 @@ namespace VelocityMap
                     c.NoiseReduction(int.Parse(smoothness.Text));
                     cd.NoiseReduction(int.Parse(smoothness.Text));
 
-                    float[] angles = new float[TEMPXLIST.Count - 2]; // -2 because of the odd thing where its always 2 over the kpoints
-                    /*
-                    for(int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
-                    {
-                        if (i == 0)
-                        {
-                            angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
-                            if (angles[0] > 355.0) angles[0] = 0; // remember this is before the negative inversion
-                        }
-                        else angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
-                    }
-                    */
-                    float startAngle = findStartAngle(TEMPXLIST[1], TEMPXLIST[0], TEMPYLIST[1], TEMPYLIST[0]);
-                    for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
-                    {
-
-                        Boolean forward = TEMPforwardLIST[i];
-                        int add = 0;
-                        if (!forward)
-                        {
-                            add = -180;
-                            Debug.Print("ADD -180");
-                        }
-
-                        if (i == 0)
-                        {
-                            angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
-                        }
-                        else
-                        {
-                            Debug.Print(add.ToString());
-                            angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
-                            angles[i] = angles[i] + add;
-                        }
-                    }
-                    for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // part of the last for. kinda. you know what i mean.
-                    {
-                        angles[i] = (angles[i] - startAngle);
-                    }
 
 
 
 
-                    for (int i =0; i < l.Length ;i++)
+                    for (int i = 0; i < l.Length; i++)
                     {
                         line.Clear();
                         String abc = "";
                         if (CTRE.Checked)
                         {
-                            double dConvert = Math.PI * double.Parse(wheel.Text)  *25.4; // ", " + paths[0].heading[i] + "},");
+                            double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4; // ", " + paths[0].heading[i] + "},");
 
-                            line.Add("      {" + cd.Take(i).Sum() / dConvert );
+                            line.Add("      {" + cd.Take(i).Sum() / dConvert);
                             line.Add((c[i] / dConvert * 60).ToString());
                             line.Add(paths[0].velocityMap.time * 1000 + ", " + -angles[i] + "},");
                             left.Add(string.Join(",", line));
@@ -782,14 +864,14 @@ namespace VelocityMap
                         }
                     }
 
-                    writer.WriteLine("  public static final int kNumPoints = " + c.Length.ToString ()  + ";");
+                    writer.WriteLine("  public static final int kNumPoints = " + c.Length.ToString() + ";");
                     writer.WriteLine("  public static double Points[][] = new double[][] {");
                     foreach (string ret in right)
                     {
                         writer.WriteLine(ret);
                     }
                     writer.WriteLine("  }; ");
-                    
+
                     writer.WriteLine("}; ");
                 }
                 WriteSetupFile(path);
@@ -799,9 +881,9 @@ namespace VelocityMap
         public float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
         {
             float ang = 0;
-            float chx = (float) (x2 - x1);
-            float chy = (float) (y2 - y1);
-            if(chy == 0)
+            float chx = (float)(x2 - x1);
+            float chy = (float)(y2 - y1);
+            if (chy == 0)
             {
                 if (chx >= 0) ang = 0;
                 else ang = 180;
@@ -922,7 +1004,7 @@ namespace VelocityMap
                     }
                 }
             }
-            
+
         }
 
         private void Load_Click(object sender, EventArgs e)
@@ -947,7 +1029,7 @@ namespace VelocityMap
                             if (l[0] != "settings")
                             {
                                 if (l.Count() == 3)
-                                        controlPoints.Rows.Add(float.Parse(l[0]), float.Parse(l[1]), l[2]);
+                                    controlPoints.Rows.Add(float.Parse(l[0]), float.Parse(l[1]), l[2]);
                             }
                             else
                             {
@@ -977,13 +1059,13 @@ namespace VelocityMap
             offset.Enabled = false;
             degrees.Enabled = true;
             ClearCP_Click(null, null);
-            if (CalCheck.Checked)
+            if (TurnCheck.Checked)
             {
                 degrees.Enabled = false;
                 offset.Enabled = true;
                 this.maxVelocity.Text = "1500";
                 controlPoints.Rows.Add(1000, 0, "+");
-                controlPoints.Rows.Add(1000, 0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text)/360, "+");
+                controlPoints.Rows.Add(1000, Math.Abs(0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text) / 360), "+");
                 Apply_Click(null, null);
             }
         }
@@ -992,11 +1074,11 @@ namespace VelocityMap
 
         private void Rotations_TextChanged(object sender, EventArgs e)
         {
-            if (CalCheck.Checked && degrees.Text != "")
+            if (TurnCheck.Checked && degrees.Text != "")
             {
                 ClearCP_Click(null, null);
                 controlPoints.Rows.Add(1000, 0, "+");
-                controlPoints.Rows.Add(1000, 0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text)/360, "+");
+                controlPoints.Rows.Add(1000, 0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text) / 360, "+");
                 Apply_Click(null, null);
             }
         }
@@ -1011,5 +1093,32 @@ namespace VelocityMap
 
         }
 
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+
+        }
+        public float fpstodps(float Vel)
+        {
+            if (int.Parse(degrees.Text) > 0)
+            {
+                float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
+
+                return -(float)(dgps * .02199);
+            }
+            else
+            {
+                float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
+
+                return (float)(dgps * .02199);
+            }
+
+
+        }
     }
 }
+
