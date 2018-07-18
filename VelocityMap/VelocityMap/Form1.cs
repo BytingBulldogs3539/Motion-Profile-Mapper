@@ -785,22 +785,20 @@ namespace VelocityMap
                         float startAngle = findStartAngle(TEMPXLIST[1], TEMPXLIST[0], TEMPYLIST[1], TEMPYLIST[0]);
                         for (int i = 0; i < (TEMPXLIST.Count - 2); i++) // for not zeroing the angle after each path.
                         {
-
-                            Boolean forward = TEMPforwardLIST[i];
+                            Boolean forward;
+                            if (i == TEMPforwardLIST.Count - 1) forward = TEMPforwardLIST[i];
+                            else forward = TEMPforwardLIST[i + 1];
                             int add = 0;
                             if (!forward)
                             {
                                 add = -180;
-                                Debug.Print("ADD -180");
                             }
-
                             if (i == 0)
                             {
                                 angles[i] = findStartAngle(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i]);
                             }
                             else
                             {
-                                Debug.Print(add.ToString());
                                 angles[i] = findAngleChange(TEMPXLIST[i + 1], TEMPXLIST[i], TEMPYLIST[i + 1], TEMPYLIST[i], angles[i - 1]);
                                 angles[i] = angles[i] + add;
                             }
