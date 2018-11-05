@@ -1,4 +1,4 @@
-﻿4929,0,533,30			'Power Ups
+﻿4484,0,1219,914			'Vault port
 4099,4500,30,4000		'Power strip
 
 
@@ -20,6 +20,6 @@
 
 3543,2500,1143,1066,1		'stack of 10 blocks
 
-1219,0,711,838,2		'likely right side starting
-3760,0,711,838,2		'likely middle starting
-6299,0,711,838,2		'likely left side starting
+754,0,711,1006,2		'right side starting
+3760,0,711,1006,2		'middle starting
+6765,0,711,1006,2		'left side starting

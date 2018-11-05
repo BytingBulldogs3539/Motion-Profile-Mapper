@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VelocityMap;
 
 namespace MotionProfile
 {
@@ -67,6 +68,15 @@ namespace MotionProfile
 
             return values.ToArray<float>();
         }
+        public float[] getHeadingProfile()
+        {
+            List<float> headings = new List<float>();
+            foreach (Path p in this)
+            {
+                headings.AddRange(p.getHeadingProfile());
+            }
+            return headings.ToArray<float>();
+        }
 
         public List<float> getOffsetVelocityProfile(int offset)
         {
@@ -123,22 +133,31 @@ namespace MotionProfile
             }
         }
    
-        public List<System.Drawing.PointF> BuildPath(int offset = 0)
+        public List<ControlPoint> BuildPath(int offset = 0)
         {
-
-            List<System.Drawing.PointF> values = new List<System.Drawing.PointF>();
+            List<ControlPoint> values = new List<ControlPoint>();
             foreach (Path p in this)
             {
                 if (offset != 0)
                 {
                     if (!p.direction)
                         offset = -offset;
-                    values.AddRange(p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>());
+                    ControlPoint p2 = new ControlPoint(this.IndexOf(p));
+                    p2.point = p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
+                    p2.direction = p.direction;
+                    Console.WriteLine(p.direction);
+                    values.Add(p2);
+                    
                     if (!p.direction)
                         offset = -offset;
                 }
                 else
-                    values.AddRange(p.buildPath().ToArray<System.Drawing.PointF>());
+                {
+                    ControlPoint p3 = new ControlPoint(this.IndexOf(p));
+                    p3.point = p.buildPath().ToArray<System.Drawing.PointF>();
+                    p3.direction = p.direction;
+                    values.Add(p3);
+                }
                
             }
             return values;
