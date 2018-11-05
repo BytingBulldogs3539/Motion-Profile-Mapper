@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
@@ -173,23 +174,29 @@ namespace VelocityMap
 
         private void loadFieldPoints()
         {
-            using (var reader = new System.IO.StreamReader("FieldPoints.txt"))
+            var assembly = Assembly.GetExecutingAssembly();
+            var resourceName = "VelocityMap.FieldPoints.txt";
+
+            using (Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
-                while (!reader.EndOfStream)
+                using (var reader = new StreamReader(stream))
                 {
-                    List<string> line = reader.ReadLine().Split('\'').ToList<string>();
-                    if (!line[0].Equals(""))
+                    while (!reader.EndOfStream)
                     {
-                        line = line[0].Split(',').ToList<string>();
-                        List<int> lineout = new List<int>();
-                        foreach (string item in line)
+                        List<string> line = reader.ReadLine().Split('\'').ToList<string>();
+                        if (!line[0].Equals(""))
                         {
-                            lineout.Add(int.Parse(item));
+                            line = line[0].Split(',').ToList<string>();
+                            List<int> lineout = new List<int>();
+                            foreach (string item in line)
+                            {
+                                lineout.Add(int.Parse(item));
+                            }
+                            fieldpts.Add(lineout.ToArray());
                         }
-                        fieldpts.Add(lineout.ToArray());
                     }
+                    return;
                 }
-                return;
             }
         }
 

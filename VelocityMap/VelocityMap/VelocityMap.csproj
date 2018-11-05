@@ -105,9 +105,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FieldPoints.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="FieldPoints.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\bulldogForms\bulldogForms.csproj">

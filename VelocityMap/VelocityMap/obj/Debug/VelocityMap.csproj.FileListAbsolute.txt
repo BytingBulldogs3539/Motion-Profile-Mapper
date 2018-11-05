@@ -60,7 +60,6 @@ C:\Users\camco\Desktop\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\V
 C:\Users\camco\Desktop\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.CoreCompileInputs.cache
 C:\Users\camco\Desktop\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
 C:\Users\camco\Desktop\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
-C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\FieldPoints.txt
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
