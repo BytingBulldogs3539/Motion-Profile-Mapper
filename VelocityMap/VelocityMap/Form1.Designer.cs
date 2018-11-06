@@ -240,7 +240,7 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(231, 666);
+            this.controlPoints.Size = new System.Drawing.Size(231, 272);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
@@ -617,7 +617,7 @@
             // 
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deploy.Location = new System.Drawing.Point(350, 900);
+            this.deploy.Location = new System.Drawing.Point(64, 720);
             this.deploy.Name = "deploy";
             this.deploy.Size = new System.Drawing.Size(140, 46);
             this.deploy.TabIndex = 11;
@@ -628,7 +628,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(333, 785);
+            this.label11.Location = new System.Drawing.Point(47, 605);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(58, 13);
             this.label11.TabIndex = 12;
@@ -638,7 +638,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(329, 848);
+            this.label12.Location = new System.Drawing.Point(43, 668);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 13;
@@ -647,7 +647,7 @@
             // 
             // user
             // 
-            this.user.Location = new System.Drawing.Point(389, 782);
+            this.user.Location = new System.Drawing.Point(103, 602);
             this.user.Name = "user";
             this.user.Size = new System.Drawing.Size(100, 20);
             this.user.TabIndex = 14;
@@ -656,7 +656,7 @@
             // 
             // ipadd
             // 
-            this.ipadd.Location = new System.Drawing.Point(389, 845);
+            this.ipadd.Location = new System.Drawing.Point(103, 665);
             this.ipadd.Name = "ipadd";
             this.ipadd.Size = new System.Drawing.Size(100, 20);
             this.ipadd.TabIndex = 15;
@@ -670,7 +670,7 @@
             // 
             // pass
             // 
-            this.pass.Location = new System.Drawing.Point(389, 814);
+            this.pass.Location = new System.Drawing.Point(103, 634);
             this.pass.Name = "pass";
             this.pass.PasswordChar = '*';
             this.pass.Size = new System.Drawing.Size(100, 20);
@@ -680,7 +680,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(333, 817);
+            this.label13.Location = new System.Drawing.Point(47, 637);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(56, 13);
             this.label13.TabIndex = 17;
@@ -689,7 +689,7 @@
             // 
             // port
             // 
-            this.port.Location = new System.Drawing.Point(390, 874);
+            this.port.Location = new System.Drawing.Point(104, 694);
             this.port.Name = "port";
             this.port.Size = new System.Drawing.Size(100, 20);
             this.port.TabIndex = 20;
@@ -699,7 +699,7 @@
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(360, 877);
+            this.label14.Location = new System.Drawing.Point(74, 697);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(29, 13);
             this.label14.TabIndex = 19;
@@ -708,7 +708,7 @@
             // 
             // profilename
             // 
-            this.profilename.Location = new System.Drawing.Point(389, 751);
+            this.profilename.Location = new System.Drawing.Point(103, 571);
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
@@ -716,7 +716,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(322, 754);
+            this.label15.Location = new System.Drawing.Point(36, 574);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(70, 13);
             this.label15.TabIndex = 21;
@@ -726,6 +726,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1606, 961);
             this.Controls.Add(this.profilename);
             this.Controls.Add(this.label15);

@@ -38,7 +38,6 @@ G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.C
 G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.CoreCompileInputs.cache
 G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.exe
 G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\FieldPoints.txt
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
@@ -78,3 +77,8 @@ C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\bulldogForms.dll
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\Newtonsoft.Json.dll
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\bulldogForms.pdb
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Debug\Newtonsoft.Json.xml
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\bulldogForms.dll
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\Newtonsoft.Json.dll
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\bulldogForms.pdb
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\Newtonsoft.Json.xml
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.CopyComplete
