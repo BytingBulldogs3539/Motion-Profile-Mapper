@@ -91,8 +91,6 @@
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pass = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
-            this.port = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
             this.profilename = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
@@ -173,10 +171,12 @@
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.DistancePlot);
+            this.splitContainer1.Panel1.RightToLeft = System.Windows.Forms.RightToLeft.No;
             // 
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
+            this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.splitContainer1.Size = new System.Drawing.Size(1019, 933);
             this.splitContainer1.SplitterDistance = 456;
             this.splitContainer1.TabIndex = 3;
@@ -240,7 +240,7 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(231, 272);
+            this.controlPoints.Size = new System.Drawing.Size(231, 651);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
@@ -617,7 +617,7 @@
             // 
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deploy.Location = new System.Drawing.Point(64, 720);
+            this.deploy.Location = new System.Drawing.Point(349, 871);
             this.deploy.Name = "deploy";
             this.deploy.Size = new System.Drawing.Size(140, 46);
             this.deploy.TabIndex = 11;
@@ -628,7 +628,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(47, 605);
+            this.label11.Location = new System.Drawing.Point(333, 785);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(58, 13);
             this.label11.TabIndex = 12;
@@ -638,7 +638,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(43, 668);
+            this.label12.Location = new System.Drawing.Point(329, 848);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 13;
@@ -647,7 +647,7 @@
             // 
             // user
             // 
-            this.user.Location = new System.Drawing.Point(103, 602);
+            this.user.Location = new System.Drawing.Point(389, 782);
             this.user.Name = "user";
             this.user.Size = new System.Drawing.Size(100, 20);
             this.user.TabIndex = 14;
@@ -656,7 +656,7 @@
             // 
             // ipadd
             // 
-            this.ipadd.Location = new System.Drawing.Point(103, 665);
+            this.ipadd.Location = new System.Drawing.Point(389, 845);
             this.ipadd.Name = "ipadd";
             this.ipadd.Size = new System.Drawing.Size(100, 20);
             this.ipadd.TabIndex = 15;
@@ -670,7 +670,7 @@
             // 
             // pass
             // 
-            this.pass.Location = new System.Drawing.Point(103, 634);
+            this.pass.Location = new System.Drawing.Point(389, 814);
             this.pass.Name = "pass";
             this.pass.PasswordChar = '*';
             this.pass.Size = new System.Drawing.Size(100, 20);
@@ -680,35 +680,16 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(47, 637);
+            this.label13.Location = new System.Drawing.Point(333, 817);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(56, 13);
             this.label13.TabIndex = 17;
             this.label13.Text = "Password:";
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
-            // port
-            // 
-            this.port.Location = new System.Drawing.Point(104, 694);
-            this.port.Name = "port";
-            this.port.Size = new System.Drawing.Size(100, 20);
-            this.port.TabIndex = 20;
-            this.port.Text = "22";
-            this.port.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
-            // 
-            // label14
-            // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(74, 697);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(29, 13);
-            this.label14.TabIndex = 19;
-            this.label14.Text = "Port:";
-            this.label14.Click += new System.EventHandler(this.label14_Click);
-            // 
             // profilename
             // 
-            this.profilename.Location = new System.Drawing.Point(103, 571);
+            this.profilename.Location = new System.Drawing.Point(389, 751);
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
@@ -716,7 +697,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(36, 574);
+            this.label15.Location = new System.Drawing.Point(322, 754);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(70, 13);
             this.label15.TabIndex = 21;
@@ -724,14 +705,13 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScroll = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(1606, 961);
             this.Controls.Add(this.profilename);
             this.Controls.Add(this.label15);
-            this.Controls.Add(this.port);
-            this.Controls.Add(this.label14);
             this.Controls.Add(this.pass);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.ipadd);
@@ -773,6 +753,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "Form1";
+            this.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Byting Bulldogs (3539) - Motion Profiler Creator";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -847,8 +828,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.TextBox pass;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.TextBox port;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox profilename;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.DataGridViewTextBoxColumn x;

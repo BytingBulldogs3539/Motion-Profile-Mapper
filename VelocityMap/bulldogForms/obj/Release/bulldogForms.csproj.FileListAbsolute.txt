@@ -11,16 +11,3 @@ C:\Users\camco\Desktop\MPPC\VelocityMap\bulldogForms\obj\Release\bulldogForms.cs
 C:\Users\camco\Desktop\MPPC\VelocityMap\bulldogForms\obj\Release\bulldogForms.csproj.CoreCompileInputs.cache
 C:\Users\camco\Desktop\MPPC\VelocityMap\bulldogForms\obj\Release\bulldogForms.dll
 C:\Users\camco\Desktop\MPPC\VelocityMap\bulldogForms\obj\Release\bulldogForms.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\bin\Release\bulldogForms.dll
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\bin\Release\bulldogForms.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.csprojResolveAssemblyReference.cache
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\GeneratedInternalTypeHelper.g.cs
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms_MarkupCompile.cache
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms_MarkupCompile.lref
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\Themes\Generic.baml
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.g.resources
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.Properties.Resources.resources
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.csproj.GenerateResource.cache
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.csproj.CoreCompileInputs.cache
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.dll
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Release\bulldogForms.pdb

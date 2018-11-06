@@ -52,6 +52,7 @@ C:\Users\Devon\Desktop\vmap5\VelocityMap\VelocityMap\obj\Release\VelocityMap.csp
 C:\Users\Devon\Desktop\vmap5\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.CoreCompileInputs.cache
 C:\Users\Devon\Desktop\vmap5\VelocityMap\VelocityMap\obj\Release\VelocityMap.exe
 C:\Users\Devon\Desktop\vmap5\VelocityMap\VelocityMap\obj\Release\VelocityMap.pdb
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\FieldPoints.txt
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe.config
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\VelocityMap.pdb
@@ -66,10 +67,7 @@ C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe.
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\VelocityMap.exe
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\VelocityMap.pdb
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\bulldogForms.dll
-C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\DiffieHellman.dll
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Newtonsoft.Json.dll
-C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Org.Mentalis.Security.dll
-C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Tamir.SharpSSH.dll
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\bulldogForms.pdb
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Newtonsoft.Json.xml
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\obj\Release\VelocityMap.csprojResolveAssemblyReference.cache
@@ -80,8 +78,5 @@ C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\obj\Release\VelocityMap.cspr
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.CopyComplete
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\obj\Release\VelocityMap.exe
 C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\obj\Release\VelocityMap.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\bulldogForms.dll
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\Newtonsoft.Json.dll
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\bulldogForms.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Release\Newtonsoft.Json.xml
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Release\VelocityMap.csproj.CopyComplete
+C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Renci.SshNet.dll
+C:\Users\camco\Desktop\MPPC\VelocityMap\VelocityMap\bin\Release\Renci.SshNet.xml

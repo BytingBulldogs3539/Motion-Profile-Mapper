@@ -10,7 +10,8 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
-using Tamir.SharpSsh;
+using Renci.SshNet;
+using Renci.SshNet.Sftp;
 
 namespace VelocityMap
 {
@@ -34,7 +35,6 @@ namespace VelocityMap
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             loadFieldPoints();
             SetupMainField();
             SetupPlots();
@@ -1016,9 +1016,6 @@ namespace VelocityMap
                 writer.WritePropertyName("Ip-Address");
                 writer.WriteValue(ipadd.Text);
 
-                writer.WritePropertyName("Port");
-                writer.WriteValue(port.Text);
-
                 writer.WritePropertyName("Points");
                 writer.WriteStartArray();
 
@@ -1072,7 +1069,6 @@ namespace VelocityMap
                     profilename.Text = (string)o["Profile Name"];
                     user.Text = (string)o["Username"];
                     ipadd.Text = (string)o["Ip-Address"];
-                    port.Text = (string)o["Port"];
 
                     JArray a = (JArray)o["Points"];
 
@@ -1302,23 +1298,46 @@ namespace VelocityMap
                 return;
             }
 
-            Sftp sftp = new Sftp(ipadd.Text, user.Text, pass.Text);
+            SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
+            
             try
             {
                 this.Cursor = Cursors.WaitCursor;
-                sftp.Connect(Int32.Parse(port.Text));
+                sftp.Connect();
+                sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
+                using (FileStream fileStream = File.OpenRead(JSONPath))
+                {
+                    MemoryStream memStream = new MemoryStream();
+                    memStream.SetLength(fileStream.Length);
+                    fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
+                    sftp.UploadFile(memStream, Path.Combine("/home/lvuser/Motion_Profiles", profilename.Text + ".json"));
+                }
             }
-            catch(Tamir.SharpSsh.jsch.JSchException)
+            catch(Renci.SshNet.Common.SftpPermissionDeniedException e1)
             {
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Permission Denied By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Renci.SshNet.Common.SftpPathNotFoundException e1)
+            {
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
+                this.Cursor = Cursors.Default;
+                MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            catch (Exception e1)
+            {
+                Console.WriteLine("IOException source: {0}", e1.StackTrace);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             this.Cursor = Cursors.Default;
-            sftp.Put(JSONPath, Path.Combine("/home/lvuser/Motion_Profiles", profilename.Text + ".json"));
             MessageBox.Show("Success, don't forget to save the profile :)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
-            sftp.Cancel();
-            System.Threading.Thread.Sleep(10000);
+            sftp.Disconnect();
+            System.Threading.Thread.Sleep(100);
             File.Delete(JSONPath);
         }
 
