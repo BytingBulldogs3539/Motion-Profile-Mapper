@@ -34,6 +34,7 @@ namespace VelocityMap
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             loadFieldPoints();
             SetupMainField();
             SetupPlots();
@@ -42,8 +43,6 @@ namespace VelocityMap
             VelocityPlot.Dock = DockStyle.Fill;
 
             splitContainer1.SplitterDistance = splitContainer1.Height / 2;
-
-            this.WindowState = FormWindowState.Maximized;
 
 
         }
@@ -156,7 +155,7 @@ namespace VelocityMap
             int h = this.Height;
             int w = this.Width;
 
-            if (this.WindowState == FormWindowState.Maximized)
+            /*if (this.WindowState == FormWindowState.Maximized)
             {
                 this.Top = Screen.PrimaryScreen.WorkingArea.Top;
                 this.WindowState = FormWindowState.Normal;
@@ -164,7 +163,7 @@ namespace VelocityMap
                 this.Width = h + 550 - 30;
                 this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
 
-            }
+            }*/
         }
 
         #endregion
