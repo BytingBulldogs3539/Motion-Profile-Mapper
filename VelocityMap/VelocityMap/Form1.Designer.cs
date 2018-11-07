@@ -109,14 +109,16 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.Field);
             this.tabControl1.Controls.Add(this.Data);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tabControl1.Location = new System.Drawing.Point(577, 0);
+            this.tabControl1.Location = new System.Drawing.Point(464, 1);
             this.tabControl1.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1029, 961);
+            this.tabControl1.Size = new System.Drawing.Size(680, 677);
             this.tabControl1.TabIndex = 1;
             // 
             // Field
@@ -126,22 +128,24 @@
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(1021, 935);
+            this.Field.Size = new System.Drawing.Size(672, 651);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             this.Field.UseVisualStyleBackColor = true;
             // 
             // mainField
             // 
+            this.mainField.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             chartArea1.Name = "ChartArea1";
             this.mainField.ChartAreas.Add(chartArea1);
-            this.mainField.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainField.Location = new System.Drawing.Point(1, 1);
             this.mainField.Name = "mainField";
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.mainField.Series.Add(series1);
-            this.mainField.Size = new System.Drawing.Size(1019, 933);
+            this.mainField.Size = new System.Drawing.Size(670, 649);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseClick);
@@ -240,7 +244,7 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(231, 651);
+            this.controlPoints.Size = new System.Drawing.Size(231, 367);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
@@ -617,7 +621,7 @@
             // 
             this.deploy.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.deploy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            this.deploy.Location = new System.Drawing.Point(349, 871);
+            this.deploy.Location = new System.Drawing.Point(301, 137);
             this.deploy.Name = "deploy";
             this.deploy.Size = new System.Drawing.Size(140, 46);
             this.deploy.TabIndex = 11;
@@ -628,7 +632,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(333, 785);
+            this.label11.Location = new System.Drawing.Point(285, 51);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(58, 13);
             this.label11.TabIndex = 12;
@@ -638,7 +642,7 @@
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(329, 848);
+            this.label12.Location = new System.Drawing.Point(281, 114);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 13;
@@ -647,7 +651,7 @@
             // 
             // user
             // 
-            this.user.Location = new System.Drawing.Point(389, 782);
+            this.user.Location = new System.Drawing.Point(341, 48);
             this.user.Name = "user";
             this.user.Size = new System.Drawing.Size(100, 20);
             this.user.TabIndex = 14;
@@ -656,7 +660,7 @@
             // 
             // ipadd
             // 
-            this.ipadd.Location = new System.Drawing.Point(389, 845);
+            this.ipadd.Location = new System.Drawing.Point(341, 111);
             this.ipadd.Name = "ipadd";
             this.ipadd.Size = new System.Drawing.Size(100, 20);
             this.ipadd.TabIndex = 15;
@@ -670,7 +674,7 @@
             // 
             // pass
             // 
-            this.pass.Location = new System.Drawing.Point(389, 814);
+            this.pass.Location = new System.Drawing.Point(341, 80);
             this.pass.Name = "pass";
             this.pass.PasswordChar = '*';
             this.pass.Size = new System.Drawing.Size(100, 20);
@@ -680,7 +684,7 @@
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(333, 817);
+            this.label13.Location = new System.Drawing.Point(285, 83);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(56, 13);
             this.label13.TabIndex = 17;
@@ -689,7 +693,7 @@
             // 
             // profilename
             // 
-            this.profilename.Location = new System.Drawing.Point(389, 751);
+            this.profilename.Location = new System.Drawing.Point(341, 17);
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
@@ -697,7 +701,7 @@
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(322, 754);
+            this.label15.Location = new System.Drawing.Point(274, 20);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(70, 13);
             this.label15.TabIndex = 21;
@@ -705,11 +709,8 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.AutoScroll = true;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(1606, 961);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
+            this.ClientSize = new System.Drawing.Size(1142, 677);
             this.Controls.Add(this.profilename);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.pass);

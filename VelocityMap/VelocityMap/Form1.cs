@@ -30,6 +30,7 @@ namespace VelocityMap
         #region mainForm
         public Form1()
         {
+
             InitializeComponent();
         }
 
@@ -1118,11 +1119,6 @@ namespace VelocityMap
         }
 
         private void controlPoints_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void checkBox2_CheckedChanged(object sender, EventArgs e)
         {
 
         }
