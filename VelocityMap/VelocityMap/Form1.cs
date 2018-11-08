@@ -1300,13 +1300,21 @@ namespace VelocityMap
             {
                 this.Cursor = Cursors.WaitCursor;
                 sftp.Connect();
-                sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
+                try
+                {
+                    sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
+
+                }
+                catch(Exception e2)
+                {
+
+                }
                 using (FileStream fileStream = File.OpenRead(JSONPath))
                 {
                     MemoryStream memStream = new MemoryStream();
                     memStream.SetLength(fileStream.Length);
                     fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
-                    sftp.UploadFile(memStream, Path.Combine("/home/lvuser/Motion_Profiles", profilename.Text + ".json"));
+                    sftp.UploadFile(memStream, Path.Combine("/home/lvuser/Motion_Profiles/", profilename.Text + ".json"));
                 }
             }
             catch(Renci.SshNet.Common.SftpPermissionDeniedException e1)
