@@ -333,9 +333,9 @@ namespace VelocityMap
                                     row.Cells[0].Value = dx;
                                     row.Cells[1].Value = dy;
 
-                                    row.Selected = true;
 
                                     rowIndex = row.Index;
+                                    row.Selected = true;
 
 
                                 }
@@ -393,6 +393,38 @@ namespace VelocityMap
         {
 
         }
+        //ToDo: Do this
+        private void controlPoints_CellSelect(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            if (e.StateChanged != DataGridViewElementStates.Selected) return;
+            Console.WriteLine(controlPoints.RowCount - 1);
+            for(int x=0; x<=controlPoints.RowCount-2; x++)
+            {
+
+                DataGridViewRow row = controlPoints.Rows[x];
+                if (row.Cells[2].Value.ToString() != "") 
+                {
+                    if (row.Cells[2].Value.ToString() == "-")
+                    {
+                        mainField.Series["cp"].Points[x].Color = Color.Red;
+                        Console.WriteLine("TEST");
+
+                    }
+
+                    if (row.Cells[2].Value.ToString() == "+")
+                    {
+                        mainField.Series["cp"].Points[x].Color = Color.Green;
+                        Console.WriteLine("TEST");
+
+                    }
+                    //mainField.Series["cp"].Points[controlPoints.SelectedRows[0].Index].Color = Color.Cyan;
+
+                }
+            }
+            //mainField.Series["cp"].Points[controlPoints.SelectedRows[0].Index].Color = Color.Cyan;
+
+
+        }
 
         private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
@@ -414,18 +446,26 @@ namespace VelocityMap
 
             if (e.Button == MouseButtons.Right)
             {
-                this.controlPoints.Rows[e.RowIndex].Selected = true;
-                this.rowIndex = e.RowIndex;
-                this.controlPoints.CurrentCell = this.controlPoints.Rows[e.RowIndex].Cells[1];
-                this.contextMenuStrip1.Show(this.controlPoints, e.Location);
-                contextMenuStrip1.Show(controlPoints, e.Location);
+                if (e.RowIndex >= 0)
+                {
+                    this.controlPoints.Rows[e.RowIndex].Selected = true;
+                    this.rowIndex = e.RowIndex;
+                    this.controlPoints.CurrentCell = this.controlPoints.Rows[e.RowIndex].Cells[1];
+
+                    var relativeMousePosition = this.controlPoints.PointToClient(System.Windows.Forms.Cursor.Position);
+                    this.contextMenuStrip2.Show(this.controlPoints, relativeMousePosition);
+                }
+
+
             }
         }
 
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (controlPoints.Rows[rowIndex].Cells[0].Value != null)
+            if (rowIndex != controlPoints.RowCount-1)
+            { 
                 controlPoints.Rows.RemoveAt(rowIndex);
+            }
             ReloadControlPoints();
 
         }
@@ -451,9 +491,55 @@ namespace VelocityMap
 
         }
 
-        private void insertToolStripMenuItem_Click(object sender, EventArgs e)
+        private void insertAbove_Click(object sender, EventArgs e)
         {
             controlPoints.Rows.Insert(rowIndex);
+        }
+        private void insertBelow_Click(object sender, EventArgs e)
+        {
+            controlPoints.Rows.Insert(rowIndex+1);
+        }
+
+        private void btnUp_Click(object sender, EventArgs e)
+        {
+            DataGridView dgv = controlPoints;
+            try
+            {
+                int totalRows = dgv.Rows.Count;
+                // get index of the row for the selected cell
+                int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
+                if (rowIndex == 0)
+                    return;
+                // get index of the column for the selected cell
+                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
+                DataGridViewRow selectedRow = dgv.Rows[rowIndex];
+                dgv.Rows.Remove(selectedRow);
+                dgv.Rows.Insert(rowIndex - 1, selectedRow);
+                dgv.ClearSelection();
+                dgv.Rows[rowIndex - 1].Cells[colIndex].Selected = true;
+            }
+            catch { }
+        }
+
+        private void btnDown_Click(object sender, EventArgs e)
+        {
+            DataGridView dgv = controlPoints;
+            try
+            {
+                int totalRows = dgv.Rows.Count;
+                // get index of the row for the selected cell
+                int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
+                if (rowIndex == totalRows - 1)
+                    return;
+                // get index of the column for the selected cell
+                int colIndex = dgv.SelectedCells[0].OwningColumn.Index;
+                DataGridViewRow selectedRow = dgv.Rows[rowIndex];
+                dgv.Rows.Remove(selectedRow);
+                dgv.Rows.Insert(rowIndex + 1, selectedRow);
+                dgv.ClearSelection();
+                dgv.Rows[rowIndex + 1].Cells[colIndex].Selected = true;
+            }
+            catch { }
         }
 
         #endregion
@@ -1118,11 +1204,6 @@ namespace VelocityMap
 
         }
 
-        private void controlPoints_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void label9_Click(object sender, EventArgs e)
         {
 
@@ -1402,6 +1483,8 @@ namespace VelocityMap
         {
 
         }
+
+
     }
 }
 

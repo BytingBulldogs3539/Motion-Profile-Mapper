@@ -72,9 +72,6 @@
             this.isntaVel = new System.Windows.Forms.CheckBox();
             this.button3 = new System.Windows.Forms.Button();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.Delete = new System.Windows.Forms.ToolStripMenuItem();
-            this.insertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.SpeedLimit = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.TurnCheck = new System.Windows.Forms.CheckBox();
@@ -88,11 +85,16 @@
             this.label12 = new System.Windows.Forms.Label();
             this.user = new System.Windows.Forms.TextBox();
             this.ipadd = new System.Windows.Forms.TextBox();
-            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.pass = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.profilename = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
+            this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveUpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.moveDownToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.insertBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.Field.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainField)).BeginInit();
@@ -104,7 +106,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DistancePlot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.VelocityPlot)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).BeginInit();
-            this.contextMenuStrip1.SuspendLayout();
+            this.contextMenuStrip2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -159,7 +161,7 @@
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(1021, 935);
+            this.Data.Size = new System.Drawing.Size(672, 651);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -181,8 +183,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(1019, 933);
-            this.splitContainer1.SplitterDistance = 456;
+            this.splitContainer1.Size = new System.Drawing.Size(670, 649);
+            this.splitContainer1.SplitterDistance = 317;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
@@ -195,7 +197,7 @@
             series2.ChartArea = "ChartArea1";
             series2.Name = "Series1";
             this.DistancePlot.Series.Add(series2);
-            this.DistancePlot.Size = new System.Drawing.Size(1019, 235);
+            this.DistancePlot.Size = new System.Drawing.Size(670, 235);
             this.DistancePlot.TabIndex = 2;
             this.DistancePlot.Text = "chart2";
             // 
@@ -204,13 +206,13 @@
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, 275);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, 130);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             series3.ChartArea = "ChartArea1";
             series3.Name = "Series1";
             this.VelocityPlot.Series.Add(series3);
-            this.VelocityPlot.Size = new System.Drawing.Size(1019, 198);
+            this.VelocityPlot.Size = new System.Drawing.Size(670, 198);
             this.VelocityPlot.TabIndex = 1;
             this.VelocityPlot.Text = "chart2";
             // 
@@ -249,6 +251,7 @@
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
             this.controlPoints.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.controlPoints_CellValidating);
+            this.controlPoints.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.controlPoints_CellSelect);
             // 
             // x
             // 
@@ -511,29 +514,6 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.Invert_Click);
             // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.Delete,
-            this.insertToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(141, 48);
-            // 
-            // Delete
-            // 
-            this.Delete.Name = "Delete";
-            this.Delete.Size = new System.Drawing.Size(140, 22);
-            this.Delete.Text = "Delete";
-            this.Delete.Click += new System.EventHandler(this.Delete_Click);
-            // 
-            // insertToolStripMenuItem
-            // 
-            this.insertToolStripMenuItem.Name = "insertToolStripMenuItem";
-            this.insertToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
-            this.insertToolStripMenuItem.Text = "Insert Above";
-            this.insertToolStripMenuItem.Click += new System.EventHandler(this.insertToolStripMenuItem_Click);
-            // 
             // SpeedLimit
             // 
             this.SpeedLimit.Location = new System.Drawing.Point(179, 92);
@@ -667,11 +647,6 @@
             this.ipadd.Text = "10.35.39.2";
             this.ipadd.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
-            // contextMenuStrip2
-            // 
-            this.contextMenuStrip2.Name = "contextMenuStrip2";
-            this.contextMenuStrip2.Size = new System.Drawing.Size(61, 4);
-            // 
             // pass
             // 
             this.pass.Location = new System.Drawing.Point(341, 80);
@@ -706,6 +681,52 @@
             this.label15.Size = new System.Drawing.Size(70, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
+            // 
+            // contextMenuStrip2
+            // 
+            this.contextMenuStrip2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.deleteToolStripMenuItem,
+            this.moveUpToolStripMenuItem,
+            this.moveDownToolStripMenuItem,
+            this.insertAboveToolStripMenuItem,
+            this.insertBelowToolStripMenuItem});
+            this.contextMenuStrip2.Name = "contextMenuStrip2";
+            this.contextMenuStrip2.Size = new System.Drawing.Size(141, 114);
+            // 
+            // deleteToolStripMenuItem
+            // 
+            this.deleteToolStripMenuItem.Name = "deleteToolStripMenuItem";
+            this.deleteToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.deleteToolStripMenuItem.Text = "Delete";
+            this.deleteToolStripMenuItem.Click += new System.EventHandler(this.Delete_Click);
+            // 
+            // moveUpToolStripMenuItem
+            // 
+            this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveUpToolStripMenuItem.Text = "Move Up";
+            this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // moveDownToolStripMenuItem
+            // 
+            this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.moveDownToolStripMenuItem.Text = "Move Down";
+            this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // insertAboveToolStripMenuItem
+            // 
+            this.insertAboveToolStripMenuItem.Name = "insertAboveToolStripMenuItem";
+            this.insertAboveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertAboveToolStripMenuItem.Text = "Insert Above";
+            this.insertAboveToolStripMenuItem.Click += new System.EventHandler(this.insertAbove_Click);
+            // 
+            // insertBelowToolStripMenuItem
+            // 
+            this.insertBelowToolStripMenuItem.Name = "insertBelowToolStripMenuItem";
+            this.insertBelowToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
+            this.insertBelowToolStripMenuItem.Text = "Insert Below";
+            this.insertBelowToolStripMenuItem.Click += new System.EventHandler(this.insertBelow_Click);
             // 
             // Form1
             // 
@@ -771,7 +792,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DistancePlot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.VelocityPlot)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.controlPoints)).EndInit();
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.contextMenuStrip2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -809,9 +830,6 @@
         private System.Windows.Forms.CheckBox isntaVel;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem Delete;
-        private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem;
         private System.Windows.Forms.TextBox SpeedLimit;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox TurnCheck;
@@ -826,7 +844,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox user;
         private System.Windows.Forms.TextBox ipadd;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
         private System.Windows.Forms.TextBox pass;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TextBox profilename;
@@ -834,6 +851,12 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn x;
         private System.Windows.Forms.DataGridViewTextBoxColumn y;
         private System.Windows.Forms.DataGridViewTextBoxColumn Direction;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip2;
+        private System.Windows.Forms.ToolStripMenuItem deleteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertAboveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem insertBelowToolStripMenuItem;
     }
 }
 
