@@ -120,7 +120,7 @@
             this.tabControl1.Margin = new System.Windows.Forms.Padding(1);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(680, 677);
+            this.tabControl1.Size = new System.Drawing.Size(680, 916);
             this.tabControl1.TabIndex = 1;
             // 
             // Field
@@ -130,7 +130,7 @@
             this.Field.Margin = new System.Windows.Forms.Padding(1);
             this.Field.Name = "Field";
             this.Field.Padding = new System.Windows.Forms.Padding(1);
-            this.Field.Size = new System.Drawing.Size(672, 651);
+            this.Field.Size = new System.Drawing.Size(672, 890);
             this.Field.TabIndex = 0;
             this.Field.Text = "Field";
             this.Field.UseVisualStyleBackColor = true;
@@ -147,7 +147,7 @@
             series1.ChartArea = "ChartArea1";
             series1.Name = "Series1";
             this.mainField.Series.Add(series1);
-            this.mainField.Size = new System.Drawing.Size(670, 649);
+            this.mainField.Size = new System.Drawing.Size(670, 888);
             this.mainField.TabIndex = 4;
             this.mainField.Text = "chart2";
             this.mainField.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainField_MouseClick);
@@ -161,7 +161,7 @@
             this.Data.Margin = new System.Windows.Forms.Padding(1);
             this.Data.Name = "Data";
             this.Data.Padding = new System.Windows.Forms.Padding(1);
-            this.Data.Size = new System.Drawing.Size(672, 651);
+            this.Data.Size = new System.Drawing.Size(672, 890);
             this.Data.TabIndex = 1;
             this.Data.Text = "Data";
             this.Data.UseVisualStyleBackColor = true;
@@ -183,8 +183,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.VelocityPlot);
             this.splitContainer1.Panel2.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.splitContainer1.Size = new System.Drawing.Size(670, 649);
-            this.splitContainer1.SplitterDistance = 317;
+            this.splitContainer1.Size = new System.Drawing.Size(670, 888);
+            this.splitContainer1.SplitterDistance = 433;
             this.splitContainer1.TabIndex = 3;
             // 
             // DistancePlot
@@ -206,7 +206,7 @@
             chartArea3.Name = "ChartArea1";
             this.VelocityPlot.ChartAreas.Add(chartArea3);
             this.VelocityPlot.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.VelocityPlot.Location = new System.Drawing.Point(0, 130);
+            this.VelocityPlot.Location = new System.Drawing.Point(0, 253);
             this.VelocityPlot.Name = "VelocityPlot";
             this.VelocityPlot.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
             series3.ChartArea = "ChartArea1";
@@ -246,7 +246,7 @@
             this.controlPoints.RowTemplate.Height = 40;
             this.controlPoints.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.controlPoints.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.controlPoints.Size = new System.Drawing.Size(231, 367);
+            this.controlPoints.Size = new System.Drawing.Size(231, 606);
             this.controlPoints.TabIndex = 2;
             this.controlPoints.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.controlPoints_CellEndEdit);
             this.controlPoints.CellMouseUp += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.controlPoints_CellMouseUp);
@@ -430,7 +430,7 @@
             this.wheel.Name = "wheel";
             this.wheel.Size = new System.Drawing.Size(45, 20);
             this.wheel.TabIndex = 4;
-            this.wheel.Text = "6";
+            this.wheel.Text = "4";
             this.wheel.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // tolerence
@@ -672,6 +672,7 @@
             this.profilename.Name = "profilename";
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
+            this.profilename.Text = "AUSA";
             // 
             // label15
             // 
@@ -731,7 +732,7 @@
             // Form1
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1142, 677);
+            this.ClientSize = new System.Drawing.Size(1142, 916);
             this.Controls.Add(this.profilename);
             this.Controls.Add(this.label15);
             this.Controls.Add(this.pass);

@@ -26,7 +26,6 @@ C:\Users\Cameron\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms
 C:\Users\Cameron\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.pdb
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\bin\Debug\bulldogForms.dll
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\bin\Debug\bulldogForms.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.csprojResolveAssemblyReference.cache
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms_MarkupCompile.cache
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms_MarkupCompile.lref
@@ -37,3 +36,4 @@ C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\o
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.csproj.CoreCompileInputs.cache
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.dll
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.pdb
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\bulldogForms\obj\Debug\bulldogForms.csprojAssemblyReference.cache

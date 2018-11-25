@@ -41,7 +41,6 @@ G:\vmap2\VelocityMap\VelocityMap\obj\Debug\VelocityMap.pdb
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe.config
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.exe
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\VelocityMap.pdb
-C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojResolveAssemblyReference.cache
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Form1.resources
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.Properties.Resources.resources
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.GenerateResource.cache
@@ -100,3 +99,4 @@ C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bi
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\Newtonsoft.Json.xml
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\bin\Debug\Renci.SshNet.xml
 C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csproj.CopyComplete
+C:\Users\camco\Documents\GitHub\Motion-Profile-Mapper\VelocityMap\VelocityMap\obj\Debug\VelocityMap.csprojAssemblyReference.cache

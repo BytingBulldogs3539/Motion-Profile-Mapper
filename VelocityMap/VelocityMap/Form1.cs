@@ -18,7 +18,8 @@ namespace VelocityMap
     public partial class Form1 : Form
     {
         private List<int[]> fieldpts = new List<int[]>();
-        private int fieldWidth = 8230;
+        private int fieldHeight = 4267;
+        private int fieldWidth = 3048;
         int padding = 1;
         private Bitmap baseFieldImage;
         private MotionProfile.Trajectory paths;
@@ -59,7 +60,7 @@ namespace VelocityMap
             mainField.Series.Add("test");
             mainField.Series["test"].ChartType = SeriesChartType.Point;
             mainField.Series["test"].Points.AddXY(0, 0);
-            mainField.Series["test"].Points.AddXY(fieldWidth, fieldWidth);
+            mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
 
             mainField.Series.Add("path");
             mainField.Series.Add("left");
@@ -87,7 +88,7 @@ namespace VelocityMap
             mainField.ChartAreas[0].Axes[0].Interval = 1000;
             mainField.ChartAreas[0].Axes[0].Minimum = 0;
 
-            mainField.ChartAreas[0].Axes[1].Maximum = fieldWidth;
+            mainField.ChartAreas[0].Axes[1].Maximum = fieldHeight;
             mainField.ChartAreas[0].Axes[1].Interval = 1000;
             mainField.ChartAreas[0].Axes[1].Minimum = 0;
 
@@ -144,7 +145,7 @@ namespace VelocityMap
             }
 
             mainField.Series["test"].Points.AddXY(0, 0);
-            mainField.Series["test"].Points.AddXY(fieldWidth, fieldWidth);
+            mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
         }
         private void Form1_Resize(object sender, EventArgs e)
         {
@@ -205,7 +206,7 @@ namespace VelocityMap
             Pen bluePen = new Pen(Color.Red, 10);
 
             //create the drawing bitmap
-            Bitmap b = new Bitmap(fieldWidth + padding * 2, fieldWidth + padding * 2);
+            Bitmap b = new Bitmap(fieldWidth + padding * 2, fieldHeight + padding * 2);
 
             //draw the grid on the bitmap
             //   b = drawGrid(pictureBox1.Width, pictureBox1.Height, b, 50, true);
@@ -216,7 +217,7 @@ namespace VelocityMap
             g.DrawRectangle(bluePen, new Rectangle(0, 0, b.Width - padding, b.Height - padding));
 
             //draw the fieldObjects on the bitmap
-            foreach (int[] obj in fieldpts)
+            /*foreach (int[] obj in fieldpts)
             {
                 if (obj.Length >= 4)
                 {
@@ -242,7 +243,7 @@ namespace VelocityMap
                     g.FillRectangle(brush, makeRectangle(pts));
                     g.DrawRectangle(pen, makeRectangle(pts));
                 }
-            }
+            }*/
             //clear up remaining handles
             bluePen.Dispose();
             g.Dispose();
@@ -264,7 +265,7 @@ namespace VelocityMap
                 double x = c.ChartAreas[0].AxisX.PixelPositionToValue(e.X);
                 double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
-                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldWidth)
+                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
                     c.Series["cp"].Points.AddXY(x, y);
 
@@ -285,7 +286,7 @@ namespace VelocityMap
                 double y = c.ChartAreas[0].AxisY.PixelPositionToValue(e.Y);
 
 
-                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldWidth)
+                if (x > 0 && y > 0 && x <= fieldWidth && y <= fieldHeight)
                 {
                     c.Series["cp"].Points.AddXY(x, y);
                     mainField.Series["cp"].Points.Last().Color = Color.Red;
