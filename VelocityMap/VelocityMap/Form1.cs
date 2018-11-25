@@ -1421,7 +1421,7 @@ namespace VelocityMap
                 return;
             }
             this.Cursor = Cursors.Default;
-            MessageBox.Show("Success, don't forget to save the profile :)", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            MessageBox.Show("Success", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
             sftp.Disconnect();
             System.Threading.Thread.Sleep(100);
             File.Delete(JSONPath);

@@ -293,6 +293,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "Save";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.Save_Click);
             // 
             // button2
@@ -313,7 +314,7 @@
             this.maxVelocity.Name = "maxVelocity";
             this.maxVelocity.Size = new System.Drawing.Size(71, 20);
             this.maxVelocity.TabIndex = 4;
-            this.maxVelocity.Text = "2500";
+            this.maxVelocity.Text = "1000";
             this.maxVelocity.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // timeSample
@@ -466,6 +467,7 @@
             this.cpLoad.TabIndex = 3;
             this.cpLoad.Text = "Load";
             this.cpLoad.UseVisualStyleBackColor = true;
+            this.cpLoad.Visible = false;
             this.cpLoad.Click += new System.EventHandler(this.Load_Click);
             // 
             // label5
@@ -617,6 +619,7 @@
             this.label11.Size = new System.Drawing.Size(58, 13);
             this.label11.TabIndex = 12;
             this.label11.Text = "Username:";
+            this.label11.Visible = false;
             this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label12
@@ -627,6 +630,7 @@
             this.label12.Size = new System.Drawing.Size(60, 13);
             this.label12.TabIndex = 13;
             this.label12.Text = "Ip-Address:";
+            this.label12.Visible = false;
             this.label12.Click += new System.EventHandler(this.label12_Click);
             // 
             // user
@@ -636,6 +640,7 @@
             this.user.Size = new System.Drawing.Size(100, 20);
             this.user.TabIndex = 14;
             this.user.Text = "lvuser";
+            this.user.Visible = false;
             this.user.TextChanged += new System.EventHandler(this.user_TextChanged);
             // 
             // ipadd
@@ -645,6 +650,7 @@
             this.ipadd.Size = new System.Drawing.Size(100, 20);
             this.ipadd.TabIndex = 15;
             this.ipadd.Text = "10.35.39.2";
+            this.ipadd.Visible = false;
             this.ipadd.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
             // pass
@@ -654,6 +660,7 @@
             this.pass.PasswordChar = '*';
             this.pass.Size = new System.Drawing.Size(100, 20);
             this.pass.TabIndex = 18;
+            this.pass.Visible = false;
             this.pass.TextChanged += new System.EventHandler(this.textBox3_TextChanged);
             // 
             // label13
@@ -664,6 +671,7 @@
             this.label13.Size = new System.Drawing.Size(56, 13);
             this.label13.TabIndex = 17;
             this.label13.Text = "Password:";
+            this.label13.Visible = false;
             this.label13.Click += new System.EventHandler(this.label13_Click);
             // 
             // profilename
@@ -673,6 +681,7 @@
             this.profilename.Size = new System.Drawing.Size(100, 20);
             this.profilename.TabIndex = 22;
             this.profilename.Text = "AUSA";
+            this.profilename.Visible = false;
             // 
             // label15
             // 
@@ -682,6 +691,7 @@
             this.label15.Size = new System.Drawing.Size(70, 13);
             this.label15.TabIndex = 21;
             this.label15.Text = "Profile Name:";
+            this.label15.Visible = false;
             // 
             // contextMenuStrip2
             // 
