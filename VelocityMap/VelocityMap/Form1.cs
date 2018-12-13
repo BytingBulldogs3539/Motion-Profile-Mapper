@@ -18,7 +18,7 @@ namespace VelocityMap
     public partial class Form1 : Form
     {
         private List<int[]> fieldpts = new List<int[]>();
-        private int fieldHeight = 4267;
+        private int fieldHeight = 3500;
         private int fieldWidth = 3048;
         int padding = 1;
         private Bitmap baseFieldImage;
@@ -67,7 +67,7 @@ namespace VelocityMap
             mainField.Series.Add("right");
             mainField.Series.Add("cp");
 
-            mainField.Series["cp"].MarkerSize = 8;
+            mainField.Series["cp"].MarkerSize = 10;
             mainField.Series["path"].MarkerSize = 2;
             mainField.Series["left"].MarkerSize = 2;
             mainField.Series["right"].MarkerSize = 2;
@@ -317,6 +317,11 @@ namespace VelocityMap
 
                     if (hit.PointIndex >= 0)
                     {
+                        if (hit.Series == null)
+                            return;
+                        if (hit.Series.Points[hit.PointIndex] == null)
+                            return;
+
                         dp = hit.Series.Points[hit.PointIndex];
                         foreach (DataGridViewRow row in controlPoints.Rows)
                         {
@@ -397,37 +402,54 @@ namespace VelocityMap
         //ToDo: Do this
         private void controlPoints_CellSelect(object sender, DataGridViewRowStateChangedEventArgs e)
         {
-            if (e.StateChanged != DataGridViewElementStates.Selected) return;
-            Console.WriteLine(controlPoints.RowCount - 1);
-            for(int x=0; x<=controlPoints.RowCount-2; x++)
-            {
-
-                DataGridViewRow row = controlPoints.Rows[x];
-                if (row.Cells[2].Value.ToString() != "") 
-                {
-                    if (row.Cells[2].Value.ToString() == "-")
-                    {
-                        mainField.Series["cp"].Points[x].Color = Color.Red;
-                        Console.WriteLine("TEST");
-
-                    }
-
-                    if (row.Cells[2].Value.ToString() == "+")
-                    {
-                        mainField.Series["cp"].Points[x].Color = Color.Green;
-                        Console.WriteLine("TEST");
-
-                    }
-                    //mainField.Series["cp"].Points[controlPoints.SelectedRows[0].Index].Color = Color.Cyan;
-
-                }
-            }
-            //mainField.Series["cp"].Points[controlPoints.SelectedRows[0].Index].Color = Color.Cyan;
-
 
         }
+        private void controlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+            Console.WriteLine(e.Row.Index);
+            Console.WriteLine(controlPoints.Rows.Count);
+            if (e.StateChanged != DataGridViewElementStates.Selected)
+            {
+                return;
+            }
 
-        private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+            if (e.Row.Selected == true)
+            {
+                foreach (DataGridViewRow row in controlPoints.Rows)
+                {
+                    if (controlPoints.Rows.Count - 2 != 0)
+                    {
+                        if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
+                        {
+                            if (row.Cells[2].Value != null)
+                            {
+                                Console.WriteLine(row.Index);
+                                if (row.Cells[2].Value.ToString() == "-")
+                                {
+                                    mainField.Series["cp"].Points[row.Index].Color = Color.Red;
+                                }
+
+                                if (row.Cells[2].Value.ToString() == "+")
+                                {
+                                    mainField.Series["cp"].Points[row.Index].Color = Color.Green;
+
+                                }
+                            }
+                        }
+                    }
+                }
+                if (controlPoints.Rows.Count - 2 != 0)
+                {
+                    if (e.Row.Index >= 0 && e.Row.Index <= controlPoints.Rows.Count - 2)
+                    {
+                        Console.WriteLine(e.Row.Index);
+                        mainField.Series["cp"].Points[e.Row.Index].Color = Color.Yellow;
+                    }
+                }
+            }
+        }
+
+    private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 2)
             {
@@ -617,6 +639,10 @@ namespace VelocityMap
                     mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
                     if (path.controlPoints.Count == 0)
                     {
+                        if(row.Cells[2].Value==null)
+                        {
+                            row.Cells[2].Value = "+";
+                        }
                         if (row.Cells[2].Value.ToString() == "-")
                             path.direction = true;
                         if (row.Cells[2].Value.ToString() == "+")
@@ -1162,7 +1188,6 @@ namespace VelocityMap
 
                     for(int x=0; x<=a.Count-1; x++)
                     {
-                        Console.WriteLine(x+" "+a[x]);
                         controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
                     }
                 }
@@ -1485,7 +1510,42 @@ namespace VelocityMap
 
         }
 
+        private void button4_Click_1(object sender, EventArgs e)
+        {
 
+            List<DataGridViewRow> rows = new List<DataGridViewRow>();
+            foreach (DataGridViewRow row in controlPoints.Rows)
+            {
+                if (row.Cells[2].Value != null)
+                {
+                    rows.Add(row);
+                }
+            }
+            rows.Reverse();
+            controlPoints.Rows.Clear();
+            controlPoints.Rows.AddRange(rows.ToArray());
+            foreach (DataGridViewRow row in controlPoints.Rows)
+            {
+                if (row.Cells[2].Value != null)
+                {
+                    if(row.Cells[2].Value.ToString() == "-")
+                    {
+                        row.Cells[2].Value ="+";
+                    }
+                    else if (row.Cells[2].Value.ToString() == "+")
+                    {
+                        row.Cells[2].Value = "-";
+                    }
+
+                }
+            }
+            Apply_Click(sender, e);
+        }
+
+        private void degrees_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
