@@ -31,12 +31,13 @@ namespace VelocityMap
         #region mainForm
         public Form1()
         {
-
+            //Create the window with all the fancy buttons.
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Put all of the points from the fieldpoints.txt and put them on the field
             loadFieldPoints();
             SetupMainField();
             SetupPlots();
@@ -51,10 +52,13 @@ namespace VelocityMap
 
         private void SetupMainField()
         {
-            baseFieldImage = buildField();
 
+            baseFieldImage = buildField();
+            //convert the bitmap to an image that we can put on the field.
             Image b = new Bitmap(baseFieldImage, 1000, 1000);
+            //Flip the image because someone created the field upside down....
             b.RotateFlip(RotateFlipType.Rotate180FlipNone);
+            //Give the background image a name...
             NamedImage backImage = new NamedImage("Background", b);
 
             mainField.Series.Add("test");
@@ -66,13 +70,15 @@ namespace VelocityMap
             mainField.Series.Add("left");
             mainField.Series.Add("right");
             mainField.Series.Add("cp");
-
+            //setup the point size(the dot size on the graph)
             mainField.Series["cp"].MarkerSize = 10;
             mainField.Series["path"].MarkerSize = 2;
             mainField.Series["left"].MarkerSize = 2;
             mainField.Series["right"].MarkerSize = 2;
-
-            mainField.Series["cp"].MarkerStyle = MarkerStyle.Circle;
+            
+            //set what the points/dots look like
+            mainField.Series["cp"].MarkerStyle = MarkerStyle.Diamond;
+            //set the chart type like pie, point, bar, etc
             mainField.Series["cp"].ChartType = SeriesChartType.Point;
             mainField.Series["path"].ChartType = SeriesChartType.Point;
             mainField.Series["left"].ChartType = SeriesChartType.Point;
@@ -83,7 +89,7 @@ namespace VelocityMap
             mainField.Series["left"].Color = Color.Blue;
             mainField.Series["right"].Color = Color.Red;
 
-
+            //this sets up what the graph domain and range is and what our increments are.
             mainField.ChartAreas[0].Axes[0].Maximum = fieldWidth;
             mainField.ChartAreas[0].Axes[0].Interval = 1000;
             mainField.ChartAreas[0].Axes[0].Minimum = 0;
@@ -92,6 +98,8 @@ namespace VelocityMap
             mainField.ChartAreas[0].Axes[1].Interval = 1000;
             mainField.ChartAreas[0].Axes[1].Minimum = 0;
 
+
+            //set the background to the background.
             mainField.Images.Add(backImage);
             mainField.ChartAreas[0].BackImageWrapMode = ChartImageWrapMode.Scaled;
             mainField.ChartAreas[0].BackImage = "Background";
@@ -99,24 +107,29 @@ namespace VelocityMap
 
         private void SetupPlots()
         {
+            //set the minimum for the domaine
             VelocityPlot.ChartAreas[0].Axes[0].Minimum = 0;
+            //set the lables on the graph
             VelocityPlot.ChartAreas[0].Axes[0].Title = "Distance (mm)";
 
             VelocityPlot.ChartAreas[0].Axes[1].Title = "Velocity (mm/s)";
 
+            //add different point types for our main path and our right and left paths.
             VelocityPlot.Series.Add("path");
             VelocityPlot.Series.Add("left");
             VelocityPlot.Series.Add("right");
 
+            //Set what the velocity chart should look like.
             VelocityPlot.Series["path"].ChartType = SeriesChartType.FastLine;
             VelocityPlot.Series["left"].ChartType = SeriesChartType.FastLine;
             VelocityPlot.Series["right"].ChartType = SeriesChartType.FastLine;
 
+            //Sets what the point color should look like on the velocity map.
             VelocityPlot.Series["path"].Color = Color.Gray;
             VelocityPlot.Series["left"].Color = Color.Blue;
             VelocityPlot.Series["right"].Color = Color.Red;
 
-
+            //set the minimium on the 
             DistancePlot.ChartAreas[0].Axes[0].Minimum = 0;
             DistancePlot.ChartAreas[0].Axes[0].Interval = .5;
             DistancePlot.ChartAreas[0].Axes[0].Title = "Time (s)";
@@ -200,7 +213,7 @@ namespace VelocityMap
                 }
             }
         }
-
+        //Used to draw the points from the fieldpoints.txt on the field
         private Bitmap buildField()
         {
             Pen bluePen = new Pen(Color.Red, 10);
@@ -215,6 +228,9 @@ namespace VelocityMap
             //draw the field size on the bitmap
             Graphics g = Graphics.FromImage(b);
             g.DrawRectangle(bluePen, new Rectangle(0, 0, b.Width - padding, b.Height - padding));
+
+            //Commented out so that we don't draw the boxes.
+            
 
             //draw the fieldObjects on the bitmap
             /*foreach (int[] obj in fieldpts)
