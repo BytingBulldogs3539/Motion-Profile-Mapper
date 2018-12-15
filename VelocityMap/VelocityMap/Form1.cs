@@ -17,7 +17,6 @@ namespace VelocityMap
 {
     public partial class Form1 : Form
     {
-        private List<int[]> fieldpts = new List<int[]>();
         private int fieldHeight = 3500;
         private int fieldWidth = 3048;
         int padding = 1;
@@ -60,12 +59,12 @@ namespace VelocityMap
             b.RotateFlip(RotateFlipType.Rotate180FlipNone);
             //Give the background image a name...
             NamedImage backImage = new NamedImage("Background", b);
-
+            //the test series is really the background series.
             mainField.Series.Add("test");
             mainField.Series["test"].ChartType = SeriesChartType.Point;
             mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
-
+            //add different lines to the main field chart.
             mainField.Series.Add("path");
             mainField.Series.Add("left");
             mainField.Series.Add("right");
@@ -78,12 +77,12 @@ namespace VelocityMap
             
             //set what the points/dots look like
             mainField.Series["cp"].MarkerStyle = MarkerStyle.Diamond;
-            //set the chart type like pie, point, bar, etc
+            //set what the different lines on the graph look like.
             mainField.Series["cp"].ChartType = SeriesChartType.Point;
             mainField.Series["path"].ChartType = SeriesChartType.Point;
             mainField.Series["left"].ChartType = SeriesChartType.Point;
             mainField.Series["right"].ChartType = SeriesChartType.Point;
-
+            //set what the seperate lines color.
             mainField.Series["cp"].Color = Color.ForestGreen;
             mainField.Series["path"].Color = Color.Gray;
             mainField.Series["left"].Color = Color.Blue;
@@ -104,7 +103,7 @@ namespace VelocityMap
             mainField.ChartAreas[0].BackImageWrapMode = ChartImageWrapMode.Scaled;
             mainField.ChartAreas[0].BackImage = "Background";
         }
-
+        //configure what the velocity chart and the distance chart look like
         private void SetupPlots()
         {
             //set the minimum for the domaine
@@ -129,34 +128,38 @@ namespace VelocityMap
             VelocityPlot.Series["left"].Color = Color.Blue;
             VelocityPlot.Series["right"].Color = Color.Red;
 
-            //set the minimium on the 
+            //set the minimium x axis value on the distance graph
             DistancePlot.ChartAreas[0].Axes[0].Minimum = 0;
+            //set the amount the x axis increases distance graph
             DistancePlot.ChartAreas[0].Axes[0].Interval = .5;
+            //set the title of the x axis distance graph
             DistancePlot.ChartAreas[0].Axes[0].Title = "Time (s)";
-
+            //set the interval of the y axis
             DistancePlot.ChartAreas[0].Axes[1].Interval = 500;
+            //set the title of the y axis
             DistancePlot.ChartAreas[0].Axes[1].Title = "Distance (mm)";
 
+            //add the seperate lines to the distance plot.
             DistancePlot.Series.Add("path");
             DistancePlot.Series.Add("left");
             DistancePlot.Series.Add("right");
-
+            //set the type of lines
             DistancePlot.Series["path"].ChartType = SeriesChartType.FastLine;
             DistancePlot.Series["left"].ChartType = SeriesChartType.FastLine;
             DistancePlot.Series["right"].ChartType = SeriesChartType.FastLine;
-
+            //set the color of the lines.
             DistancePlot.Series["path"].Color = Color.LightGray;
             DistancePlot.Series["left"].Color = Color.Blue;
             DistancePlot.Series["right"].Color = Color.Red;
         }
-
+        //remove all of the points from the specified chart.
         private void ClearChart(Chart chart)
         {
             foreach (Series s in chart.Series)
             {
                 s.Points.Clear();
             }
-
+            
             mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
         }
@@ -185,9 +188,11 @@ namespace VelocityMap
 
 
         #region mainField
-
-        private void loadFieldPoints()
+        //Used to load the field points from the fieldpoint.txt
+        private List<int[]> loadFieldPoints()
         {
+            List<int[]> fieldpts = new List<int[]>();
+
             var assembly = Assembly.GetExecutingAssembly();
             var resourceName = "VelocityMap.FieldPoints.txt";
 
@@ -209,7 +214,7 @@ namespace VelocityMap
                             fieldpts.Add(lineout.ToArray());
                         }
                     }
-                    return;
+                    return fieldpts;
                 }
             }
         }
@@ -221,19 +226,12 @@ namespace VelocityMap
             //create the drawing bitmap
             Bitmap b = new Bitmap(fieldWidth + padding * 2, fieldHeight + padding * 2);
 
-            //draw the grid on the bitmap
-            //   b = drawGrid(pictureBox1.Width, pictureBox1.Height, b, 50, true);
-
-
             //draw the field size on the bitmap
             Graphics g = Graphics.FromImage(b);
             g.DrawRectangle(bluePen, new Rectangle(0, 0, b.Width - padding, b.Height - padding));
 
-            //Commented out so that we don't draw the boxes.
-            
-
             //draw the fieldObjects on the bitmap
-            /*foreach (int[] obj in fieldpts)
+            foreach (int[] obj in loadFieldPoints())
             {
                 if (obj.Length >= 4)
                 {
@@ -259,7 +257,7 @@ namespace VelocityMap
                     g.FillRectangle(brush, makeRectangle(pts));
                     g.DrawRectangle(pen, makeRectangle(pts));
                 }
-            }*/
+            }
             //clear up remaining handles
             bluePen.Dispose();
             g.Dispose();
@@ -268,6 +266,7 @@ namespace VelocityMap
 
         private void mainField_MouseClick(object sender, MouseEventArgs e)
         {
+            //if the button click is a left mouse click then add a positive point to the field chart.
             if (e.Button == MouseButtons.Left)
             {
                 if (dp != null)
@@ -288,6 +287,8 @@ namespace VelocityMap
                     controlPoints.Rows[controlPoints.Rows.Add((int)x, (int)y, "+", Int32.Parse(maxVelocity.Text))].Selected = true;
                 }
             }
+            //if the button click is a right mouse click then add a negative point to the field chart.
+
             if (e.Button == MouseButtons.Right)
             {
                 if (dp != null)
@@ -316,6 +317,7 @@ namespace VelocityMap
 
         private void mainField_MouseDown(object sender, MouseEventArgs e)
         {
+            //if the user is holding their left mouse button
             if (e.Button.HasFlag(MouseButtons.Left))
             {
                 Chart c = (Chart)sender;
@@ -330,14 +332,18 @@ namespace VelocityMap
                 else
                 {
                     HitTestResult hit = mainField.HitTest(e.X, e.Y);
-
+                    //get the point the user is clicking on.
                     if (hit.PointIndex >= 0)
                     {
+                        //check to see if the point is part of the controlpoints because we have more than just controlpoints on the field chart
                         if (hit.Series == null)
                             return;
-                        if (hit.Series.Points[hit.PointIndex] == null)
+                        if (hit.Series.ToString() != "Series-cp")
                             return;
 
+                        if (hit.Series.Points[hit.PointIndex] == null)
+                            return;
+                        //if the point is real and exists then set dp to the point.
                         dp = hit.Series.Points[hit.PointIndex];
                         foreach (DataGridViewRow row in controlPoints.Rows)
                         {
