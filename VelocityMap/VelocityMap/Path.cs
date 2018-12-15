@@ -257,7 +257,7 @@ namespace MotionProfile
             this.velocity = vel.ToArray();
             this.distance = dist.ToArray();
             this.time = t.ToArray();
-            Console.WriteLine(distance.Count());
+            //Console.WriteLine(distance.Count());
 
 
         }

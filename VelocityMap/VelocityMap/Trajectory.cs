@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using VelocityMap;
 
 namespace MotionProfile
 {
     class Trajectory : List<Path>
     {
+        private double CONVERT = 180.0 / Math.PI;
+
         public double getMaxVelocity()
         {
             double max = 0;
@@ -71,10 +70,49 @@ namespace MotionProfile
         public float[] getHeadingProfile()
         {
             List<float> headings = new List<float>();
-            foreach (Path p in this)
+
+            List<Point> pointList = new List<Point>();
+
+
+            foreach (ControlPoint p in BuildPath(0))
             {
-                headings.AddRange(p.getHeadingProfile());
+                foreach (System.Drawing.PointF p1 in p.point)
+                {
+                    pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointNumber));
+                }
             }
+
+            List<ControlPoint> cp = BuildPath(0);
+            float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
+            for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
+            {
+                float angle = 0;
+                if (i == 0)
+                {
+                    angle = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
+                }
+                else
+                {
+                    angle = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count-1]);
+                }
+                angle = (angle - startAngle);
+                Boolean forward;
+                if (i == pointList.Count - 1) forward = pointList[i].direction;
+                else forward = pointList[i + 1].direction;
+                if (!forward)
+                {
+                    angle = -angle;
+                    int add = 0;
+                    if (angle > 0)
+                        add = -180;
+                    if (angle < 0)
+                        add = 180;
+                    angle = angle + add;
+                }
+                headings.Add(angle);
+
+            }
+
             return headings.ToArray<float>();
         }
 
@@ -145,22 +183,120 @@ namespace MotionProfile
                     ControlPoint p2 = new ControlPoint(this.IndexOf(p));
                     p2.point = p.buildOffsetPoints(offset).ToArray<System.Drawing.PointF>();
                     p2.direction = p.direction;
-                    Console.WriteLine(p.direction);
+
+
+
+
                     values.Add(p2);
-                    
-                    if (!p.direction)
-                        offset = -offset;
                 }
                 else
                 {
                     ControlPoint p3 = new ControlPoint(this.IndexOf(p));
                     p3.point = p.buildPath().ToArray<System.Drawing.PointF>();
                     p3.direction = p.direction;
+
                     values.Add(p3);
                 }
                
             }
             return values;
         }
+        private float findStartAngle(double x2, double x1, double y2, double y1)
+        {
+            float ang = 0;
+            float chx = (float)(x2 - x1);
+            float chy = (float)(y2 - y1);
+            if (chy == 0)
+            {
+                if (chx >= 0) ang = 0;
+                else ang = 180;
+            }
+            else if (chy > 0)
+            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
+                if (chx > 0)
+                {
+                    // positive x, positive y, 90 - ang, quad 1
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 1; // represents quadrants.
+                }
+                else
+                {
+                    // positive x, negative y, 90 + ang, quad 2
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 2;
+                }
+            }
+            else
+            {
+                if (chx > 0)
+                {
+                    // negative x, positive y, 270 + ang, quad 4
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 4;
+                }
+                else
+                {
+                    // negative x, negative y, 270 - ang, quad 3
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 3;
+                }
+            }
+            return ang;
+        }
+        private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
+        {
+            float ang = 0;
+            float chx = (float)(x2 - x1);
+            float chy = (float)(y2 - y1);
+            if (chy == 0)
+            {
+                if (chx >= 0) ang = 0;
+                else ang = 180;
+            }
+            else if (chy > 0)
+            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
+                if (chx > 0)
+                {
+                    // positive x, positive y, 90 - ang, quad 1
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 1; // represents quadrants.
+                }
+                else
+                {
+                    // positive x, negative y, 90 + ang, quad 2
+                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 2;
+                }
+            }
+            else
+            {
+                if (chx > 0)
+                {
+                    // negative x, positive y, 270 + ang, quad 4
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 4;
+                }
+                else
+                {
+                    // negative x, negative y, 270 - ang, quad 3
+                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
+                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
+                    //ang = 3;
+                }
+            }
+
+            float angleChange = ang - prevAngle;
+            if (angleChange > 300) angleChange -= 360;
+            if (angleChange < -300) angleChange += 360;
+            return (prevAngle + angleChange);
+        }
     }
+   
 }

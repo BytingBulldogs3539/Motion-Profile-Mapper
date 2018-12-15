@@ -17,8 +17,8 @@ namespace VelocityMap
 {
     public partial class Form1 : Form
     {
-        private int fieldHeight = 3500;
-        private int fieldWidth = 3048;
+        private int fieldHeight = 8000;
+        private int fieldWidth = 8000;
         int padding = 1;
         private Bitmap baseFieldImage;
         private MotionProfile.Trajectory paths;
@@ -758,6 +758,7 @@ namespace VelocityMap
                 ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
                 c = paths.getOffsetVelocityProfile(0).ToArray();
                 cd = paths.getOffsetDistanceProfile(0).ToArray();
+                Console.WriteLine(string.Join(",", paths.getHeadingProfile()));
 
                 l.NoiseReduction(int.Parse(smoothness.Text));
                 r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
@@ -802,10 +803,10 @@ namespace VelocityMap
             {
                 foreach (PointF p1 in p.point)
                 {
+                    //Console.WriteLine(p.direction);
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
 
                     pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointNumber));
-                    Debug.Print("Point : "+ p1.X+" , "+p1.Y);
                 }
             }
 
@@ -982,6 +983,8 @@ namespace VelocityMap
 
             }
             else
+
+
             {
                 MessageBox.Show("You can't save a file with no points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
