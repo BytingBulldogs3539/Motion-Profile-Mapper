@@ -163,26 +163,6 @@ namespace VelocityMap
             mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
         }
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            //  this.Width = this.Height+200-30;
-        }
-
-        private void Form1_SizeChanged(object sender, EventArgs e)
-        {
-            int h = this.Height;
-            int w = this.Width;
-
-            /*if (this.WindowState == FormWindowState.Maximized)
-            {
-                this.Top = Screen.PrimaryScreen.WorkingArea.Top;
-                this.WindowState = FormWindowState.Normal;
-                this.Height = Screen.PrimaryScreen.WorkingArea.Height;
-                this.Width = h + 550 - 30;
-                this.Left = (Screen.PrimaryScreen.WorkingArea.Width - this.Width) / 2;
-
-            }*/
-        }
 
         #endregion
 
@@ -376,6 +356,7 @@ namespace VelocityMap
 
         private void mainField_MouseMove(object sender, MouseEventArgs e)
         {
+            //if the user is holding the left button while moving the mouse allow them to move the point.
             if (e.Button.HasFlag(MouseButtons.Left))
             {
                 Chart c = (Chart)sender;
@@ -428,8 +409,7 @@ namespace VelocityMap
         }
         private void controlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
-            Console.WriteLine(e.Row.Index);
-            Console.WriteLine(controlPoints.Rows.Count);
+        
             if (e.StateChanged != DataGridViewElementStates.Selected)
             {
                 return;
@@ -445,7 +425,6 @@ namespace VelocityMap
                         {
                             if (row.Cells[2].Value != null)
                             {
-                                Console.WriteLine(row.Index);
                                 if (row.Cells[2].Value.ToString() == "-")
                                 {
                                     mainField.Series["cp"].Points[row.Index].Color = Color.Red;
@@ -464,7 +443,6 @@ namespace VelocityMap
                 {
                     if (e.Row.Index >= 0 && e.Row.Index <= controlPoints.Rows.Count - 2)
                     {
-                        Console.WriteLine(e.Row.Index);
                         mainField.Series["cp"].Points[e.Row.Index].Color = Color.Yellow;
                     }
                 }
@@ -640,6 +618,7 @@ namespace VelocityMap
         }
 
         #endregion
+        //used to create the information that is showed in all of the charts.
         private void Apply_Click(object sender, EventArgs e)
         {
             MotionProfile.Path path = CreateNewPath();
@@ -936,14 +915,7 @@ namespace VelocityMap
                             float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
                             for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
                             {
-                                Boolean forward;
-                                if (i == pointList.Count - 1) forward = pointList[i].direction;
-                                else forward = pointList[i + 1].direction;
-                                int add = 0;
-                                if (!forward)
-                                {
-                                    add = -180;
-                                }
+
                                 if (i == 0)
                                 {
                                     angles[i] = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
@@ -951,12 +923,26 @@ namespace VelocityMap
                                 else
                                 {
                                     angles[i] = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, angles[i - 1]);
-                                    angles[i] = angles[i] + add;
                                 }
                             }
                             for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
                             {
                                 angles[i] = (angles[i] - startAngle);
+                                Boolean forward;
+                                if (i == pointList.Count - 1) forward = pointList[i].direction;
+                                else forward = pointList[i + 1].direction;
+                                if (!forward)
+                                {
+                                    angles[i] = -angles[i];
+                                    int add = 0;
+                                    if (angles[i] > 0)
+                                        add = -180;
+                                    if (angles[i] < 0)
+                                        add = 180;
+                                    angles[i] = angles[i] + add;
+                                }
+
+
                             }
                         }
 
@@ -967,22 +953,18 @@ namespace VelocityMap
                         c.NoiseReduction(int.Parse(smoothness.Text));
                         cd.NoiseReduction(int.Parse(smoothness.Text));
 
-
-
-
-
                         for (int i = 0; i < l.Length; i++)
                         {
                             if (CTRE.Checked)
                             {
                                 double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + -angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
 
                             }
                             else
                             {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + -angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
                             }
                         }
                         right.Add(string.Join(",\n", line));
@@ -1358,14 +1340,6 @@ namespace VelocityMap
                             float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
                             for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
                             {
-                                Boolean forward;
-                                if (i == pointList.Count - 1) forward = pointList[i].direction;
-                                else forward = pointList[i + 1].direction;
-                                int add = 0;
-                                if (!forward)
-                                {
-                                    add = -180;
-                                }
                                 if (i == 0)
                                 {
                                     angles[i] = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
@@ -1373,13 +1347,20 @@ namespace VelocityMap
                                 else
                                 {
                                     angles[i] = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, angles[i - 1]);
-                                    angles[i] = angles[i] + add;
+                                    
                                 }
                             }
                             for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
                             {
                                 angles[i] = (angles[i] - startAngle);
-                            }
+                                angles[i] = -angles[i];
+                                int add = 0;
+                                if (angles[i] > 0)
+                                    add = -180;
+                                if (angles[i] < 0)
+                                    add = 180;
+                                angles[i] = angles[i] + add;
+                        }
                         }
 
                         r.NoiseReduction(int.Parse(smoothness.Text));
@@ -1399,12 +1380,12 @@ namespace VelocityMap
                             {
                                 double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + -angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
 
                             }
                             else
                             {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + -angles[i] + "}");
+                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
                             }
                         }
                         right.Add(string.Join(",\n", line));
@@ -1474,13 +1455,16 @@ namespace VelocityMap
             File.Delete(JSONPath);
         }
 
+
+        //This method is used to verifiy if the numbers that are put into the textbox are in the format of a ip address like 127.0.0.1 and not like 0.1.54.6.65655
         public bool ValidateIPv4(string ipString)
         {
+            // if the text contains a whitespace/space or a null value then it is clearly not a ip address.
             if (String.IsNullOrWhiteSpace(ipString))
             {
                 return false;
             }
-
+            //Split the ip address into different parts
             string[] splitValues = ipString.Split('.');
             if (splitValues.Length != 4)
             {
@@ -1488,85 +1472,8 @@ namespace VelocityMap
             }
 
             byte tempForParsing;
-
+            //check to see if all of the values are bytes.
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label14_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void user_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button4_Click_1(object sender, EventArgs e)
-        {
-
-            List<DataGridViewRow> rows = new List<DataGridViewRow>();
-            foreach (DataGridViewRow row in controlPoints.Rows)
-            {
-                if (row.Cells[2].Value != null)
-                {
-                    rows.Add(row);
-                }
-            }
-            rows.Reverse();
-            controlPoints.Rows.Clear();
-            controlPoints.Rows.AddRange(rows.ToArray());
-            foreach (DataGridViewRow row in controlPoints.Rows)
-            {
-                if (row.Cells[2].Value != null)
-                {
-                    if(row.Cells[2].Value.ToString() == "-")
-                    {
-                        row.Cells[2].Value ="+";
-                    }
-                    else if (row.Cells[2].Value.ToString() == "+")
-                    {
-                        row.Cells[2].Value = "-";
-                    }
-
-                }
-            }
-            Apply_Click(sender, e);
-        }
-
-        private void degrees_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }
