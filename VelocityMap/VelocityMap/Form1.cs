@@ -143,14 +143,42 @@ namespace VelocityMap
             DistancePlot.Series.Add("path");
             DistancePlot.Series.Add("left");
             DistancePlot.Series.Add("right");
+
             //set the type of lines
             DistancePlot.Series["path"].ChartType = SeriesChartType.FastLine;
             DistancePlot.Series["left"].ChartType = SeriesChartType.FastLine;
             DistancePlot.Series["right"].ChartType = SeriesChartType.FastLine;
+
+            
             //set the color of the lines.
             DistancePlot.Series["path"].Color = Color.LightGray;
             DistancePlot.Series["left"].Color = Color.Blue;
             DistancePlot.Series["right"].Color = Color.Red;
+
+                //set the minimium x axis value on the distance graph
+            AnglePlot.ChartAreas[0].Axes[0].Minimum = 0;
+            //set the amount the x axis increases distance graph
+            AnglePlot.ChartAreas[0].Axes[0].Interval = 1000;
+            //set the title of the x axis distance graph
+            AnglePlot.ChartAreas[0].Axes[0].Title = "Distance (mm)";
+            //set the interval of the y axis
+            AnglePlot.ChartAreas[0].Axes[1].Interval = 20;
+            //set the title of the y axis
+            AnglePlot.ChartAreas[0].Axes[1].Title = "Degrees";
+
+            //add the seperate lines to the distance plot.
+            AnglePlot.Series.Add("angle");
+
+
+            //set the type of lines
+            AnglePlot.Series["angle"].ChartType = SeriesChartType.FastLine;
+
+            //set the color of the lines.
+            AnglePlot.Series["angle"].Color = Color.Purple;
+            //CreateYAxis(DistancePlot, DistancePlot.ChartAreas[0], DistancePlot.Series["angle"], 0, 8);
+            //CreateYAxis(chart1, chart1.ChartAreas["ChartArea1"], chart1.Series["Capacity"], 22, 8);
+
+
         }
         //remove all of the points from the specified chart.
         private void ClearChart(Chart chart)
@@ -163,13 +191,68 @@ namespace VelocityMap
             mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
         }
+        public void CreateYAxis(Chart chart, ChartArea area, Series series, float axisOffset, float labelsSize)
+        {
+            // Create new chart area for original series
+            ChartArea areaSeries = chart.ChartAreas.Add("ChartArea_" + series.Name);
+            areaSeries.BackColor = Color.Transparent;
+            areaSeries.BorderColor = Color.Transparent;
+            areaSeries.Position.FromRectangleF(area.Position.ToRectangleF());
+            areaSeries.InnerPlotPosition.FromRectangleF(area.InnerPlotPosition.ToRectangleF());
+            areaSeries.AxisX.MajorGrid.Enabled = false;
+            areaSeries.AxisX.MajorTickMark.Enabled = false;
+            areaSeries.AxisX.LabelStyle.Enabled = false;
+            areaSeries.AxisY.MajorGrid.Enabled = false;
+            areaSeries.AxisY.MajorTickMark.Enabled = false;
+            areaSeries.AxisY.LabelStyle.Enabled = false;
+            areaSeries.AxisY.IsStartedFromZero = area.AxisY.IsStartedFromZero;
 
-        #endregion
+
+            series.ChartArea = areaSeries.Name;
+
+            // Create new chart area for axis
+            ChartArea areaAxis = chart.ChartAreas.Add("AxisY_" + series.ChartArea);
+            areaAxis.BackColor = Color.Transparent;
+            areaAxis.BorderColor = Color.Transparent;
+            areaAxis.Position.FromRectangleF(chart.ChartAreas[series.ChartArea].Position.ToRectangleF());
+            areaAxis.InnerPlotPosition.FromRectangleF(chart.ChartAreas[series.ChartArea].InnerPlotPosition.ToRectangleF());
+
+            // Create a copy of specified series
+            Series seriesCopy = chart.Series.Add(series.Name + "_Copy");
+            seriesCopy.ChartType = series.ChartType;
+            foreach (DataPoint point in series.Points)
+            {
+                seriesCopy.Points.AddXY(point.XValue, point.YValues[0]);
+            }
+
+            // Hide copied series
+            seriesCopy.IsVisibleInLegend = false;
+            seriesCopy.Color = Color.Transparent;
+            seriesCopy.BorderColor = Color.Transparent;
+            seriesCopy.ChartArea = areaAxis.Name;
+
+            // Disable drid lines & tickmarks
+            areaAxis.AxisX.LineWidth = 0;
+            areaAxis.AxisX.MajorGrid.Enabled = false;
+            areaAxis.AxisX.MajorTickMark.Enabled = false;
+            areaAxis.AxisX.LabelStyle.Enabled = false;
+            areaAxis.AxisY.MajorGrid.Enabled = false;
+            areaAxis.AxisY.IsStartedFromZero = area.AxisY.IsStartedFromZero;
+            areaAxis.AxisY.LabelStyle.Font = area.AxisY.LabelStyle.Font;
+
+            // Adjust area position
+            areaAxis.Position.X -= axisOffset;
+            areaAxis.InnerPlotPosition.X += labelsSize;
+
+        }
+    
+
+    #endregion
 
 
-        #region mainField
-        //Used to load the field points from the fieldpoint.txt
-        private List<int[]> loadFieldPoints()
+    #region mainField
+    //Used to load the field points from the fieldpoint.txt
+    private List<int[]> loadFieldPoints()
         {
             List<int[]> fieldpts = new List<int[]>();
 
@@ -510,6 +593,8 @@ namespace VelocityMap
             DistancePlot.Series["right"].Points.Clear();
             DistancePlot.Series["left"].Points.Clear();
 
+            AnglePlot.Series["angle"].Points.Clear();
+
             pointList.Clear();
 
         }
@@ -621,6 +706,13 @@ namespace VelocityMap
         //used to create the information that is showed in all of the charts.
         private void Apply_Click(object sender, EventArgs e)
         {
+
+            if(!(controlPoints.RowCount-2>0))
+            {
+                MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                return;
+            }
             MotionProfile.Path path = CreateNewPath();
 
             int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
@@ -705,19 +797,14 @@ namespace VelocityMap
 
             ClearChart(VelocityPlot);
             ClearChart(DistancePlot);
-
-            float[] t, d, v, l, r, ld, rd, c, cd;
-
+            ClearChart(AnglePlot);
 
 
-            if (TurnCheck.Checked)
-            {
-                if (int.Parse(degrees.Text) > 0)
-                {
-                    foreach (MotionProfile.Path p in paths)
-                        p.direction = !p.direction;
-                }
+            float[] t, d, v, l, r, ld, rd, c, cd,h;
 
+
+
+                
                 t = paths.getTimeProfile();
                 d = paths.getDistanceProfile();
                 v = paths.getVelocityProfile();
@@ -725,45 +812,12 @@ namespace VelocityMap
                 ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
                 c = paths.getOffsetVelocityProfile(0).ToArray();
                 cd = paths.getOffsetDistanceProfile(0).ToArray();
-
-                l.NoiseReduction(int.Parse(smoothness.Text));
-
-                if (int.Parse(degrees.Text) > 0)
-                {
-                    foreach (MotionProfile.Path p in paths)
-                        p.direction = !p.direction;
-                }
-
-                if (int.Parse(degrees.Text) < 0)
-                {
-                    foreach (MotionProfile.Path p in paths)
-                        p.direction = !p.direction;
-                }
-
-                r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
-                if (int.Parse(degrees.Text) < 0)
-                {
-                    foreach (MotionProfile.Path p in paths)
-                        p.direction = !p.direction;
-                }
-
-            }
-            else
-            {
-                t = paths.getTimeProfile();
-                d = paths.getDistanceProfile();
-                v = paths.getVelocityProfile();
-                l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
-                c = paths.getOffsetVelocityProfile(0).ToArray();
-                cd = paths.getOffsetDistanceProfile(0).ToArray();
-                Console.WriteLine(string.Join(",", paths.getHeadingProfile()));
+                h = paths.getHeadingProfile();
 
                 l.NoiseReduction(int.Parse(smoothness.Text));
                 r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                 rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
-            }
+            
 
             r.NoiseReduction(int.Parse(smoothness.Text));
             rd.NoiseReduction(int.Parse(smoothness.Text));
@@ -774,6 +828,7 @@ namespace VelocityMap
 
             double ldv = 0;
             double rdv = 0;
+            double heading = 0;
 
             for (int i = 0; i < ld.Length; i++)
             {
@@ -782,14 +837,18 @@ namespace VelocityMap
 
                 DistancePlot.Series["left"].Points.AddXY(t[i], ldv);
                 DistancePlot.Series["right"].Points.AddXY(t[i], rdv);
+                
+                
             }
 
             for (int i = 0; i < Math.Min(d.Length, r.Length); i++)
             {
+                heading = h[i];
+
                 VelocityPlot.Series["path"].Points.AddXY(d[i], v[i + 2]);
                 VelocityPlot.Series["left"].Points.AddXY(d[i], l[i]);
                 VelocityPlot.Series["right"].Points.AddXY(d[i], r[i]);
-
+                AnglePlot.Series["angle"].Points.AddXY(d[i], heading);
             }
 
             mainField.Series["path"].Points.Clear();
@@ -803,7 +862,6 @@ namespace VelocityMap
             {
                 foreach (PointF p1 in p.point)
                 {
-                    //Console.WriteLine(p.direction);
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
 
                     pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointNumber));
@@ -877,75 +935,13 @@ namespace VelocityMap
                         float[] c = paths.getOffsetVelocityProfile(0).ToArray();
                         List<float> cd = paths.getOffsetDistanceProfile(0);
 
-                        float[] angles = new float[pointList.Count - 2];
+                        float[] angles = paths.getHeadingProfile();
 
-                        if (TurnCheck.Checked)
-                        {
-                            foreach (MotionProfile.Path ph in paths)
-                                ph.direction = !ph.direction;
-
+                        
                             r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
                             rd = paths.getOffsetDistanceProfile(-trackwidth);
 
-                            foreach (MotionProfile.Path ph in paths)
-                                ph.direction = !ph.direction;
-
-
-                            float targetangle = int.Parse(degrees.Text); //Change
-
-
-                            float angle = 0;
-
-                            for (int i = 0; i < (pointList.Count - 2); i++)
-                            {
-                                if (i == 0 || i == 1)
-                                    angles[i] = 0;
-                                else
-                                {
-                                    angle += fpstodps(c[i - 1]);
-                                    angles[i] = angle;
-
-                                }
-                            }
-                        }
-                        else
-                        {
-                            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                            rd = paths.getOffsetDistanceProfile(-trackwidth);
-
-                            float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
-                            for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
-                            {
-
-                                if (i == 0)
-                                {
-                                    angles[i] = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
-                                }
-                                else
-                                {
-                                    angles[i] = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, angles[i - 1]);
-                                }
-                            }
-                            for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
-                            {
-                                angles[i] = (angles[i] - startAngle);
-                                Boolean forward;
-                                if (i == pointList.Count - 1) forward = pointList[i].direction;
-                                else forward = pointList[i + 1].direction;
-                                if (!forward)
-                                {
-                                    angles[i] = -angles[i];
-                                    int add = 0;
-                                    if (angles[i] > 0)
-                                        add = -180;
-                                    if (angles[i] < 0)
-                                        add = 180;
-                                    angles[i] = angles[i] + add;
-                                }
-
-
-                            }
-                        }
+                        
 
                         r.NoiseReduction(int.Parse(smoothness.Text));
                         rd.NoiseReduction(int.Parse(smoothness.Text));

@@ -84,24 +84,29 @@ namespace MotionProfile
 
             List<ControlPoint> cp = BuildPath(0);
             float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
-            for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
+
+            for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
             {
-                float angle = 0;
+
                 if (i == 0)
                 {
-                    angle = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
+                    headings.Add(findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y));
                 }
                 else
                 {
-                    angle = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count-1]);
+                    headings.Add(findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, headings[headings.Count - 1]));
                 }
+            }
+
+            for (int i = 0; i < (pointList.Count - 2); i++) //converts the values from raw graph angles to angles the robot can use.
+            {
+                float angle = headings[i];
                 angle = (angle - startAngle);
                 Boolean forward;
                 if (i == pointList.Count - 1) forward = pointList[i].direction;
                 else forward = pointList[i + 1].direction;
                 if (!forward)
                 {
-                    angle = -angle;
                     int add = 0;
                     if (angle > 0)
                         add = -180;
@@ -109,7 +114,9 @@ namespace MotionProfile
                         add = 180;
                     angle = angle + add;
                 }
-                headings.Add(angle);
+                angle = -angle;
+
+                headings[i] = angle;
 
             }
 
