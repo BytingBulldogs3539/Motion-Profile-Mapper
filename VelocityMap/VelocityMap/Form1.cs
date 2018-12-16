@@ -1,39 +1,62 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
-using Renci.SshNet;
-using Renci.SshNet.Sftp;
-
-namespace VelocityMap
+﻿namespace VelocityMap
 {
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Linq;
+    using Renci.SshNet;
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Text;
+    using System.Windows.Forms;
+    using System.Windows.Forms.DataVisualization.Charting;
+
+    /// <summary>
+    /// Defines the <see cref="Form1" />
+    /// </summary>
     public partial class Form1 : Form
     {
+        /// <summary>
+        /// Defines the fieldHeight
+        /// </summary>
         private int fieldHeight = 8000;
+
+        /// <summary>
+        /// Defines the fieldWidth
+        /// </summary>
         private int fieldWidth = 8000;
-        int padding = 1;
+
+        /// <summary>
+        /// Defines the padding
+        /// </summary>
+        internal int padding = 1;
+
+        /// <summary>
+        /// Defines the baseFieldImage
+        /// </summary>
         private Bitmap baseFieldImage;
+
+        /// <summary>
+        /// Defines the paths
+        /// </summary>
         private MotionProfile.Trajectory paths;
 
-        public List<Point> pointList = new List<Point>();
-
-        private double CONVERT = 180.0 / Math.PI;
-
-        #region mainForm
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Form1"/> class.
+        /// </summary>
         public Form1()
         {
             //Create the window with all the fancy buttons.
             InitializeComponent();
         }
 
+        /// <summary>
+        /// The Form1_Load
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="EventArgs"/></param>
         private void Form1_Load(object sender, EventArgs e)
         {
             //Put all of the points from the fieldpoints.txt and put them on the field
@@ -45,10 +68,11 @@ namespace VelocityMap
             VelocityPlot.Dock = DockStyle.Fill;
 
             splitContainer1.SplitterDistance = splitContainer1.Height / 2;
-
-
         }
 
+        /// <summary>
+        /// Configures what the main field looks like.
+        /// </summary>
         private void SetupMainField()
         {
 
@@ -74,7 +98,7 @@ namespace VelocityMap
             mainField.Series["path"].MarkerSize = 2;
             mainField.Series["left"].MarkerSize = 2;
             mainField.Series["right"].MarkerSize = 2;
-            
+
             //set what the points/dots look like
             mainField.Series["cp"].MarkerStyle = MarkerStyle.Diamond;
             //set what the different lines on the graph look like.
@@ -103,7 +127,10 @@ namespace VelocityMap
             mainField.ChartAreas[0].BackImageWrapMode = ChartImageWrapMode.Scaled;
             mainField.ChartAreas[0].BackImage = "Background";
         }
-        //configure what the velocity chart and the distance chart look like
+
+        /// <summary>
+        /// Configure what the velocity chart and the distance chart look like
+        /// </summary>
         private void SetupPlots()
         {
             //set the minimum for the domaine
@@ -149,13 +176,13 @@ namespace VelocityMap
             DistancePlot.Series["left"].ChartType = SeriesChartType.FastLine;
             DistancePlot.Series["right"].ChartType = SeriesChartType.FastLine;
 
-            
+
             //set the color of the lines.
             DistancePlot.Series["path"].Color = Color.LightGray;
             DistancePlot.Series["left"].Color = Color.Blue;
             DistancePlot.Series["right"].Color = Color.Red;
 
-                //set the minimium x axis value on the distance graph
+            //set the minimium x axis value on the distance graph
             AnglePlot.ChartAreas[0].Axes[0].Minimum = 0;
             //set the amount the x axis increases distance graph
             AnglePlot.ChartAreas[0].Axes[0].Interval = 1000;
@@ -175,84 +202,28 @@ namespace VelocityMap
 
             //set the color of the lines.
             AnglePlot.Series["angle"].Color = Color.Purple;
-            //CreateYAxis(DistancePlot, DistancePlot.ChartAreas[0], DistancePlot.Series["angle"], 0, 8);
-            //CreateYAxis(chart1, chart1.ChartAreas["ChartArea1"], chart1.Series["Capacity"], 22, 8);
-
-
         }
-        //remove all of the points from the specified chart.
+
+        /// <summary>
+        /// Remove all of the points from the specified chart.
+        /// </summary>
+        /// <param name="chart">The chart<see cref="Chart"/></param>
         private void ClearChart(Chart chart)
         {
             foreach (Series s in chart.Series)
             {
                 s.Points.Clear();
             }
-            
+
             mainField.Series["test"].Points.AddXY(0, 0);
             mainField.Series["test"].Points.AddXY(fieldWidth, fieldHeight);
         }
-        public void CreateYAxis(Chart chart, ChartArea area, Series series, float axisOffset, float labelsSize)
-        {
-            // Create new chart area for original series
-            ChartArea areaSeries = chart.ChartAreas.Add("ChartArea_" + series.Name);
-            areaSeries.BackColor = Color.Transparent;
-            areaSeries.BorderColor = Color.Transparent;
-            areaSeries.Position.FromRectangleF(area.Position.ToRectangleF());
-            areaSeries.InnerPlotPosition.FromRectangleF(area.InnerPlotPosition.ToRectangleF());
-            areaSeries.AxisX.MajorGrid.Enabled = false;
-            areaSeries.AxisX.MajorTickMark.Enabled = false;
-            areaSeries.AxisX.LabelStyle.Enabled = false;
-            areaSeries.AxisY.MajorGrid.Enabled = false;
-            areaSeries.AxisY.MajorTickMark.Enabled = false;
-            areaSeries.AxisY.LabelStyle.Enabled = false;
-            areaSeries.AxisY.IsStartedFromZero = area.AxisY.IsStartedFromZero;
 
-
-            series.ChartArea = areaSeries.Name;
-
-            // Create new chart area for axis
-            ChartArea areaAxis = chart.ChartAreas.Add("AxisY_" + series.ChartArea);
-            areaAxis.BackColor = Color.Transparent;
-            areaAxis.BorderColor = Color.Transparent;
-            areaAxis.Position.FromRectangleF(chart.ChartAreas[series.ChartArea].Position.ToRectangleF());
-            areaAxis.InnerPlotPosition.FromRectangleF(chart.ChartAreas[series.ChartArea].InnerPlotPosition.ToRectangleF());
-
-            // Create a copy of specified series
-            Series seriesCopy = chart.Series.Add(series.Name + "_Copy");
-            seriesCopy.ChartType = series.ChartType;
-            foreach (DataPoint point in series.Points)
-            {
-                seriesCopy.Points.AddXY(point.XValue, point.YValues[0]);
-            }
-
-            // Hide copied series
-            seriesCopy.IsVisibleInLegend = false;
-            seriesCopy.Color = Color.Transparent;
-            seriesCopy.BorderColor = Color.Transparent;
-            seriesCopy.ChartArea = areaAxis.Name;
-
-            // Disable drid lines & tickmarks
-            areaAxis.AxisX.LineWidth = 0;
-            areaAxis.AxisX.MajorGrid.Enabled = false;
-            areaAxis.AxisX.MajorTickMark.Enabled = false;
-            areaAxis.AxisX.LabelStyle.Enabled = false;
-            areaAxis.AxisY.MajorGrid.Enabled = false;
-            areaAxis.AxisY.IsStartedFromZero = area.AxisY.IsStartedFromZero;
-            areaAxis.AxisY.LabelStyle.Font = area.AxisY.LabelStyle.Font;
-
-            // Adjust area position
-            areaAxis.Position.X -= axisOffset;
-            areaAxis.InnerPlotPosition.X += labelsSize;
-
-        }
-    
-
-    #endregion
-
-
-    #region mainField
-    //Used to load the field points from the fieldpoint.txt
-    private List<int[]> loadFieldPoints()
+        /// <summary>
+        /// Used to load the field points from the fieldpoint.txt.
+        /// </summary>
+        /// <returns>The the 2d list/array of field points.</returns>
+        private List<int[]> loadFieldPoints()
         {
             List<int[]> fieldpts = new List<int[]>();
 
@@ -281,7 +252,11 @@ namespace VelocityMap
                 }
             }
         }
-        //Used to draw the points from the fieldpoints.txt on the field
+
+        /// <summary>
+        /// Used to draw the points from the fieldpoints.txt on the field
+        /// </summary>
+        /// <returns> The bitmap of the background for the field. </returns>
         private Bitmap buildField()
         {
             Pen bluePen = new Pen(Color.Red, 10);
@@ -321,12 +296,17 @@ namespace VelocityMap
                     g.DrawRectangle(pen, makeRectangle(pts));
                 }
             }
-            //clear up remaining handles
+            //clear up remaining objects
             bluePen.Dispose();
             g.Dispose();
             return b;
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks on the main field chart.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="MouseEventArgs"/></param>
         private void mainField_MouseClick(object sender, MouseEventArgs e)
         {
             //if the button click is a left mouse click then add a positive point to the field chart.
@@ -375,9 +355,11 @@ namespace VelocityMap
                 }
 
             }
-
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks and holds on the main field chart.
+        /// </summary>
         private void mainField_MouseDown(object sender, MouseEventArgs e)
         {
             //if the user is holding their left mouse button
@@ -437,6 +419,9 @@ namespace VelocityMap
             }
         }
 
+        /// <summary>
+        /// The event that is called when the user mouse while above the main field.
+        /// </summary>
         private void mainField_MouseMove(object sender, MouseEventArgs e)
         {
             //if the user is holding the left button while moving the mouse allow them to move the point.
@@ -463,16 +448,24 @@ namespace VelocityMap
             }
         }
 
-        #endregion
-
-
-
-        #region ControlPoints
+        /// <summary>
+        /// The currently selected row from the controlpoint table.
+        /// </summary>
         private int rowIndex;
-        DataPoint dp;
 
+        /// <summary>
+        /// The currently selected point.
+        /// </summary>
+        internal DataPoint dp;
+
+        /// <summary>
+        /// The event that is called when the user clicks the invert button.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="EventArgs"/></param>
         private void Invert_Click(object sender, EventArgs e)
         {
+            //goes though ever row and changes the x value from the left side to the right side by taking the field width and subracting the current x value.
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
                 if (row.Cells[0].Value != null)
@@ -481,83 +474,101 @@ namespace VelocityMap
             Apply_Click(sender, e);
         }
 
-        private void controlPoints_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-
-        }
-        //ToDo: Do this
-        private void controlPoints_CellSelect(object sender, DataGridViewRowStateChangedEventArgs e)
-        {
-
-        }
+        /// <summary>
+        /// The event that is called when a rows state is changed ex: the row is selected.
+        /// </summary>
         private void controlPoints_RowStateChange(object sender, DataGridViewRowStateChangedEventArgs e)
         {
-        
+            //If the state change is not a selection we don't care about it.
             if (e.StateChanged != DataGridViewElementStates.Selected)
             {
                 return;
             }
-
+            //Check to see if the row is selected because the selected event contains both unselecting and selecting.
             if (e.Row.Selected == true)
             {
-                foreach (DataGridViewRow row in controlPoints.Rows)
+                //Make sure that we at least have 1 point otherwise don't run this.
+                if (controlPoints.Rows.Count - 2 != 0)
                 {
-                    if (controlPoints.Rows.Count - 2 != 0)
+                    //Go though each row.
+                    foreach (DataGridViewRow row in controlPoints.Rows)
                     {
+                        //Make sure that the row that is being selected is one of the ones that might have data.
                         if (row.Index >= 0 && row.Index <= controlPoints.Rows.Count - 2)
                         {
+                            //Make sure that the cell is not blank so we dont get an error.
                             if (row.Cells[2].Value != null)
                             {
-                                if (row.Cells[2].Value.ToString() == "-")
+                                //Make sure that the cell is not blank so we dont get an error.
+                                if (row.Cells[2].Value.ToString() != "")
                                 {
-                                    mainField.Series["cp"].Points[row.Index].Color = Color.Red;
-                                }
+                                    //If the third row contains a - then change the corresponding point on the graph to red.
+                                    if (row.Cells[2].Value.ToString() == "-")
+                                    {
+                                        mainField.Series["cp"].Points[row.Index].Color = Color.Red;
+                                    }
+                                    //If the third row contains a + then change the corresponding point on the graph to green.
+                                    if (row.Cells[2].Value.ToString() == "+")
+                                    {
+                                        mainField.Series["cp"].Points[row.Index].Color = Color.Green;
 
-                                if (row.Cells[2].Value.ToString() == "+")
-                                {
-                                    mainField.Series["cp"].Points[row.Index].Color = Color.Green;
-
+                                    }
                                 }
                             }
                         }
                     }
                 }
+
+                //Make sure that we at least have 1 point otherwise don't run this.
                 if (controlPoints.Rows.Count - 2 != 0)
                 {
+                    //Make sure that the row that is being selected is one of the ones that might have data.
                     if (e.Row.Index >= 0 && e.Row.Index <= controlPoints.Rows.Count - 2)
                     {
+                        //Change the selected point to the color yellow.
                         mainField.Series["cp"].Points[e.Row.Index].Color = Color.Yellow;
                     }
                 }
             }
         }
 
-    private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        /// <summary>
+        /// The event that is called when the user stopes editing a cell.
+        /// </summary>
+        private void controlPoints_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
+            //Check to see if the user is editing a cell that is in the third column.
             if (e.ColumnIndex == 2)
             {
+                //If the cell contains a + or a - the ignore it. Else change the cell text to be a + signs.
                 if (controlPoints.CurrentCell.Value.ToString() == "+" || controlPoints.CurrentCell.Value.ToString() == "-")
                 {
                 }
                 else
                 {
                     controlPoints.CurrentCell.Value = "+";
-                    // controlPoints.BeginEdit(true);
                 }
             }
         }
 
+        /// <summary>
+        /// The event that is called when the user releases the mouse button while above the controlpoints cell.
+        /// </summary>
         private void controlPoints_CellMouseUp(object sender, DataGridViewCellMouseEventArgs e)
         {
-
+            //make sure that the button that was released was the right mouse button.
             if (e.Button == MouseButtons.Right)
             {
+                //Make sure that the cell that was selected was a cell that is real
                 if (e.RowIndex >= 0)
                 {
+                    //on mouse up select that row.
                     this.controlPoints.Rows[e.RowIndex].Selected = true;
+                    //When the row is selected set the rowindex to the index of the row that was just selected. (aka update the rowIndex value)
                     this.rowIndex = e.RowIndex;
+                    //set the tables currentcell to the cell we just clicked.
                     this.controlPoints.CurrentCell = this.controlPoints.Rows[e.RowIndex].Cells[1];
-
+                    //since we right clicked we open a context strip with things that allow us to delete and move the current row.
                     var relativeMousePosition = this.controlPoints.PointToClient(System.Windows.Forms.Cursor.Position);
                     this.contextMenuStrip2.Show(this.controlPoints, relativeMousePosition);
                 }
@@ -566,20 +577,29 @@ namespace VelocityMap
             }
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks the delete button in the context strip.
+        /// </summary>
         private void Delete_Click(object sender, EventArgs e)
         {
-            if (rowIndex != controlPoints.RowCount-1)
-            { 
+            //Make sure we are not deleting the always blank last row.
+            if (rowIndex != controlPoints.RowCount - 1)
+            {
+                //Delete the row that is selected.
                 controlPoints.Rows.RemoveAt(rowIndex);
             }
+            //Reload the points because we just deleted one and we need the rest of the program to know.
             ReloadControlPoints();
-
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks the clear button.
+        /// </summary>
         private void ClearCP_Click(object sender, EventArgs e)
         {
+            //Clear all of the rows in the controlpoints table.
             controlPoints.Rows.Clear();
-
+            //Clear all of the plots.
             mainField.Series["cp"].Points.Clear();
             mainField.Series["path"].Points.Clear();
             mainField.Series["left"].Points.Clear();
@@ -594,22 +614,33 @@ namespace VelocityMap
             DistancePlot.Series["left"].Points.Clear();
 
             AnglePlot.Series["angle"].Points.Clear();
-
-            pointList.Clear();
-
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks the insert above button in the context stip.
+        /// </summary>
         private void insertAbove_Click(object sender, EventArgs e)
         {
+            //insert a new row at the selected index. (this will push the current index down one.)
             controlPoints.Rows.Insert(rowIndex);
         }
+
+        /// <summary>
+        /// The event that is called when the user clicks the insert below button in the context stip.
+        /// </summary>
+
         private void insertBelow_Click(object sender, EventArgs e)
         {
-            controlPoints.Rows.Insert(rowIndex+1);
+            //insert a new row at the selected index plus one.
+            controlPoints.Rows.Insert(rowIndex + 1);
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks the move up button in the context stip.
+        /// </summary>
         private void btnUp_Click(object sender, EventArgs e)
         {
+            //lets convert our object name because I copied this from the internet and am to lazy to change it.
             DataGridView dgv = controlPoints;
             try
             {
@@ -629,11 +660,16 @@ namespace VelocityMap
             catch { }
         }
 
+        /// <summary>
+        /// The event that is called when the user clicks the move down button in the context stip.
+        /// </summary>
         private void btnDown_Click(object sender, EventArgs e)
         {
             DataGridView dgv = controlPoints;
             try
             {
+                //lets convert our object name because I copied this from the internet and am to lazy to change it.
+
                 int totalRows = dgv.Rows.Count;
                 // get index of the row for the selected cell
                 int rowIndex = dgv.SelectedCells[0].OwningRow.Index;
@@ -650,9 +686,12 @@ namespace VelocityMap
             catch { }
         }
 
-        #endregion
-
-        #region Utility Functions
+        /// <summary>
+        /// Converts our field points to a rectangle that can be drawn on a bitmap.
+        /// </summary>
+        /// <param name="array">The array that contains the x and y values of the rectangle.</param>
+        /// <param name="adjustToScreen">If true will adjust the box to the screen.<see cref="bool"/></param>
+        /// <returns>A rectangle that can be drawn on a bitmap.</returns>
         private Rectangle makeRectangle(int[] array, bool adjustToScreen = false)
         {
             Rectangle rec = new Rectangle();
@@ -674,9 +713,14 @@ namespace VelocityMap
             return rec;
         }
 
+        /// <summary>
+        /// A method that reloads the control points and redraws them on the main field plot.
+        /// </summary>
         private void ReloadControlPoints()
         {
+            //Clear all of the points from the main field controlpoint series.
             mainField.Series["cp"].Points.Clear();
+            //Go though each of the rows and if the x value is not blank then add the point to the main field plot.
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
                 if (row.Cells[0].Value != null)
@@ -686,76 +730,93 @@ namespace VelocityMap
             }
         }
 
+        /// <summary>
+        /// The method that is called when we want create a new path containing all of the information that we can input.
+        /// </summary>
+        /// <returns>The <see cref="MotionProfile.Path"/></returns>
         private MotionProfile.Path CreateNewPath()
         {
+            //New path.
             MotionProfile.Path path = new MotionProfile.Path();
+            //New VelocityMap for the path.
             path.velocityMap = new MotionProfile.VelocityMap();
+            //Set the new VelocityMap's max velocity.
             path.velocityMap.vMax = int.Parse(maxVelocity.Text);
+            //Set the new VelocityMap's max acceleration.
             path.velocityMap.FL1 = int.Parse(AccelRate.Text);
+            //Set the new VelocityMap's time sampling rate.
             path.velocityMap.time = float.Parse(timeSample.Text) / 1000;
-            path.tolerence = float.Parse(tolerence.Text);
-            //  path.mindifference = float.Parse(Calibration.Text);
+            //Set the new VelocityMap's boolean if the velocity should be instant.
             path.velocityMap.instVelocity = isntaVel.Checked;
+            //Set the paths tolerance.
+            path.tolerence = float.Parse(tolerence.Text);
+            //Set the paths speed limit/max speed.
             path.speedLimit = float.Parse(SpeedLimit.Text);
-            path.calibration = TurnCheck.Checked;
 
+            //Return this new path.
             return path;
         }
 
-        #endregion
-        //used to create the information that is showed in all of the charts.
+        /// <summary>
+        /// The event that is called when the user clicks that apply button.
+        /// </summary>
         private void Apply_Click(object sender, EventArgs e)
         {
-
-            if(!(controlPoints.RowCount-2>0))
+            //Make sure that we have at least two points that we can actually make a path between.
+            if (!(controlPoints.RowCount - 2 > 0))
             {
+                //If not cancel this and show an error stating so.
                 MessageBox.Show("Not enought points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                 return;
             }
+            //User the CreateNewPath method to get a path that we can use.
             MotionProfile.Path path = CreateNewPath();
 
+            //A value that contains our "radius" of our track width
             int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
 
+            //Clear the main field because we are about to add a bunch of points.
             ClearChart(mainField);
 
+            //Make the paths object to a new trajectory class.
             paths = new MotionProfile.Trajectory();
 
+            //A value that will contain what our last cell in the third row contained.
             string last = "";
+            //A value that will contain our last row from our control points.
             DataGridViewRow lastrow = controlPoints.Rows[0];
+            //Lets run though each row of the controlpoints table
             foreach (DataGridViewRow row in controlPoints.Rows)
             {
+                //If the x cell is not empty.
                 if (row.Cells[0].Value != null)
                 {
-
+                    //update the last row.
                     lastrow = row;
+                    //since we believe that this row is not blank then we should put this point on the chart.
                     mainField.Series["cp"].Points.AddXY(float.Parse(row.Cells[0].Value.ToString()), float.Parse(row.Cells[1].Value.ToString()));
-                    if (path.controlPoints.Count == 0)
+                    //Make sure that the direction cell is not empty so that we dont get an error.
+                    if(row.Cells[2].Value==null)
                     {
-                        if(row.Cells[2].Value==null)
-                        {
-                            row.Cells[2].Value = "+";
-                        }
-                        if (row.Cells[2].Value.ToString() == "-")
-                            path.direction = true;
-                        if (row.Cells[2].Value.ToString() == "+")
-                            path.direction = false;
+                        row.Cells[2].Value = "+";
                     }
-
+                    //If the direction cell contains a negative then we should turn the corresponding point to red and set that path direction to true.
                     if (row.Cells[2].Value.ToString() == "-")
                     {
                         mainField.Series["cp"].Points.Last().Color = Color.Red;
                         path.direction = true;
                     }
-
+                    //If the direction cell contains a positive then set that path direction to false.
                     if (row.Cells[2].Value.ToString() == "+")
                     {
                         path.direction = false;
                     }
 
-
+                    //Add our controlpoint to our path.
                     path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
+                    //used to split our main path into seperate paths when we have a split in our negative and positive points.
                     if (last != "" && last != row.Cells[2].Value.ToString())
                     {
                         if (row.Cells[2].Value.ToString() == "+")
@@ -768,7 +829,6 @@ namespace VelocityMap
                             paths.Add(path);
 
                         path = CreateNewPath();
-                        path.velocityMap.instVelocity = isntaVel.Checked;
                         path.addControlPoint(float.Parse(row.Cells[1].Value.ToString()), float.Parse(row.Cells[0].Value.ToString()));
 
                     }
@@ -776,8 +836,10 @@ namespace VelocityMap
 
                 }
             }
+            //if we have no controlpoints in our path then something is wrong and return.
             if (path.controlPoints.Count() == 0)
                 return;
+
 
             if (lastrow != null && lastrow.Cells[2].Value.ToString() != "+")
                 path.direction = false;
@@ -785,40 +847,38 @@ namespace VelocityMap
             if (lastrow != null && lastrow.Cells[2].Value.ToString() != "-")
                 path.direction = true;
 
-
+            //if our path contains more than or equal to 2 add the path to paths.
             if (path.controlPoints.Count >= 2)
                 paths.Add(path);
+            //Create the path.
+            paths.Create(0);
 
-            if (!checkBox1.Checked)
-                paths.test();
-            else
-                paths.Create(0);
-
-
+            //Clear all of the data plots.
             ClearChart(VelocityPlot);
             ClearChart(DistancePlot);
             ClearChart(AnglePlot);
 
+            //create a bunch of float arrays that will hold our data.
+            float[] t, d, v, l, r, ld, rd, c, cd, h;
 
-            float[] t, d, v, l, r, ld, rd, c, cd,h;
 
 
+            //load the path information into the float arrays that we just created.
+            t = paths.getTimeProfile();
+            d = paths.getDistanceProfile();
+            v = paths.getVelocityProfile();
+            l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+            ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
+            c = paths.getOffsetVelocityProfile(0).ToArray();
+            cd = paths.getOffsetDistanceProfile(0).ToArray();
+            h = paths.getHeadingProfile();
+            //Smooth our our offset velocity array.
+            l.NoiseReduction(int.Parse(smoothness.Text));
 
-                
-                t = paths.getTimeProfile();
-                d = paths.getDistanceProfile();
-                v = paths.getVelocityProfile();
-                l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                ld = paths.getOffsetDistanceProfile(trackwidth).ToArray();
-                c = paths.getOffsetVelocityProfile(0).ToArray();
-                cd = paths.getOffsetDistanceProfile(0).ToArray();
-                h = paths.getHeadingProfile();
-
-                l.NoiseReduction(int.Parse(smoothness.Text));
-                r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
-            
-
+            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
+            rd = paths.getOffsetDistanceProfile(-trackwidth).ToArray();
+            //Smooth out the rest of our arrays.
+            //h.NoiseReduction(int.Parse(smoothness.Text));
             r.NoiseReduction(int.Parse(smoothness.Text));
             rd.NoiseReduction(int.Parse(smoothness.Text));
             l.NoiseReduction(int.Parse(smoothness.Text));
@@ -826,21 +886,23 @@ namespace VelocityMap
             c.NoiseReduction(int.Parse(smoothness.Text));
             cd.NoiseReduction(int.Parse(smoothness.Text));
 
-            double ldv = 0;
-            double rdv = 0;
-            double heading = 0;
+            //temp values for holding values that will be put on our plots.
+            double ldv = 0;// Right Distance.
+            double rdv = 0;// Left Distance.
+            double heading = 0; //Heading.
 
+            //run though all of the values in the array and put them on the plot.
             for (int i = 0; i < ld.Length; i++)
             {
                 ldv += ld[i];
                 rdv += rd[i];
-
+                
                 DistancePlot.Series["left"].Points.AddXY(t[i], ldv);
                 DistancePlot.Series["right"].Points.AddXY(t[i], rdv);
-                
-                
-            }
 
+
+            }
+            //run though all of the values in the array and put them on the plot.
             for (int i = 0; i < Math.Min(d.Length, r.Length); i++)
             {
                 heading = h[i];
@@ -848,25 +910,26 @@ namespace VelocityMap
                 VelocityPlot.Series["path"].Points.AddXY(d[i], v[i + 2]);
                 VelocityPlot.Series["left"].Points.AddXY(d[i], l[i]);
                 VelocityPlot.Series["right"].Points.AddXY(d[i], r[i]);
+
                 AnglePlot.Series["angle"].Points.AddXY(d[i], heading);
             }
 
+            //clear off the main field minus the controlpoints.
             mainField.Series["path"].Points.Clear();
             mainField.Series["left"].Points.Clear();
             mainField.Series["right"].Points.Clear();
 
-            pointList.Clear();
 
-
+            //Build the path and use the controlPoints that are returned to plot.
             foreach (ControlPoint p in paths.BuildPath())
             {
                 foreach (PointF p1 in p.point)
                 {
                     mainField.Series["path"].Points.AddXY(p1.Y, p1.X);
 
-                    pointList.Add(new Point(p1.X, p1.Y, p.direction, p.pointNumber));
                 }
             }
+            //Build the path and use the controlPoints that are returned to plot the offset.
 
             foreach (ControlPoint p in paths.BuildPath(trackwidth))
             {
@@ -876,6 +939,7 @@ namespace VelocityMap
                 }
             }
 
+            //Build the path and use the controlPoints that are returned to plot the offset.
 
             foreach (ControlPoint p in paths.BuildPath(-trackwidth))
             {
@@ -886,25 +950,28 @@ namespace VelocityMap
             }
         }
 
-
-
-
-
+        /// <summary>
+        /// The event that is called when the save button is clicked.
+        /// </summary>
         private void Save_Click(object sender, EventArgs e)
         {
+            //We are going to apply before we save so that we have the newest data.
             Apply_Click(null, null);
-            if (pointList.Count > 2)
+            //Double check that we have more than 1 point for our calculation.
+            if (!(controlPoints.RowCount - 2 > 0))
             {
-
+                //Create a save dialog window that allows the user to select where they want us to save the information to.
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
+                //Limit the user to that can only see .mp and .json files.
                 saveFileDialog1.Filter = "Motion Profile|*.mp;*.json";
+                //Set the window title.
                 saveFileDialog1.Title = "Save an MP File";
+                //Actually open the dialog so that user can see it.
                 saveFileDialog1.ShowDialog();
 
 
-
+                //If the save dialog file name is not blank then continue.
                 if (saveFileDialog1.FileName != "")
                 {
                     String DirPath = System.IO.Path.GetDirectoryName(saveFileDialog1.FileName);    // Used for storing the directory path of the saved file.
@@ -912,9 +979,10 @@ namespace VelocityMap
                     String MPPath = Path.Combine(DirPath, Path.GetFileNameWithoutExtension(saveFileDialog1.FileName) + ".mp");      // Used for storing the mp saved file directory path.
 
 
-
+                    //open a new writer to the JSONPath.
                     using (var writer = new System.IO.StreamWriter(JSONPath))
                     {
+                        //similiar to the apply stuff where we load our data from our paths into arrays then we us the arrays to write into the file.
                         writer.WriteLine("{");
                         writer.WriteLine("  \"Data\":[ ");
 
@@ -937,19 +1005,19 @@ namespace VelocityMap
 
                         float[] angles = paths.getHeadingProfile();
 
-                        
-                            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                            rd = paths.getOffsetDistanceProfile(-trackwidth);
 
-                        
+                        r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
+                        rd = paths.getOffsetDistanceProfile(-trackwidth);
 
+
+                        //angles.NoiseReduction(int.Parse(smoothness.Text));
                         r.NoiseReduction(int.Parse(smoothness.Text));
                         rd.NoiseReduction(int.Parse(smoothness.Text));
                         l.NoiseReduction(int.Parse(smoothness.Text));
                         ld.NoiseReduction(int.Parse(smoothness.Text));
                         c.NoiseReduction(int.Parse(smoothness.Text));
                         cd.NoiseReduction(int.Parse(smoothness.Text));
-
+                        //write the information to the json file.
                         for (int i = 0; i < l.Length; i++)
                         {
                             if (CTRE.Checked)
@@ -973,117 +1041,18 @@ namespace VelocityMap
                         writer.WriteLine("  ] ");
                         writer.WriteLine("} ");
                     }
+                    //Call the WriteSetupFile that will write a file so that we can go back and load these points again.
                     WriteSetupFile(MPPath);
 
                 }
 
             }
-            else
-
-
-            {
-                MessageBox.Show("You can't save a file with no points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        public float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
-        {
-            float ang = 0;
-            float chx = (float)(x2 - x1);
-            float chy = (float)(y2 - y1);
-            if (chy == 0)
-            {
-                if (chx >= 0) ang = 0;
-                else ang = 180;
-            }
-            else if (chy > 0)
-            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
-                if (chx > 0)
-                {
-                    // positive x, positive y, 90 - ang, quad 1
-                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 1; // represents quadrants.
-                }
-                else
-                {
-                    // positive x, negative y, 90 + ang, quad 2
-                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 2;
-                }
-            }
-            else
-            {
-                if (chx > 0)
-                {
-                    // negative x, positive y, 270 + ang, quad 4
-                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 4;
-                }
-                else
-                {
-                    // negative x, negative y, 270 - ang, quad 3
-                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 3;
-                }
-            }
-
-            float angleChange = ang - prevAngle;
-            if (angleChange > 300) angleChange -= 360;
-            if (angleChange < -300) angleChange += 360;
-            return (prevAngle + angleChange);
-        }
-
-        public float findStartAngle(double x2, double x1, double y2, double y1)
-        {
-            float ang = 0;
-            float chx = (float)(x2 - x1);
-            float chy = (float)(y2 - y1);
-            if (chy == 0)
-            {
-                if (chx >= 0) ang = 0;
-                else ang = 180;
-            }
-            else if (chy > 0)
-            {                         // X AND Y ARE REVERSED BECAUSE OF MOTION PROFILER STUFF
-                if (chx > 0)
-                {
-                    // positive x, positive y, 90 - ang, quad 1
-                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 1; // represents quadrants.
-                }
-                else
-                {
-                    // positive x, negative y, 90 + ang, quad 2
-                    ang = (float)(90 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 2;
-                }
-            }
-            else
-            {
-                if (chx > 0)
-                {
-                    // negative x, positive y, 270 + ang, quad 4
-                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 4;
-                }
-                else
-                {
-                    // negative x, negative y, 270 - ang, quad 3
-                    ang = (float)(270 - CONVERT * (Math.Atan(chx / chy)));
-                    //ang = (float)(CONVERT * Math.Atan(chx / chy));
-                    //ang = 3;
-                }
-            }
-            return ang;
-        }
-
+        /// <summary>
+        /// A Method that will allow us to write a file that we can later load.
+        /// </summary>
+        /// <param name="path">The path<see cref="string"/></param>
         private void WriteSetupFile(string path)
         {
             var writer1 = new System.IO.StreamWriter(path);
@@ -1091,12 +1060,15 @@ namespace VelocityMap
             StringBuilder sb = new StringBuilder();
             StringWriter sw = new StringWriter(sb);
 
+            //Create a writer  that goes to the path.
             using (JsonWriter writer = new JsonTextWriter(sw))
             {
+                //set our formatting type for our writer
                 writer.Formatting = Formatting.Indented;
 
+                //start the writer
                 writer.WriteStartObject();
-
+                //start inputing our values into the json objects.
                 writer.WritePropertyName("Max Velocity");
                 writer.WriteValue(maxVelocity.Text);
 
@@ -1132,7 +1104,7 @@ namespace VelocityMap
 
                 writer.WritePropertyName("Ip-Address");
                 writer.WriteValue(ipadd.Text);
-
+                //put our points in as an array.
                 writer.WritePropertyName("Points");
                 writer.WriteStartArray();
 
@@ -1148,16 +1120,22 @@ namespace VelocityMap
                         writer.WriteEndArray();
                     }
                 }
+                //close our writer up
                 writer.WriteEndArray();
                 writer.WriteEndObject();
             }
             writer1.WriteLine(sb.ToString());
             writer1.Close();
-
         }
 
+        /// <summary>
+        /// The event that will be called when the user clicks the load button.
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="EventArgs"/></param>
         private void Load_Click(object sender, EventArgs e)
         {
+            //Opens a dialog that will allow the user to only select a .mp file and load it into the program.
             openFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             openFileDialog1.FileName = "";
             openFileDialog1.Filter = "MotionProfile Data (*.mp)|*.mp";
@@ -1167,13 +1145,14 @@ namespace VelocityMap
             {
                 using (var reader1 = new System.IO.StreamReader(openFileDialog1.FileName))
                 {
+                    //First clear out our points.
                     controlPoints.Rows.Clear();
-
+                    //Read the file and load our points and other variables.
                     string json = reader1.ReadToEnd();
 
                     JObject o = JObject.Parse(json);
 
-                    maxVelocity.Text=(string)o["Max Velocity"];
+                    maxVelocity.Text = (string)o["Max Velocity"];
                     trackWidth.Text = (string)o["Track Width"];
                     AccelRate.Text = (string)o["Accel Rate"];
                     timeSample.Text = (string)o["Time Sample"];
@@ -1189,245 +1168,174 @@ namespace VelocityMap
 
                     JArray a = (JArray)o["Points"];
 
-                    for(int x=0; x<=a.Count-1; x++)
+                    for (int x = 0; x <= a.Count - 1; x++)
                     {
                         controlPoints.Rows.Add(float.Parse((string)a[x][0]), float.Parse((string)a[x][1]), (string)a[x][2]);
                     }
                 }
             }
+            //Run the apply so that it looks like where we left off.
             Apply_Click(null, null);
         }
 
+        /// <summary>
+        /// The CalCheck_CheckedChanged
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="EventArgs"/></param>
+        /// 
+
+            //HARDLY USED!
         private void CalCheck_CheckedChanged(object sender, EventArgs e)
         {
             offset.Text = "0";
             offset.Enabled = false;
-            degrees.Enabled = true;
             ClearCP_Click(null, null);
-            if (TurnCheck.Checked)
-            {
-                degrees.Enabled = false;
-                offset.Enabled = true;
-                this.maxVelocity.Text = "1500";
-                controlPoints.Rows.Add(1000, 0, "+");
-                controlPoints.Rows.Add(1000, Math.Abs(0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text) / 360), "+");
-                Apply_Click(null, null);
-            }
         }
 
 
-
-        private void Rotations_TextChanged(object sender, EventArgs e)
-        {
-            if (TurnCheck.Checked && degrees.Text != "")
-            {
-                ClearCP_Click(null, null);
-                controlPoints.Rows.Add(1000, 0, "+");
-                controlPoints.Rows.Add(1000, 0 + int.Parse(trackWidth.Text) * Math.PI * int.Parse(degrees.Text) / 360, "+");
-                Apply_Click(null, null);
-            }
-        }
-
-        private void CTRE_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
+        /// <summary>
+        /// The fpstodps
+        /// </summary>
+        /// <param name="Vel">The Vel<see cref="float"/></param>
+        /// <returns>The <see cref="float"/></returns>
+        /// HARDLY USED
         public float fpstodps(float Vel)
         {
-            if (int.Parse(degrees.Text) > 0)
-            {
-                float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
+            
+            float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
 
-                return -(float)(dgps * .02199);
-            }
-            else
-            {
-                float dgps = (float)((87.92 / 360.0) * (int.Parse(wheel.Text) * Math.PI * Vel / 60));
-
-                return (float)(dgps * .02199);
-            }
-
-
+            return (float)(dgps * .02199);
         }
 
-        private void NODATA_Click(object sender, EventArgs e)
+        /// <summary>
+        /// The button4_Click
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="EventArgs"/></param>
+        private void deploy_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (profilename.Text=="")
+            //Check to make sure that the user have given this profile a name.
+            if (profilename.Text == "")
             {
                 MessageBox.Show("You must give this profile a name!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
+            //Check to make sure that the user has given us a valid ip for the robot.
             if (!ValidateIPv4(ipadd.Text))
             {
                 MessageBox.Show("This ip address is invalid!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            //Create a temp file where we can write this information then upload it to the robot.
             String DirPath = Path.GetTempPath();    // Used for storing the directory path of the saved file.
             String JSONPath = Path.Combine(DirPath, profilename.Text + ".json");     // Used for storing the json saved file directory path.
             //This is almost the same as saving the file however this one will be a temp file which will be deleted after deploying.
             Apply_Click(null, null);
-            if (pointList.Count > 2)
+            if ((controlPoints.RowCount - 2 > 0))
             {
-                    using (var writer = new System.IO.StreamWriter(JSONPath))
+                using (var writer = new System.IO.StreamWriter(JSONPath))
+                {
+                    writer.WriteLine("{");
+                    writer.WriteLine("  \"Data\":[ ");
+
+                    List<string> left = new List<string>();
+                    List<string> right = new List<string>();
+                    List<string> center = new List<string>();
+
+                    List<string> line = new List<string>();
+
+                    int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
+
+                    float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
+                    List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
+
+                    float[] r;
+                    List<float> rd = new List<float>(); ;
+
+                    float[] c = paths.getOffsetVelocityProfile(0).ToArray();
+                    List<float> cd = paths.getOffsetDistanceProfile(0);
+
+                    float[] angles = paths.getHeadingProfile();
+
+                    r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
+                    rd = paths.getOffsetDistanceProfile(-trackwidth);
+
+
+                    r.NoiseReduction(int.Parse(smoothness.Text));
+                    rd.NoiseReduction(int.Parse(smoothness.Text));
+                    l.NoiseReduction(int.Parse(smoothness.Text));
+                    ld.NoiseReduction(int.Parse(smoothness.Text));
+                    c.NoiseReduction(int.Parse(smoothness.Text));
+                    cd.NoiseReduction(int.Parse(smoothness.Text));
+
+
+
+
+
+                    for (int i = 0; i < l.Length; i++)
                     {
-                        writer.WriteLine("{");
-                        writer.WriteLine("  \"Data\":[ ");
-
-                        List<string> left = new List<string>();
-                        List<string> right = new List<string>();
-                        List<string> center = new List<string>();
-
-                        List<string> line = new List<string>();
-
-                        int trackwidth = (int)((int.Parse(trackWidth.Text)) / 2);
-
-                        float[] l = paths.getOffsetVelocityProfile(trackwidth).ToArray();
-                        List<float> ld = paths.getOffsetDistanceProfile(trackwidth);
-
-                        float[] r;
-                        List<float> rd = new List<float>(); ;
-
-                        float[] c = paths.getOffsetVelocityProfile(0).ToArray();
-                        List<float> cd = paths.getOffsetDistanceProfile(0);
-
-                        float[] angles = new float[pointList.Count - 2];
-
-                        if (TurnCheck.Checked)
+                        if (CTRE.Checked)
                         {
-                            foreach (MotionProfile.Path ph in paths)
-                                ph.direction = !ph.direction;
+                            double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
 
-                            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                            rd = paths.getOffsetDistanceProfile(-trackwidth);
+                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
 
-                            foreach (MotionProfile.Path ph in paths)
-                                ph.direction = !ph.direction;
-
-
-                            float targetangle = int.Parse(degrees.Text); //Change
-
-
-                            float angle = 0;
-
-                            for (int i = 0; i < (pointList.Count - 2); i++)
-                            {
-                                if (i == 0 || i == 1)
-                                    angles[i] = 0;
-                                else
-                                {
-                                    angle += fpstodps(c[i - 1]);
-                                    angles[i] = angle;
-
-                                }
-                            }
                         }
                         else
                         {
-                            r = paths.getOffsetVelocityProfile(-trackwidth).ToArray();
-                            rd = paths.getOffsetDistanceProfile(-trackwidth);
-
-                            float startAngle = findStartAngle(pointList[1].x, pointList[0].x, pointList[1].y, pointList[0].y);
-                            for (int i = 0; i < (pointList.Count - 2); i++) //for not zeroing the angle after each path.
-                            {
-                                if (i == 0)
-                                {
-                                    angles[i] = findStartAngle(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y);
-                                }
-                                else
-                                {
-                                    angles[i] = findAngleChange(pointList[i + 1].x, pointList[i].x, pointList[i + 1].y, pointList[i].y, angles[i - 1]);
-                                    
-                                }
-                            }
-                            for (int i = 0; i < (pointList.Count - 2); i++) // part of the last for. kinda. you know what i mean.
-                            {
-                                angles[i] = (angles[i] - startAngle);
-                                angles[i] = -angles[i];
-                                int add = 0;
-                                if (angles[i] > 0)
-                                    add = -180;
-                                if (angles[i] < 0)
-                                    add = 180;
-                                angles[i] = angles[i] + add;
+                            line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
                         }
-                        }
-
-                        r.NoiseReduction(int.Parse(smoothness.Text));
-                        rd.NoiseReduction(int.Parse(smoothness.Text));
-                        l.NoiseReduction(int.Parse(smoothness.Text));
-                        ld.NoiseReduction(int.Parse(smoothness.Text));
-                        c.NoiseReduction(int.Parse(smoothness.Text));
-                        cd.NoiseReduction(int.Parse(smoothness.Text));
-
-
-
-
-
-                        for (int i = 0; i < l.Length; i++)
-                        {
-                            if (CTRE.Checked)
-                            {
-                                double dConvert = Math.PI * double.Parse(wheel.Text) * 25.4;
-
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum() / dConvert + " , " + "\"Velocity\":" + (c[i] / dConvert * 60).ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
-
-                            }
-                            else
-                            {
-                                line.Add("  {   \"Rotation\":" + cd.Take(i).Sum().ToString() + " , " + "\"Velocity\":" + c[i].ToString() + " , " + "\"Time\":" + paths[0].velocityMap.time * 1000 + " , " + "\"Angle\":" + angles[i] + "}");
-                            }
-                        }
-                        right.Add(string.Join(",\n", line));
-
-                        foreach (string ret in right)
-                        {
-                            writer.WriteLine(ret);
-                        }
-                        writer.WriteLine("  ] ");
-                        writer.WriteLine("} ");
                     }
+                    right.Add(string.Join(",\n", line));
+
+                    foreach (string ret in right)
+                    {
+                        writer.WriteLine(ret);
+                    }
+                    writer.WriteLine("  ] ");
+                    writer.WriteLine("} ");
                 }
+            }
             else
             {
+                //Make sure that we have more than 1 point that we can upload to the robot.
                 MessageBox.Show("You can't deploy a file with no points!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            //Create a sftp client that we will use to upload the file to the robot.
             SftpClient sftp = new SftpClient(ipadd.Text, user.Text, pass.Text);
-            
+
             try
             {
+                //Change the user cursor to a wait cursor because this process can take a minute.
                 this.Cursor = Cursors.WaitCursor;
+                //Connect to the sftp
                 sftp.Connect();
                 try
                 {
+                    //try to create a new directory it will fail if it already exists which is ok.
                     sftp.CreateDirectory("/home/lvuser/Motion_Profiles");
 
                 }
-                catch(Exception e2)
+                catch (Exception e2)
                 {
 
                 }
+                //Open that file that we just saved to a temp file.
                 using (FileStream fileStream = File.OpenRead(JSONPath))
                 {
+                    //Load and upload the file.
                     MemoryStream memStream = new MemoryStream();
                     memStream.SetLength(fileStream.Length);
                     fileStream.Read(memStream.GetBuffer(), 0, (int)fileStream.Length);
                     sftp.UploadFile(memStream, Path.Combine("/home/lvuser/Motion_Profiles/", profilename.Text + ".json"));
                 }
             }
-            catch(Renci.SshNet.Common.SftpPermissionDeniedException e1)
+            catch (Renci.SshNet.Common.SftpPermissionDeniedException e1)
             {
+                //Make sure that the user has the access to make/put a file here.
                 Console.WriteLine("IOException source: {0}", e1.StackTrace);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("Permission Denied By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1435,6 +1343,7 @@ namespace VelocityMap
             }
             catch (Renci.SshNet.Common.SftpPathNotFoundException e1)
             {
+                //Make sure that the main directory they gave us actually exists.
                 Console.WriteLine("IOException source: {0}", e1.StackTrace);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("Path Not Found By Host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1442,20 +1351,28 @@ namespace VelocityMap
             }
             catch (Exception e1)
             {
+                //Make sure that we are connected to the robot.
                 Console.WriteLine("IOException source: {0}", e1.StackTrace);
                 this.Cursor = Cursors.Default;
                 MessageBox.Show("Unable to connect to host!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            //The process is done so change the cursor back.
             this.Cursor = Cursors.Default;
+            //Good the program did not fail and tell the user.
             MessageBox.Show("Success", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+            //We are done with the upload so lets disconnect the sftp client.
             sftp.Disconnect();
+            //Sleep a second before deleting the temp json file.
             System.Threading.Thread.Sleep(100);
             File.Delete(JSONPath);
         }
 
-
-        //This method is used to verifiy if the numbers that are put into the textbox are in the format of a ip address like 127.0.0.1 and not like 0.1.54.6.65655
+        /// <summary>
+        /// Used to validate the ip address of the robot to make sure that it is in an ipv4 format.
+        /// </summary>
+        /// <param name="ipString">The ip string value.</param>
+        /// <returns>a boolean that tells you if the ip is in ipv4 format.</returns>
         public bool ValidateIPv4(string ipString)
         {
             // if the text contains a whitespace/space or a null value then it is clearly not a ip address.
@@ -1476,4 +1393,3 @@ namespace VelocityMap
         }
     }
 }
-

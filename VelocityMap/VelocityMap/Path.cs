@@ -36,7 +36,7 @@ namespace MotionProfile
         public float[] xs, ys;
 
         public Spline.ParametricSpline path;
-
+        //Create a spline that runs though all of our control points.
         private void CreateSpline()
         {
             controlPointsX.Clear();
@@ -50,6 +50,7 @@ namespace MotionProfile
             velocityMap.setLength(path.distance.Last());
 
         }
+        //HARDLY USED!
         public void testCreate(float dx, float dy)
         {
             controlPointsX.Clear();
@@ -75,22 +76,26 @@ namespace MotionProfile
             this.dx = (p2.X - p1.X) / (float)velocityMap.time;
             this.dy = (p2.Y - p1.Y) / (float)velocityMap.time;
         }
+        //Create the spline and build maps.
         public void Create()
         {
             CreateSpline();
             buildMaps();
 
         }
+        //Create the throttle maps by using an offset from the center of the robot.
         public void CreateThrottled(float offset)
         {
             CreateSpline();
             buildMapsThrottled(offset);
 
         }
+        //Add a control point to this path.
         public void addControlPoint(float x, float y)
         {
             controlPoints.Add(new PointF(x, y));
         }
+        //Add multiple control points to this path.
         public void addControlPoints(float[] x, float[] y)
         {
             for (int i = 0; i < x.Length; i++)
@@ -98,32 +103,7 @@ namespace MotionProfile
                 addControlPoint(x[i], y[i]);
             }
         }
-        public void createHeadingMap()
-        {
-            // I created and then deleted this for a really good reason.  -Devon
-        }
-        public List<float> getOffsetVelocityProfile2(float offset)
-        {
-            if (!direction)
-                offset = -offset;
-
-            PointF[] array = buildOffsetPoints(offset).ToArray();
-            List<float> ret = new List<float>();
-
-            for (int i = 1; i < array.Length; i++)
-            {
-                double vel  = new Segment(array[i - 1], array[i]).length / velocityMap.time;
-                if (Math.Abs(velocity[i] - vel) > mindifference && Math.Abs(velocity[i] - vel) < tolerence)
-                {
-                    if ((velocity[i] - vel) < 0)
-                     vel = velocity[i] + tolerence; 
-                    else
-                    { vel = velocity[i] - tolerence; }
-                }
-                ret.Add((float)vel);
-            }
-            return ret;
-        }
+        //get the velocity profile for each wheel by using the offset distance of the wheel from the middle of the robot.
         public List<float> getOffsetVelocityProfile(float offset)
         {
             if (!direction)
@@ -141,6 +121,7 @@ namespace MotionProfile
             }
             return ret;
         }
+        //get the distance profile for each wheel by using the offset distance of the wheel from the middle of the robot.
         public List<float> getOffsetDistanceProfile(float offset)
         {
             if (!direction)
@@ -157,7 +138,7 @@ namespace MotionProfile
             }
             return ret;
         }
-
+        //Build the points for the two wheels using their offsets from the center of the robot. 
         public List<PointF> buildOffsetPoints(float offset)
         {
             List<PointF> ret = new List<PointF>();
@@ -177,6 +158,7 @@ namespace MotionProfile
             return ret;
 
         }
+        //Build the throttled maps.
         public void buildMapsThrottled(float offset)
         {
             List<float> vel = new List<float>();
@@ -223,7 +205,7 @@ namespace MotionProfile
             this.time = t.ToArray();
 
         }
-
+        //build the paths.
         public List<PointF> buildPath()
         {
             List<PointF> pts = new List<PointF>();
@@ -257,10 +239,10 @@ namespace MotionProfile
             this.velocity = vel.ToArray();
             this.distance = dist.ToArray();
             this.time = t.ToArray();
-            //Console.WriteLine(distance.Count());
 
 
         }
+        //Return the according profiles.
         public float[] getTimeProfile()
         {
             return this.time;
@@ -276,40 +258,6 @@ namespace MotionProfile
         public float[] getVelocityProfile()
         {
             return this.velocity;
-        }
-
-        public float findAngle(PointF point1, PointF point2)
-        {
-            float ang = 0;
-            float chx = point2.X - point1.X;
-            float chy = point2.Y - point1.Y;
-            if(chx > 0)
-            {
-                if(chy > 0)
-                {
-                    // positive x, positive y, 90 - ang
-                    ang = (float) (90 - (Math.Atan(chy / chx)));
-                }
-                else
-                {
-                    // positive x, negative y, 90 + ang
-                    ang = (float)(90 + (Math.Atan(chy / chx)));
-                }
-            }
-            else
-            {
-                if(chy > 0)
-                {
-                    // negative x, positive y, 270 + ang
-                    ang = (float)(270 + (Math.Atan(chy / chx)));
-                }
-                else
-                {
-                    // negative x, negative y, 270 - ang
-                    ang = (float)(270 - (Math.Atan(chy / chx)));
-                }
-            }
-            return ang;
         }
     }
 }
