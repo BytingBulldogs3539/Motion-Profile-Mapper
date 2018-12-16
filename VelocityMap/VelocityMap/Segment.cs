@@ -7,6 +7,9 @@ using System.Drawing;
 
 namespace MotionProfile
 {
+    /// <summary>
+    /// Part of the path.
+    /// </summary>
     public class Segment
     {
         public enum Point

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace VelocityMap
 {
+    /// <summary>
+    /// This class is used to store all of the individual points used to calculate angle.
+    /// </summary>
     public class Point
     {    
         public float x;

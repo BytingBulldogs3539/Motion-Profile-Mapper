@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MotionProfile
 {
+    /// <summary>
+    /// Used to calculate the velocity of the robot.
+    /// </summary>
     class VelocityMap
     {
         public float vMax = 4;
@@ -29,10 +32,12 @@ namespace MotionProfile
 
         private MotionProfile.Spline.CubicSpline  spline;
 
+        //used to return the slowest that the robot will be going.
         public float getMinVelocity()
         {
             return velocity.Skip(1).First();
         }
+        //used to set the over all distance of the path.
         public void setLength(float distance)
         {
             _distance = distance;
@@ -55,6 +60,9 @@ namespace MotionProfile
 
             spline = new Spline.CubicSpline(position.ToArray(), velocity.ToArray());
         }
+        /// <summary>
+        /// Returns the velocity the robot should be going at x distance
+        /// </summary>
         public float getVelocity(float distance)
         {
             float[] d = {distance };

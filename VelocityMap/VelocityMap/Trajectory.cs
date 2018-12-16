@@ -8,7 +8,9 @@ namespace MotionProfile
     class Trajectory : List<Path>
     {
         private double CONVERT = 180.0 / Math.PI;
-
+        /// <summary>
+        /// Returns the absolute fastest that the robot will be going.
+        /// </summary>
         public double getMaxVelocity()
         {
             double max = 0;
@@ -19,6 +21,9 @@ namespace MotionProfile
             }
             return max;
         }
+        /// <summary>
+        /// returns a time profile that is ment to match the other profile so you know how long each point should take.
+        /// </summary>
         public float[] getTimeProfile()
         {
             float offset = 0;
@@ -33,6 +38,9 @@ namespace MotionProfile
             }
             return values.ToArray<float>();
         }
+        /// <summary>
+        /// Returns the distance profile which is the points that the talon should be hitting.
+        /// </summary>
 
         public float[] getDistanceProfile()
         {
@@ -48,7 +56,9 @@ namespace MotionProfile
             }
             return values.ToArray<float>();
         }
- 
+        /// <summary>
+        /// Returns the velocity points that the robot should be hitting.
+        /// </summary>
         public float[] getVelocityProfile()
         {
             List<float> values = new List<float>();
@@ -67,6 +77,9 @@ namespace MotionProfile
 
             return values.ToArray<float>();
         }
+        /// <summary>
+        /// Returns the headings that the robot should be hitting.
+        /// </summary>
         public float[] getHeadingProfile()
         {
             List<float> headings = new List<float>();
@@ -122,7 +135,9 @@ namespace MotionProfile
 
             return headings.ToArray<float>();
         }
-
+        /// <summary>
+        /// Returns the velocity profile of the right or left wheel while using the offset from the middle of the robot.
+        /// </summary>
         public List<float> getOffsetVelocityProfile(int offset)
         {
             List<float> values = new List<float>();
@@ -139,6 +154,10 @@ namespace MotionProfile
 
             return values;
         }
+        /// <summary>
+        /// Returns the distance profile of the right or left wheel while using the offset from the middle of the robot.
+        /// </summary>
+
         public List<float> getOffsetDistanceProfile(int offset)
         {
             List<float> values = new List<float>();
@@ -155,6 +174,7 @@ namespace MotionProfile
 
             return values;
         }
+        //HARDLY USED
         public void test()
         {
             float dx = 0;
@@ -166,7 +186,9 @@ namespace MotionProfile
                 dy = p.dy;
             }
         }
-
+        /// <summary>
+        /// create the profile with or without an offset
+        /// </summary>
         public void Create(int offset = 0)
         {
             foreach (Path p in this)
@@ -177,7 +199,12 @@ namespace MotionProfile
                     p.Create();
             }
         }
-   
+    
+        /// <summary>
+        /// Build the main path or the path with a offset.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <returns></returns>
         public List<ControlPoint> BuildPath(int offset = 0)
         {
             List<ControlPoint> values = new List<ControlPoint>();
@@ -208,6 +235,10 @@ namespace MotionProfile
             }
             return values;
         }
+        /// <summary>
+        /// Find the angle of the first point that is used to calculate the rest of the angles.
+        /// </summary>
+
         private float findStartAngle(double x2, double x1, double y2, double y1)
         {
             float ang = 0;
@@ -254,6 +285,10 @@ namespace MotionProfile
             }
             return ang;
         }
+        /// <summary>
+        /// Returns the angle of this point by adding the angle change to the prevAngle.
+        /// </summary>
+
         private float findAngleChange(double x2, double x1, double y2, double y1, float prevAngle)
         {
             float ang = 0;
